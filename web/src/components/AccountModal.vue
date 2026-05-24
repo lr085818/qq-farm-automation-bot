@@ -295,6 +295,19 @@ watch(activeTab, (tab) => {
             :rows="3"
           />
 
+          <div v-if="form.platform === 'wx'" class="flex items-center gap-1 text-xs" :style="{ color: 'var(--theme-text)', opacity: 0.7 }">
+            <div class="i-carbon-qr-code text-sm" />
+            <span>微信区用户可</span>
+            <a
+              href="https://www.yx520.ltd/code/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="font-medium underline underline-offset-2"
+              :style="{ color: 'var(--theme-primary)' }"
+            >扫码获取 Code</a>
+            <span>，获取后粘贴到上方输入框</span>
+          </div>
+
           <div v-if="!editData" class="flex gap-4">
             <label class="flex cursor-pointer items-center gap-2">
               <input

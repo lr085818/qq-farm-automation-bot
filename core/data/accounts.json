@@ -1,0 +1,19 @@
+{
+  "accounts": [
+    {
+      "id": "1",
+      "name": "账号1",
+      "code": "0d3G5cHa125NLL0ZbaHa1q29mz0G5cHM",
+      "platform": "wx",
+      "uin": "",
+      "qq": "",
+      "avatar": "",
+      "username": "admin",
+      "createdAt": 1779699360790,
+      "updatedAt": 1779699419746,
+      "loginType": "manual",
+      "nick": "HelloWrt"
+    }
+  ],
+  "nextId": 2
+}

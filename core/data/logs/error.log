@@ -1,0 +1,4 @@
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T07:21:22.612Z"}
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T07:32:25.736Z"}
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T08:00:59.456Z"}
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T09:38:01.387Z"}

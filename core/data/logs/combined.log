@@ -1,0 +1,509 @@
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-25T07:19:19.545Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-25T07:20:31.709Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-25T07:20:31.710Z","username":"admin"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:21:22.131Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T07:21:22.387Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T07:21:22.419Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T07:21:22.419Z"}
+{"app":"qq-farm-bot","level":"info","message":"被踢下线! gatepb.KickoutNotify","module":"system","tag":"系统","timestamp":"2026-05-25T07:21:22.603Z"}
+{"app":"qq-farm-bot","level":"info","message":"原因: 客户端版本过低，请升级到最新版本。","module":"system","tag":"系统","timestamp":"2026-05-25T07:21:22.605Z"}
+{"app":"qq-farm-bot","level":"info","message":"检测到踢下线，准备自动停止账号。原因: 客户端版本过低，请升级到最新版本。","module":"system","tag":"系统","timestamp":"2026-05-25T07:21:22.605Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 被踢下线，已自动停止账号","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:21:22.606Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"触发下线提醒: 账号=账号1, 原因=kickout:客户端版本过低，请升级到最新版本。","module":"runtime","reason":"kickout:客户端版本过低，请升级到最新版本。","tag":"系统","timestamp":"2026-05-25T07:21:22.608Z"}
+{"app":"qq-farm-bot","channel":"webhook","level":"info","message":"下线提醒配置: 渠道=webhook, 标题=账号下线提醒","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:21:22.611Z","title":"账号下线提醒","username":"admin"}
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T07:21:22.612Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T07:21:22.616Z"}
+{"app":"qq-farm-bot","level":"info","message":"失败: 请求已中断: 网络清理","module":"system","tag":"系统","timestamp":"2026-05-25T07:21:22.617Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T07:21:23.626Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:32:25.190Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T07:32:25.500Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T07:32:25.538Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T07:32:25.539Z"}
+{"app":"qq-farm-bot","level":"info","message":"被踢下线! gatepb.KickoutNotify","module":"system","tag":"系统","timestamp":"2026-05-25T07:32:25.730Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 被踢下线，已自动停止账号","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:32:25.733Z"}
+{"app":"qq-farm-bot","level":"info","message":"原因: 客户端版本过低，请升级到最新版本。","module":"system","tag":"系统","timestamp":"2026-05-25T07:32:25.731Z"}
+{"app":"qq-farm-bot","level":"info","message":"检测到踢下线，准备自动停止账号。原因: 客户端版本过低，请升级到最新版本。","module":"system","tag":"系统","timestamp":"2026-05-25T07:32:25.732Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"触发下线提醒: 账号=账号1, 原因=kickout:客户端版本过低，请升级到最新版本。","module":"runtime","reason":"kickout:客户端版本过低，请升级到最新版本。","tag":"系统","timestamp":"2026-05-25T07:32:25.734Z"}
+{"app":"qq-farm-bot","channel":"webhook","level":"info","message":"下线提醒配置: 渠道=webhook, 标题=账号下线提醒","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:32:25.735Z","title":"账号下线提醒","username":"admin"}
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T07:32:25.736Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T07:32:25.740Z"}
+{"app":"qq-farm-bot","level":"info","message":"失败: 请求已中断: 网络清理","module":"system","tag":"系统","timestamp":"2026-05-25T07:32:25.741Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T07:32:26.750Z"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:37:15.972Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-25T07:37:15.996Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-25T07:37:53.763Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-25T07:37:53.764Z","username":"admin"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:37:58.805Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T07:37:59.150Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T07:37:59.194Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T07:37:59.194Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T07:37:59.478Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T07:37:59.479Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T07:38:45.313Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T07:38:45.317Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:38:45.318Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:45.519Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:45.549Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:45.550Z"}
+{"app":"qq-farm-bot","level":"info","message":"登录成功: HelloWrt (Lv82)","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:45.913Z"}
+{"app":"qq-farm-bot","level":"info","message":"金豆豆数量: 82669","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:45.974Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"已同步账号昵称: None -> HelloWrt","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:38:45.980Z"}
+{"app":"qq-farm-bot","event":"email_rewards","level":"info","message":"今日暂无可领取邮箱奖励","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:38:46.015Z"}
+{"app":"qq-farm-bot","event":"daily_share","level":"info","message":"上报分享状态失败","module":"task","result":"error","tag":"任务","timestamp":"2026-05-25T07:38:46.078Z"}
+{"app":"qq-farm-bot","event":"month_card_gift","level":"info","message":"今日暂无可领取月卡礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:38:46.111Z"}
+{"app":"qq-farm-bot","event":"mall_free_gifts","level":"info","message":"本次未成功领取免费礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:38:46.175Z"}
+{"app":"qq-farm-bot","event":"vip_daily_gift","level":"info","message":"今日暂无可领取会员礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:38:46.207Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T07:38:47.301Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T07:38:48.305Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:38:48.306Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:48.542Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:48.581Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:48.581Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:48.845Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:48.846Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T07:38:56.776Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T07:38:56.780Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:38:56.782Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:57.074Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:57.118Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:57.118Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:57.379Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T07:38:57.380Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T07:39:38.180Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T07:39:38.186Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:39:38.187Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T07:39:38.439Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T07:39:38.481Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T07:39:38.482Z"}
+{"app":"qq-farm-bot","level":"info","message":"登录成功: HelloWrt (Lv82)","module":"system","tag":"系统","timestamp":"2026-05-25T07:39:38.823Z"}
+{"app":"qq-farm-bot","level":"info","message":"金豆豆数量: 82669","module":"system","tag":"系统","timestamp":"2026-05-25T07:39:38.858Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"已同步账号昵称: None -> HelloWrt","module":"runtime","tag":"系统","timestamp":"2026-05-25T07:39:38.864Z"}
+{"app":"qq-farm-bot","event":"email_rewards","level":"info","message":"今日暂无可领取邮箱奖励","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:39:38.902Z"}
+{"app":"qq-farm-bot","event":"daily_share","level":"info","message":"上报分享状态失败","module":"task","result":"error","tag":"任务","timestamp":"2026-05-25T07:39:38.966Z"}
+{"app":"qq-farm-bot","event":"month_card_gift","level":"info","message":"今日暂无可领取月卡礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:39:39.001Z"}
+{"app":"qq-farm-bot","event":"mall_free_gifts","level":"info","message":"本次未成功领取免费礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:39:39.066Z"}
+{"app":"qq-farm-bot","event":"vip_daily_gift","level":"info","message":"今日暂无可领取会员礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T07:39:39.100Z"}
+{"app":"qq-farm-bot","count":26,"event":"开始批量帮助","level":"info","message":"开始批量帮助，共 26 个好友需要帮助","module":"friend","tag":"好友","timestamp":"2026-05-25T07:39:58.940Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"顺风顺水888","index":1,"level":"info","message":"批量帮助第 1/26 个好友: 顺风顺水888","module":"friend","tag":"好友","timestamp":"2026-05-25T07:39:58.941Z","total":26}
+{"actions":["草1","虫3","水6"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1213767631,"friendName":"顺风顺水888","level":"info","message":"顺风顺水888: 草1/虫3/水6","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:01.686Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"顺风顺水888","index":1,"level":"info","message":"批量帮助第 1 个好友完成: 顺风顺水888","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:01.721Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"🍂","index":2,"level":"info","message":"批量帮助第 2/26 个好友: 🍂","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:02.317Z","total":26}
+{"actions":["草3","虫1","水2"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1215372542,"friendName":"🍂","level":"info","message":"🍂: 草3/虫1/水2","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:05.352Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"🍂","index":2,"level":"info","message":"批量帮助第 2 个好友完成: 🍂","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:05.385Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"林少---🐮🐮","index":3,"level":"info","message":"批量帮助第 3/26 个好友: 林少---🐮🐮","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:05.944Z","total":26}
+{"actions":["草2","虫3","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1218290054,"friendName":"林少---🐮🐮","level":"info","message":"林少---🐮🐮: 草2/虫3/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:08.829Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"林少---🐮🐮","index":3,"level":"info","message":"批量帮助第 3 个好友完成: 林少---🐮🐮","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:08.861Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"童言无忌","index":4,"level":"info","message":"批量帮助第 4/26 个好友: 童言无忌","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:09.508Z","total":26}
+{"actions":["草1","虫1","水3"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1179043456,"friendName":"童言无忌","level":"info","message":"童言无忌: 草1/虫1/水3","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:12.090Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"童言无忌","index":4,"level":"info","message":"批量帮助第 4 个好友完成: 童言无忌","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:12.121Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"顾凉🍂","index":5,"level":"info","message":"批量帮助第 5/26 个好友: 顾凉🍂","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:12.677Z","total":26}
+{"actions":["草1","虫2","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1217724638,"friendName":"顾凉🍂","level":"info","message":"顾凉🍂: 草1/虫2/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:15.399Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"顾凉🍂","index":5,"level":"info","message":"批量帮助第 5 个好友完成: 顾凉🍂","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:15.430Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:40:15.865Z"}
+{"app":"qq-farm-bot","count":4,"event":"收获作物","landIds":[10,13,14,19],"level":"info","message":"收获完成 4 块土地","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:40:16.037Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"L","index":6,"level":"info","message":"批量帮助第 6/26 个好友: L","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:16.213Z","total":26}
+{"app":"qq-farm-bot","count":4,"event":"铲除植物","level":"info","message":"已铲除 4 块 (10,13,14,19)","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:40:17.375Z"}
+{"app":"qq-farm-bot","event":"选择种子","level":"info","message":"最佳种子: 杨桃 (20039) 价格=4944金币 生长4小时","module":"warehouse","price":4944,"seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:40:17.410Z"}
+{"app":"qq-farm-bot","cost":19776,"count":4,"event":"购买种子","level":"info","message":"已购买 杨桃种子 x4, 花费 19776 金币","module":"warehouse","result":"ok","seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:40:17.444Z"}
+{"app":"qq-farm-bot","count":4,"event":"种植种子","level":"info","message":"已在 4 块地种植 (10,13,14,19)","module":"farm","occupiedCount":4,"result":"ok","seedId":20039,"tag":"农场","timestamp":"2026-05-25T07:40:17.813Z"}
+{"actions":["草3","虫1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1217651441,"friendName":"L","level":"info","message":"L: 草3/虫1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:18.157Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"L","index":6,"level":"info","message":"批量帮助第 6 个好友完成: L","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:18.187Z"}
+{"app":"qq-farm-bot","count":4,"event":"常规施肥","landTypes":["gold","black","red","normal"],"level":"info","message":"常规施肥：已为 4/4 块地施普通化肥（范围: 金土地、黑土地、红土地、普通土地）","module":"farm","reason":"normal","result":"ok","tag":"农场","timestamp":"2026-05-25T07:40:18.188Z","type":"normal"}
+{"actions":["收获4","种植4"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[收:4 长:20] → 收获4/种植4","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T07:40:18.284Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"Carpe  diem","index":7,"level":"info","message":"批量帮助第 7/26 个好友: Carpe  diem","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:18.807Z","total":26}
+{"actions":["草2","虫1","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1003302289,"friendName":"Carpe  diem","level":"info","message":"Carpe  diem: 草2/虫1/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:21.771Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"Carpe  diem","index":7,"level":"info","message":"批量帮助第 7 个好友完成: Carpe  diem","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:21.802Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"迷醉深海","index":8,"level":"info","message":"批量帮助第 8/26 个好友: 迷醉深海","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:22.410Z","total":26}
+{"actions":["草1","水2"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1212949638,"friendName":"迷醉深海","level":"info","message":"迷醉深海: 草1/水2","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:24.447Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"迷醉深海","index":8,"level":"info","message":"批量帮助第 8 个好友完成: 迷醉深海","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:24.477Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":".","index":9,"level":"info","message":"批量帮助第 9/26 个好友: .","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:25.203Z","total":26}
+{"actions":["草1","虫1","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1213474294,"friendName":".","level":"info","message":".: 草1/虫1/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:27.759Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":".","index":9,"level":"info","message":"批量帮助第 9 个好友完成: .","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:27.790Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"往事随风","index":10,"level":"info","message":"批量帮助第 10/26 个好友: 往事随风","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:28.528Z","total":26}
+{"actions":["草2","虫1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1216322029,"friendName":"往事随风","level":"info","message":"往事随风: 草2/虫1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:30.439Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"往事随风","index":10,"level":"info","message":"批量帮助第 10 个好友完成: 往事随风","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:30.471Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"滨果时光","index":11,"level":"info","message":"批量帮助第 11/26 个好友: 滨果时光","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:31.067Z","total":26}
+{"actions":["草2","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1214751522,"friendName":"滨果时光","level":"info","message":"滨果时光: 草2/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:32.920Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"滨果时光","index":11,"level":"info","message":"批量帮助第 11 个好友完成: 滨果时光","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:32.952Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"老顽童","index":12,"level":"info","message":"批量帮助第 12/26 个好友: 老顽童","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:33.693Z","total":26}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"老顽童","index":12,"level":"info","message":"批量帮助第 12 个好友完成: 老顽童","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:33.761Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"远大驾校  医院挂号","index":13,"level":"info","message":"批量帮助第 13/26 个好友: 远大驾校  医院挂号","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:34.437Z","total":26}
+{"actions":["草1","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1217642108,"friendName":"远大驾校  医院挂号","level":"info","message":"远大驾校  医院挂号: 草1/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:36.291Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"远大驾校  医院挂号","index":13,"level":"info","message":"批量帮助第 13 个好友完成: 远大驾校  医院挂号","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:36.322Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"雾会散","index":14,"level":"info","message":"批量帮助第 14/26 个好友: 雾会散","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:36.871Z","total":26}
+{"actions":["虫2","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1214707931,"friendName":"雾会散","level":"info","message":"雾会散: 虫2/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:38.833Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"雾会散","index":14,"level":"info","message":"批量帮助第 14 个好友完成: 雾会散","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:38.864Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"এ᭄ꦿ小幸运࿑࿐","index":15,"level":"info","message":"批量帮助第 15/26 个好友: এ᭄ꦿ小幸运࿑࿐","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:39.394Z","total":26}
+{"actions":["草1","虫1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1215702288,"friendName":"এ᭄ꦿ小幸运࿑࿐","level":"info","message":"এ᭄ꦿ小幸运࿑࿐: 草1/虫1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:41.390Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"এ᭄ꦿ小幸运࿑࿐","index":15,"level":"info","message":"批量帮助第 15 个好友完成: এ᭄ꦿ小幸运࿑࿐","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:41.421Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"董","index":16,"level":"info","message":"批量帮助第 16/26 个好友: 董","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:42.090Z","total":26}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"今日帮助经验已达上限，自动停止帮忙","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:43.285Z"}
+{"actions":["草1","水1"],"app":"qq-farm-bot","event":"帮助好友","friendGid":1216482513,"friendName":"董","level":"info","message":"董: 草1/水1","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:40:44.068Z"}
+{"app":"qq-farm-bot","event":"批量帮助完成","friendName":"董","index":16,"level":"info","message":"批量帮助第 16 个好友完成: 董","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:44.099Z"}
+{"app":"qq-farm-bot","event":"批量帮助开始","friendName":"宋婷","index":17,"level":"info","message":"批量帮助第 17/26 个好友: 宋婷","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:44.898Z","total":26}
+{"app":"qq-farm-bot","event":"批量帮助中断","level":"info","message":"批量帮助中断：经验已达上限","module":"friend","reason":"exp_limit","tag":"好友","timestamp":"2026-05-25T07:40:44.898Z"}
+{"app":"qq-farm-bot","event":"批量帮助结束","level":"info","message":"批量帮助循环结束","module":"friend","tag":"好友","timestamp":"2026-05-25T07:40:44.898Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 除草22/除虫17/浇水21","module":"friend","result":"ok","summary":["除草22","除虫17","浇水21"],"tag":"好友","timestamp":"2026-05-25T07:40:44.898Z","visited":26}
+{"app":"qq-farm-bot","count":2,"event":"开启化肥礼包","level":"info","message":"自动使用化肥类道具 x2 [化肥(1小时)x2]","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:40:46.311Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:40:50.307Z"}
+{"actions":["偷1(哈密瓜)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1143658932,"friendName":"🍊","level":"info","message":"🍊: 偷1(哈密瓜)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:42:15.812Z"}
+{"app":"qq-farm-bot","count":2,"event":"sell_success","gold":138608,"level":"info","message":"出售 杨桃x2240, 哈密瓜x16，获得 138608 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:42:16.786Z","totalsAfter":{"exp":7452144,"gold":152984401},"totalsBefore":{"exp":7452144,"gold":152845793},"totalsDeltaExp":0,"totalsDeltaGold":138608}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T07:42:16.786Z","visited":1}
+{"actions":["偷1(梨)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215791580,"friendName":"凌筱钰`","level":"info","message":"凌筱钰`: 偷1(梨)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:42:28.873Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":1140,"level":"info","message":"出售 梨x12，获得 1140 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:42:29.738Z","totalsAfter":{"exp":7452144,"gold":152985497},"totalsBefore":{"exp":7452144,"gold":152984357},"totalsDeltaExp":0,"totalsDeltaGold":1140}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T07:42:29.738Z","visited":1}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T07:42:36.522Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T07:42:36.523Z"}
+{"app":"qq-farm-bot","count":97,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 97 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:42:36.601Z"}
+{"app":"qq-farm-bot","count":97,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 97 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:42:36.625Z"}
+{"actions":["偷2(梨)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215791580,"friendName":"凌筱钰`","level":"info","message":"凌筱钰`: 偷2(梨)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:42:42.256Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":950,"level":"info","message":"出售 梨x10，获得 950 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:42:43.305Z","totalsAfter":{"exp":7452144,"gold":152986447},"totalsBefore":{"exp":7452144,"gold":152985497},"totalsDeltaExp":0,"totalsDeltaGold":950}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷2","module":"friend","result":"ok","summary":["偷2"],"tag":"好友","timestamp":"2026-05-25T07:42:43.305Z","visited":2}
+{"actions":["偷3(木瓜)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1214136677,"friendName":"ડꪊρꫀrꪑꪖꪀ","level":"info","message":"ડꪊρꫀrꪑꪖꪀ: 偷3(木瓜)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:43:33.407Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":20976,"level":"info","message":"出售 木瓜x184，获得 20976 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:43:36.009Z","totalsAfter":{"exp":7452144,"gold":153007172},"totalsBefore":{"exp":7452144,"gold":152986196},"totalsDeltaExp":0,"totalsDeltaGold":20976}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷3","module":"friend","result":"ok","summary":["偷3"],"tag":"好友","timestamp":"2026-05-25T07:43:36.009Z","visited":2}
+{"actions":["浇水1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[水:1 长:24] → 浇水1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T07:44:09.691Z"}
+{"actions":["偷2(植物1020184)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1216992548,"friendName":"宋婷","level":"info","message":"宋婷: 偷2(植物1020184)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:44:19.369Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T07:44:21.697Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷2","module":"friend","result":"ok","summary":["偷2"],"tag":"好友","timestamp":"2026-05-25T07:44:21.697Z","visited":2}
+{"actions":["偷2(葫芦/梨)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215791580,"friendName":"凌筱钰`","level":"info","message":"凌筱钰`: 偷2(葫芦/梨)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:46:10.190Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":3132,"level":"info","message":"出售 葫芦x12，获得 3132 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:46:11.807Z","totalsAfter":{"exp":7452144,"gold":153010191},"totalsBefore":{"exp":7452144,"gold":153007059},"totalsDeltaExp":0,"totalsDeltaGold":3132}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷2","module":"friend","result":"ok","summary":["偷2"],"tag":"好友","timestamp":"2026-05-25T07:46:11.808Z","visited":3}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:46:13.581Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:46:31.315Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:49:11.007Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:49:13.562Z"}
+{"app":"qq-farm-bot","count":1,"event":"收获作物","landIds":[22],"level":"info","message":"收获完成 1 块土地","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:49:13.723Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":35319,"level":"info","message":"出售 杨桃x579，获得 35319 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:49:13.994Z","totalsAfter":{"exp":7452725,"gold":153045559},"totalsBefore":{"exp":7452725,"gold":153010240},"totalsDeltaExp":0,"totalsDeltaGold":35319}
+{"app":"qq-farm-bot","count":1,"event":"铲除植物","level":"info","message":"已铲除 1 块 (22)","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:49:15.078Z"}
+{"app":"qq-farm-bot","event":"选择种子","level":"info","message":"最佳种子: 杨桃 (20039) 价格=4944金币 生长4小时","module":"warehouse","price":4944,"seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:49:15.111Z"}
+{"app":"qq-farm-bot","cost":4944,"count":1,"event":"购买种子","level":"info","message":"已购买 杨桃种子 x1, 花费 4944 金币","module":"warehouse","result":"ok","seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:49:15.141Z"}
+{"app":"qq-farm-bot","count":1,"event":"种植种子","level":"info","message":"已在 1 块地种植 (22)","module":"farm","occupiedCount":1,"result":"ok","seedId":20039,"tag":"农场","timestamp":"2026-05-25T07:49:15.173Z"}
+{"app":"qq-farm-bot","count":1,"event":"常规施肥","landTypes":["gold","black","red","normal"],"level":"info","message":"常规施肥：已为 1/1 块地施普通化肥（范围: 金土地、黑土地、红土地、普通土地）","module":"farm","reason":"normal","result":"ok","tag":"农场","timestamp":"2026-05-25T07:49:15.235Z","type":"normal"}
+{"actions":["收获1","种植1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[收:1 长:23] → 收获1/种植1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T07:49:15.394Z"}
+{"app":"qq-farm-bot","count":1,"event":"开启化肥礼包","level":"info","message":"自动使用化肥类道具 x1 [化肥(1小时)x1]","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:49:15.686Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:50:19.292Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:50:20.413Z"}
+{"app":"qq-farm-bot","count":1,"event":"收获作物","landIds":[23],"level":"info","message":"收获完成 1 块土地","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:50:20.622Z"}
+{"app":"qq-farm-bot","count":2,"event":"sell_success","gold":74790,"level":"info","message":"出售 杨桃x585, 梨x36，获得 74790 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:50:20.916Z","totalsAfter":{"exp":7453317,"gold":153115405},"totalsBefore":{"exp":7453317,"gold":153040615},"totalsDeltaExp":0,"totalsDeltaGold":74790}
+{"actions":["偷2(梨)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215791580,"friendName":"凌筱钰`","level":"info","message":"凌筱钰`: 偷2(梨)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:50:20.975Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T07:50:21.739Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷2","module":"friend","result":"ok","summary":["偷2"],"tag":"好友","timestamp":"2026-05-25T07:50:21.740Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"铲除植物","level":"info","message":"已铲除 1 块 (23)","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:50:21.937Z"}
+{"app":"qq-farm-bot","event":"选择种子","level":"info","message":"最佳种子: 杨桃 (20039) 价格=4944金币 生长4小时","module":"warehouse","price":4944,"seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:50:21.969Z"}
+{"app":"qq-farm-bot","cost":4944,"count":1,"event":"购买种子","level":"info","message":"已购买 杨桃种子 x1, 花费 4944 金币","module":"warehouse","result":"ok","seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:50:21.999Z"}
+{"app":"qq-farm-bot","count":1,"event":"种植种子","level":"info","message":"已在 1 块地种植 (23)","module":"farm","occupiedCount":1,"result":"ok","seedId":20039,"tag":"农场","timestamp":"2026-05-25T07:50:22.031Z"}
+{"app":"qq-farm-bot","count":1,"event":"常规施肥","landTypes":["gold","black","red","normal"],"level":"info","message":"常规施肥：已为 1/1 块地施普通化肥（范围: 金土地、黑土地、红土地、普通土地）","module":"farm","reason":"normal","result":"ok","tag":"农场","timestamp":"2026-05-25T07:50:22.095Z","type":"normal"}
+{"actions":["收获1","种植1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[收:1 长:23] → 收获1/种植1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T07:50:22.251Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:50:36.524Z"}
+{"app":"qq-farm-bot","count":1,"event":"收获作物","landIds":[24],"level":"info","message":"收获完成 1 块土地","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:50:36.646Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":105408,"level":"info","message":"出售 杨桃x576，获得 105408 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:50:36.916Z","totalsAfter":{"exp":7453909,"gold":153215941},"totalsBefore":{"exp":7453909,"gold":153110533},"totalsDeltaExp":0,"totalsDeltaGold":105408}
+{"app":"qq-farm-bot","count":1,"event":"铲除植物","level":"info","message":"已铲除 1 块 (24)","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T07:50:37.914Z"}
+{"app":"qq-farm-bot","event":"选择种子","level":"info","message":"最佳种子: 杨桃 (20039) 价格=4944金币 生长4小时","module":"warehouse","price":4944,"seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:50:37.951Z"}
+{"app":"qq-farm-bot","cost":4944,"count":1,"event":"购买种子","level":"info","message":"已购买 杨桃种子 x1, 花费 4944 金币","module":"warehouse","result":"ok","seedId":20039,"tag":"仓库","timestamp":"2026-05-25T07:50:37.982Z"}
+{"app":"qq-farm-bot","count":1,"event":"种植种子","level":"info","message":"已在 1 块地种植 (24)","module":"farm","occupiedCount":1,"result":"ok","seedId":20039,"tag":"农场","timestamp":"2026-05-25T07:50:38.013Z"}
+{"app":"qq-farm-bot","count":1,"event":"常规施肥","landTypes":["gold","black","red","normal"],"level":"info","message":"常规施肥：已为 1/1 块地施普通化肥（范围: 金土地、黑土地、红土地、普通土地）","module":"farm","reason":"normal","result":"ok","tag":"农场","timestamp":"2026-05-25T07:50:38.075Z","type":"normal"}
+{"actions":["收获1","种植1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[收:1 长:23] → 收获1/种植1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T07:50:38.169Z"}
+{"app":"qq-farm-bot","count":1,"event":"开启化肥礼包","level":"info","message":"自动使用化肥类道具 x1 [化肥(1小时)x1]","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:50:38.458Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:51:13.331Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:52:00.094Z"}
+{"actions":["偷1(植物1020304)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1212949638,"friendName":"迷醉深海","level":"info","message":"迷醉深海: 偷1(植物1020304)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:54:04.239Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T07:54:04.932Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T07:54:04.933Z","visited":1}
+{"actions":["偷1(植物1020256)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1227040708,"friendName":"五花肉","level":"info","message":"五花肉: 偷1(植物1020256)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:54:32.433Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T07:54:33.243Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T07:54:33.243Z","visited":1}
+{"actions":["偷1(植物1020256)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1227040708,"friendName":"五花肉","level":"info","message":"五花肉: 偷1(植物1020256)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:54:44.610Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T07:54:45.472Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T07:54:45.473Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:54:58.331Z"}
+{"actions":["偷5(西瓜)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1213474294,"friendName":".","level":"info","message":".: 偷5(西瓜)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:55:34.511Z"}
+{"app":"qq-farm-bot","count":2,"event":"sell_success","gold":14280,"level":"info","message":"出售 西瓜x54, 西瓜x75，获得 14280 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T07:55:35.455Z","totalsAfter":{"exp":7453920,"gold":153225245},"totalsBefore":{"exp":7453920,"gold":153210965},"totalsDeltaExp":0,"totalsDeltaGold":14280}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷5","module":"friend","result":"ok","summary":["偷5"],"tag":"好友","timestamp":"2026-05-25T07:55:35.455Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:56:08.941Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:58:44.542Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T07:58:47.278Z"}
+{"actions":["偷4(植物1020304)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1214648508,"friendName":"半度微凉","level":"info","message":"半度微凉: 偷4(植物1020304)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T07:59:49.712Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T07:59:50.520Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷4","module":"friend","result":"ok","summary":["偷4"],"tag":"好友","timestamp":"2026-05-25T07:59:50.521Z","visited":1}
+{"app":"qq-farm-bot","level":"info","message":"被踢下线! gatepb.KickoutNotify","module":"system","tag":"系统","timestamp":"2026-05-25T08:00:59.451Z"}
+{"app":"qq-farm-bot","level":"info","message":"原因: 已在其他终端登录","module":"system","tag":"系统","timestamp":"2026-05-25T08:00:59.452Z"}
+{"app":"qq-farm-bot","level":"info","message":"检测到踢下线，准备自动停止账号。原因: 已在其他终端登录","module":"system","tag":"系统","timestamp":"2026-05-25T08:00:59.453Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 被踢下线，已自动停止账号","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:00:59.453Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"触发下线提醒: 账号=账号1, 原因=kickout:已在其他终端登录","module":"runtime","reason":"kickout:已在其他终端登录","tag":"系统","timestamp":"2026-05-25T08:00:59.454Z"}
+{"app":"qq-farm-bot","channel":"webhook","level":"info","message":"下线提醒配置: 渠道=webhook, 标题=账号下线提醒","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:00:59.455Z","title":"账号下线提醒","username":"admin"}
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T08:00:59.455Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:00:59.459Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:01:00.468Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:07:48.562Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:07:48.813Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:07:48.851Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:07:48.851Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:07:49.079Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:07:49.080Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:08:05.668Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:08:05.671Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:08:05.673Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:05.869Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:05.899Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:05.899Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:06.125Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:06.126Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:08:17.760Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:08:17.765Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:08:17.766Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:18.015Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:18.052Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:18.053Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:18.302Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:08:18.302Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:10:18.283Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:10:18.287Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:10:18.288Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:10:18.528Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:10:18.562Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:10:18.563Z"}
+{"app":"qq-farm-bot","level":"info","message":"登录成功: HelloWrt (Lv82)","module":"system","tag":"系统","timestamp":"2026-05-25T08:10:18.918Z"}
+{"app":"qq-farm-bot","level":"info","message":"金豆豆数量: 82705","module":"system","tag":"系统","timestamp":"2026-05-25T08:10:18.958Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"已同步账号昵称: None -> HelloWrt","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:10:19.002Z"}
+{"app":"qq-farm-bot","event":"email_rewards","level":"info","message":"今日暂无可领取邮箱奖励","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:10:19.040Z"}
+{"app":"qq-farm-bot","event":"daily_share","level":"info","message":"上报分享状态失败","module":"task","result":"error","tag":"任务","timestamp":"2026-05-25T08:10:19.109Z"}
+{"app":"qq-farm-bot","event":"month_card_gift","level":"info","message":"今日暂无可领取月卡礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:10:19.144Z"}
+{"app":"qq-farm-bot","event":"mall_free_gifts","level":"info","message":"本次未成功领取免费礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:10:19.215Z"}
+{"app":"qq-farm-bot","event":"vip_daily_gift","level":"info","message":"今日暂无可领取会员礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:10:19.250Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T08:10:52.091Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T08:10:52.093Z"}
+{"app":"qq-farm-bot","count":102,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 102 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:10:52.137Z"}
+{"app":"qq-farm-bot","count":102,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 102 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:10:52.169Z"}
+{"actions":["偷1(梨)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215791580,"friendName":"凌筱钰`","level":"info","message":"凌筱钰`: 偷1(梨)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:11:57.241Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":5320,"level":"info","message":"出售 梨x56，获得 5320 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:11:58.299Z","totalsAfter":{"exp":7453920,"gold":153300395},"totalsBefore":{"exp":7453920,"gold":153295075},"totalsDeltaExp":0,"totalsDeltaGold":5320}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:11:58.299Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:12:04.925Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:12:41.653Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:13:25.843Z"}
+{"actions":["偷1(蘑菇)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1217724638,"friendName":"顾凉🍂","level":"info","message":"顾凉🍂: 偷1(蘑菇)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:13:46.458Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":936,"level":"info","message":"出售 蘑菇x24，获得 936 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:13:47.563Z","totalsAfter":{"exp":7453920,"gold":153301331},"totalsBefore":{"exp":7453920,"gold":153300395},"totalsDeltaExp":0,"totalsDeltaGold":936}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:13:47.564Z","visited":1}
+{"actions":["偷2(蘑菇)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1217724638,"friendName":"顾凉🍂","level":"info","message":"顾凉🍂: 偷2(蘑菇)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:13:53.774Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":780,"level":"info","message":"出售 蘑菇x20，获得 780 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:13:54.784Z","totalsAfter":{"exp":7453920,"gold":153302022},"totalsBefore":{"exp":7453920,"gold":153301242},"totalsDeltaExp":0,"totalsDeltaGold":780}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷2","module":"friend","result":"ok","summary":["偷2"],"tag":"好友","timestamp":"2026-05-25T08:13:54.785Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:14:36.241Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:15:44.088Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:16:00.115Z"}
+{"actions":["浇水1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[水:1 长:24] → 浇水1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T08:16:12.464Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:16:32.623Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:18:45.035Z"}
+{"app":"qq-farm-bot","level":"info","message":"收到 1 个好友申请: °②。胖o_O√","module":"system","tag":"系统","timestamp":"2026-05-25T08:20:37.856Z"}
+{"app":"qq-farm-bot","level":"info","message":"已同意 1 人: °②。胖o_O√","module":"system","tag":"系统","timestamp":"2026-05-25T08:20:37.893Z"}
+{"app":"qq-farm-bot","level":"info","message":"收到 1 个好友申请: Forever","module":"system","tag":"系统","timestamp":"2026-05-25T08:22:06.849Z"}
+{"app":"qq-farm-bot","level":"info","message":"已同意 1 人: Forever","module":"system","tag":"系统","timestamp":"2026-05-25T08:22:06.884Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:22:08.005Z"}
+{"app":"qq-farm-bot","level":"info","message":"收到 1 个好友申请: 🍀菜园·九槑","module":"system","tag":"系统","timestamp":"2026-05-25T08:23:51.743Z"}
+{"app":"qq-farm-bot","level":"info","message":"已同意 1 人: 🍀菜园·九槑","module":"system","tag":"系统","timestamp":"2026-05-25T08:23:51.778Z"}
+{"actions":["偷1(植物1020261)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215702288,"friendName":"এ᭄ꦿ小幸运࿑࿐","level":"info","message":"এ᭄ꦿ小幸运࿑࿐: 偷1(植物1020261)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:26:05.343Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T08:26:06.170Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:26:06.170Z","visited":1}
+{"actions":["偷1(葫芦)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1216123446,"friendName":"Z*🌵","level":"info","message":"Z*🌵: 偷1(葫芦)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:26:56.449Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":6264,"level":"info","message":"出售 葫芦x24，获得 6264 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:26:57.330Z","totalsAfter":{"exp":7453920,"gold":153308286},"totalsBefore":{"exp":7453920,"gold":153302022},"totalsDeltaExp":0,"totalsDeltaGold":6264}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:26:57.331Z","visited":1}
+{"actions":["偷1(蘑菇)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1217724638,"friendName":"顾凉🍂","level":"info","message":"顾凉🍂: 偷1(蘑菇)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:28:29.345Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":312,"level":"info","message":"出售 蘑菇x8，获得 312 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:28:30.379Z","totalsAfter":{"exp":7453920,"gold":153308495},"totalsBefore":{"exp":7453920,"gold":153308183},"totalsDeltaExp":0,"totalsDeltaGold":312}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:28:30.380Z","visited":1}
+{"actions":["偷3(木瓜)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1214136677,"friendName":"ડꪊρꫀrꪑꪖꪀ","level":"info","message":"ડꪊρꫀrꪑꪖꪀ: 偷3(木瓜)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:31:33.858Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":12996,"level":"info","message":"出售 木瓜x114，获得 12996 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:31:34.781Z","totalsAfter":{"exp":7453920,"gold":153321491},"totalsBefore":{"exp":7453920,"gold":153308495},"totalsDeltaExp":0,"totalsDeltaGold":12996}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷3","module":"friend","result":"ok","summary":["偷3"],"tag":"好友","timestamp":"2026-05-25T08:31:34.781Z","visited":1}
+{"actions":["偷1(植物1020304)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1213767631,"friendName":"顺风顺水888","level":"info","message":"顺风顺水888: 偷1(植物1020304)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:31:57.086Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T08:31:57.869Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:31:57.869Z","visited":1}
+{"actions":["偷2(植物1020304)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1213767631,"friendName":"顺风顺水888","level":"info","message":"顺风顺水888: 偷2(植物1020304)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:32:04.063Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T08:32:04.842Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷2","module":"friend","result":"ok","summary":["偷2"],"tag":"好友","timestamp":"2026-05-25T08:32:04.842Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:33:37.481Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:34:57.987Z"}
+{"actions":["偷1(花香根鸢尾)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1223986293,"friendName":"‭‭‭‭‭‭","level":"info","message":"‭‭‭‭‭‭: 偷1(花香根鸢尾)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:35:41.529Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":1209,"level":"info","message":"出售 花香根鸢尾x13，获得 1209 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:35:42.208Z","totalsAfter":{"exp":7453920,"gold":153322700},"totalsBefore":{"exp":7453920,"gold":153321491},"totalsDeltaExp":0,"totalsDeltaGold":1209}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:35:42.208Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:35:44.478Z"}
+{"actions":["偷1(花香根鸢尾)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1223986293,"friendName":"‭‭‭‭‭‭","level":"info","message":"‭‭‭‭‭‭: 偷1(花香根鸢尾)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:35:48.285Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":465,"level":"info","message":"出售 花香根鸢尾x5，获得 465 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:35:49.392Z","totalsAfter":{"exp":7453920,"gold":153323165},"totalsBefore":{"exp":7453920,"gold":153322700},"totalsDeltaExp":0,"totalsDeltaGold":465}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:35:49.393Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:35:51.981Z"}
+{"actions":["偷1(无花果)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1218227995,"friendName":"🇨🇳奕萱","level":"info","message":"🇨🇳奕萱: 偷1(无花果)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:36:33.165Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":93852,"level":"info","message":"出售 无花果x132，获得 93852 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T08:36:34.190Z","totalsAfter":{"exp":7453920,"gold":153417017},"totalsBefore":{"exp":7453920,"gold":153323165},"totalsDeltaExp":0,"totalsDeltaGold":93852}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T08:36:34.190Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:37:58.872Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:38:12.819Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T08:38:20.455Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T08:38:20.457Z"}
+{"app":"qq-farm-bot","count":105,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 105 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:38:20.525Z"}
+{"app":"qq-farm-bot","count":105,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 105 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:38:20.577Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:38:25.647Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T08:39:03.790Z"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:51:55.677Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-25T08:51:55.703Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-25T08:52:05.928Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-25T08:52:05.929Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:54:09.704Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-25T08:54:09.727Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-25T08:54:20.070Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-25T08:54:20.071Z","username":"admin"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:54:30.420Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:54:30.762Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:54:30.805Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:54:30.805Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:54:31.068Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:54:31.069Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:55:14.770Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:55:14.774Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:55:14.775Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:14.967Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:14.996Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:14.996Z"}
+{"app":"qq-farm-bot","level":"info","message":"登录成功: HelloWrt (Lv82)","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:15.333Z"}
+{"app":"qq-farm-bot","level":"info","message":"金豆豆数量: 82705","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:15.386Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"已同步账号昵称: None -> HelloWrt","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:55:15.420Z"}
+{"app":"qq-farm-bot","event":"email_rewards","level":"info","message":"今日暂无可领取邮箱奖励","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:55:15.452Z"}
+{"app":"qq-farm-bot","event":"daily_share","level":"info","message":"上报分享状态失败","module":"task","result":"error","tag":"任务","timestamp":"2026-05-25T08:55:15.510Z"}
+{"app":"qq-farm-bot","event":"month_card_gift","level":"info","message":"今日暂无可领取月卡礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:55:15.543Z"}
+{"app":"qq-farm-bot","event":"mall_free_gifts","level":"info","message":"本次未成功领取免费礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:55:15.607Z"}
+{"app":"qq-farm-bot","event":"vip_daily_gift","level":"info","message":"今日暂无可领取会员礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:55:15.638Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:55:18.792Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:55:19.803Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:55:19.804Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:20.042Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:20.080Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:20.080Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:20.325Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:20.327Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:55:22.356Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:55:22.360Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:55:22.362Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:22.656Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:22.697Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:22.698Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:22.936Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:22.937Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:55:39.697Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:55:39.701Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:55:39.703Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:39.922Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:39.955Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:39.955Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:40.185Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:55:40.186Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:55:48.806Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:55:48.814Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:56:00.793Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:01.020Z"}
+{"app":"qq-farm-bot","level":"warn","message":"获取商店失败: Cannot read properties of undefined (reading 'encode')，使用本地备选列表","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T08:56:01.026Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:01.056Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:01.056Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:01.353Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:01.354Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:56:13.005Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:56:13.009Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:56:13.011Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:13.316Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:13.363Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:13.363Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:13.600Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:13.601Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T08:56:58.981Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T08:56:58.986Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:56:58.987Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:59.284Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:59.324Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:59.324Z"}
+{"app":"qq-farm-bot","level":"info","message":"登录成功: HelloWrt (Lv82)","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:59.703Z"}
+{"app":"qq-farm-bot","level":"info","message":"金豆豆数量: 82705","module":"system","tag":"系统","timestamp":"2026-05-25T08:56:59.739Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"已同步账号昵称: None -> HelloWrt","module":"runtime","tag":"系统","timestamp":"2026-05-25T08:56:59.749Z"}
+{"app":"qq-farm-bot","event":"email_rewards","level":"info","message":"今日暂无可领取邮箱奖励","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:56:59.783Z"}
+{"app":"qq-farm-bot","event":"daily_share","level":"info","message":"上报分享状态失败","module":"task","result":"error","tag":"任务","timestamp":"2026-05-25T08:56:59.848Z"}
+{"app":"qq-farm-bot","event":"month_card_gift","level":"info","message":"今日暂无可领取月卡礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:56:59.883Z"}
+{"app":"qq-farm-bot","event":"mall_free_gifts","level":"info","message":"本次未成功领取免费礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:56:59.947Z"}
+{"app":"qq-farm-bot","event":"vip_daily_gift","level":"info","message":"今日暂无可领取会员礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-25T08:56:59.983Z"}
+{"actions":["偷8(植物1020304/曼珠沙华/植物1020258)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1003302289,"friendName":"Carpe  diem","level":"info","message":"Carpe  diem: 偷8(植物1020304/曼珠沙华/植物1020258)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:57:46.363Z"}
+{"actions":["偷1(植物1020256)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1214707931,"friendName":"雾会散","level":"info","message":"雾会散: 偷1(植物1020256)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:57:47.719Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T08:57:48.405Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷9","module":"friend","result":"ok","summary":["偷9"],"tag":"好友","timestamp":"2026-05-25T08:57:48.406Z","visited":2}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T08:58:27.447Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-25T08:58:27.449Z"}
+{"app":"qq-farm-bot","count":105,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 105 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:58:27.519Z"}
+{"app":"qq-farm-bot","count":105,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 105 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T08:58:27.554Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:01:01.900Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:01:11.886Z"}
+{"app":"qq-farm-bot","count":2,"event":"土地推送通知","level":"info","message":"收到推送: 2块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:02:58.529Z"}
+{"actions":["偷2(植物1020193)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1218227995,"friendName":"🇨🇳奕萱","level":"info","message":"🇨🇳奕萱: 偷2(植物1020193)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:05:25.839Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T09:05:27.762Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷2","module":"friend","result":"ok","summary":["偷2"],"tag":"好友","timestamp":"2026-05-25T09:05:27.763Z","visited":2}
+{"actions":["偷6(植物1020193/植物1020257/植物1020184/植物1020256)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215702288,"friendName":"এ᭄ꦿ小幸运࿑࿐","level":"info","message":"এ᭄ꦿ小幸运࿑࿐: 偷6(植物1020193/植物1020257/植物1020184/植物1020256)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:06:14.952Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T09:06:17.267Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷6","module":"friend","result":"ok","summary":["偷6"],"tag":"好友","timestamp":"2026-05-25T09:06:17.268Z","visited":2}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:06:40.661Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:07:38.015Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:08:38.911Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:09:23.046Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:15:53.875Z"}
+{"actions":["偷1(蘑菇)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1217724638,"friendName":"顾凉🍂","level":"info","message":"顾凉🍂: 偷1(蘑菇)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:16:47.924Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":624,"level":"info","message":"出售 蘑菇x16，获得 624 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:16:50.208Z","totalsAfter":{"exp":7453920,"gold":153417119},"totalsBefore":{"exp":7453920,"gold":153416495},"totalsDeltaExp":0,"totalsDeltaGold":624}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T09:16:50.208Z","visited":2}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:16:56.426Z"}
+{"app":"qq-farm-bot","count":1,"event":"收获作物","landIds":[21],"level":"info","message":"收获完成 1 块土地","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T09:16:56.587Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":47336,"level":"info","message":"出售 杨桃x776，获得 47336 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:16:56.855Z","totalsAfter":{"exp":7454614,"gold":153464579},"totalsBefore":{"exp":7454614,"gold":153417243},"totalsDeltaExp":0,"totalsDeltaGold":47336}
+{"app":"qq-farm-bot","count":1,"event":"多季节施肥","landIds":[21],"level":"info","message":"检测到多季作物进入后续季，准备执行多季补肥，目标地块 1 块","module":"farm","result":"trigger","tag":"农场","timestamp":"2026-05-25T09:16:57.948Z"}
+{"app":"qq-farm-bot","count":1,"event":"多季节施肥","landTypes":["gold","black","red","normal"],"level":"info","message":"多季补肥：已为 1/1 块地施普通化肥（范围: 金土地、黑土地、红土地、普通土地）","module":"farm","reason":"multi_season","result":"ok","tag":"农场","timestamp":"2026-05-25T09:16:58.010Z","type":"normal"}
+{"actions":["收获1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[收:1 长:23] → 收获1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T09:16:58.098Z"}
+{"app":"qq-farm-bot","count":1,"event":"开启化肥礼包","level":"info","message":"自动使用化肥类道具 x1 [化肥(1小时)x1]","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:17:17.716Z"}
+{"actions":["偷1(植物1020256)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1217724638,"friendName":"顾凉🍂","level":"info","message":"顾凉🍂: 偷1(植物1020256)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:17:39.212Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T09:17:40.039Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T09:17:40.040Z","visited":2}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:18:18.600Z"}
+{"actions":["偷1(植物1020258)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1217415242,"friendName":"默.","level":"info","message":"默.: 偷1(植物1020258)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:18:26.221Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T09:18:28.218Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T09:18:28.218Z","visited":2}
+{"actions":["偷1(植物1020184)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215791580,"friendName":"凌筱钰`","level":"info","message":"凌筱钰`: 偷1(植物1020184)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:20:06.229Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-05-25T09:20:08.456Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-25T09:20:08.456Z","visited":2}
+{"actions":["浇水1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[水:1 长:24] → 浇水1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T09:20:23.645Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:21:34.774Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:24:33.291Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:25:30.348Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:26:13.896Z"}
+{"actions":["偷4(植物1020184/梨)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215791580,"friendName":"凌筱钰`","level":"info","message":"凌筱钰`: 偷4(植物1020184/梨)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:26:16.132Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":13110,"level":"info","message":"出售 梨x138，获得 13110 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:26:18.798Z","totalsAfter":{"exp":7454614,"gold":153477576},"totalsBefore":{"exp":7454614,"gold":153464466},"totalsDeltaExp":0,"totalsDeltaGold":13110}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷4","module":"friend","result":"ok","summary":["偷4"],"tag":"好友","timestamp":"2026-05-25T09:26:18.798Z","visited":2}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:27:27.286Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:27:32.871Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:28:19.235Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:28:44.324Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:30:31.327Z"}
+{"app":"qq-farm-bot","count":1,"event":"收获作物","landIds":[4],"level":"info","message":"收获完成 1 块土地","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T09:30:31.498Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":46360,"level":"info","message":"出售 杨桃x760，获得 46360 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:30:31.768Z","totalsAfter":{"exp":7455308,"gold":153523977},"totalsBefore":{"exp":7455308,"gold":153477617},"totalsDeltaExp":0,"totalsDeltaGold":46360}
+{"app":"qq-farm-bot","count":1,"event":"多季节施肥","landIds":[4],"level":"info","message":"检测到多季作物进入后续季，准备执行多季补肥，目标地块 1 块","module":"farm","result":"trigger","tag":"农场","timestamp":"2026-05-25T09:30:32.871Z"}
+{"app":"qq-farm-bot","count":1,"event":"多季节施肥","landTypes":["gold","black","red","normal"],"level":"info","message":"多季补肥：已为 1/1 块地施普通化肥（范围: 金土地、黑土地、红土地、普通土地）","module":"farm","reason":"multi_season","result":"ok","tag":"农场","timestamp":"2026-05-25T09:30:32.945Z","type":"normal"}
+{"actions":["收获1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[收:1 长:23] → 收获1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T09:30:33.046Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:32:17.431Z"}
+{"actions":["偷5(火龙果)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1215429639,"friendName":"巴扎嘿","level":"info","message":"巴扎嘿: 偷5(火龙果)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-25T09:35:52.436Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":75768,"level":"info","message":"出售 火龙果x264，获得 75768 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:35:53.436Z","totalsAfter":{"exp":7455308,"gold":153599745},"totalsBefore":{"exp":7455308,"gold":153523977},"totalsDeltaExp":0,"totalsDeltaGold":75768}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷5","module":"friend","result":"ok","summary":["偷5"],"tag":"好友","timestamp":"2026-05-25T09:35:53.437Z","visited":1}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:36:16.383Z"}
+{"app":"qq-farm-bot","count":1,"event":"收获作物","landIds":[20],"level":"info","message":"收获完成 1 块土地","module":"farm","result":"ok","tag":"农场","timestamp":"2026-05-25T09:36:16.547Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":34160,"level":"info","message":"出售 杨桃x560，获得 34160 金币","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:36:16.812Z","totalsAfter":{"exp":7456002,"gold":153633975},"totalsBefore":{"exp":7456002,"gold":153599815},"totalsDeltaExp":0,"totalsDeltaGold":34160}
+{"app":"qq-farm-bot","count":1,"event":"多季节施肥","landIds":[20],"level":"info","message":"检测到多季作物进入后续季，准备执行多季补肥，目标地块 1 块","module":"farm","result":"trigger","tag":"农场","timestamp":"2026-05-25T09:36:18.022Z"}
+{"app":"qq-farm-bot","count":1,"event":"多季节施肥","landTypes":["gold","black","red","normal"],"level":"info","message":"多季补肥：已为 1/1 块地施普通化肥（范围: 金土地、黑土地、红土地、普通土地）","module":"farm","reason":"multi_season","result":"ok","tag":"农场","timestamp":"2026-05-25T09:36:18.081Z","type":"normal"}
+{"actions":["收获1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[收:1 长:23] → 收获1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-25T09:36:18.169Z"}
+{"app":"qq-farm-bot","count":1,"event":"开启化肥礼包","level":"info","message":"自动使用化肥类道具 x1 [化肥(1小时)x1]","module":"warehouse","result":"ok","tag":"仓库","timestamp":"2026-05-25T09:36:22.287Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-25T09:38:00.618Z"}
+{"app":"qq-farm-bot","level":"info","message":"被踢下线! gatepb.KickoutNotify","module":"system","tag":"系统","timestamp":"2026-05-25T09:38:01.378Z"}
+{"app":"qq-farm-bot","level":"info","message":"原因: 已在其他终端登录","module":"system","tag":"系统","timestamp":"2026-05-25T09:38:01.380Z"}
+{"app":"qq-farm-bot","level":"info","message":"检测到踢下线，准备自动停止账号。原因: 已在其他终端登录","module":"system","tag":"系统","timestamp":"2026-05-25T09:38:01.380Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 被踢下线，已自动停止账号","module":"runtime","tag":"系统","timestamp":"2026-05-25T09:38:01.382Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"触发下线提醒: 账号=账号1, 原因=kickout:已在其他终端登录","module":"runtime","reason":"kickout:已在其他终端登录","tag":"系统","timestamp":"2026-05-25T09:38:01.384Z"}
+{"app":"qq-farm-bot","channel":"webhook","level":"info","message":"下线提醒配置: 渠道=webhook, 标题=账号下线提醒","module":"runtime","tag":"系统","timestamp":"2026-05-25T09:38:01.386Z","title":"账号下线提醒","username":"admin"}
+{"app":"qq-farm-bot","level":"error","message":"下线提醒配置不完整: channel=webhook, token=未设置, title=账号下线提醒 账号1, content=账号下线","module":"runtime","tag":"错误","timestamp":"2026-05-25T09:38:01.387Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-25T09:38:01.391Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-25T09:38:02.398Z"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-26T01:18:38.933Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-26T01:18:38.956Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-26T01:19:03.063Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-26T01:19:03.065Z","username":"admin"}

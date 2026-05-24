@@ -1,0 +1,173 @@
+{
+  "accountConfigs": {
+    "1": {
+      "automation": {
+        "farm": true,
+        "farm_push": true,
+        "land_upgrade": false,
+        "friend": true,
+        "friend_help_exp_limit": true,
+        "friend_steal": true,
+        "friend_help": false,
+        "friend_bad": false,
+        "task": true,
+        "fertilizer_gift": true,
+        "fertilizer_buy_organic": false,
+        "fertilizer_buy_normal": false,
+        "sell": true,
+        "fertilizer": "smart",
+        "fertilizer_multi_season": true,
+        "fertilizer_land_types": [
+          "gold",
+          "black",
+          "red",
+          "normal"
+        ],
+        "fertilizer_smart_seconds": 300,
+        "skip_own_weed_bug": true
+      },
+      "plantingStrategy": "max_exp",
+      "preferredSeedId": 0,
+      "intervals": {
+        "farm": 2,
+        "farmMin": 20,
+        "farmMax": 25,
+        "helpMin": 20,
+        "helpMax": 25,
+        "stealMin": 20,
+        "stealMax": 25
+      },
+      "friendQuietHours": {
+        "enabled": false,
+        "start": "01:00",
+        "end": "07:30"
+      },
+      "knownFriendGids": [],
+      "knownFriendGidSyncCooldownSec": 300,
+      "friendsListCacheTtlSec": 60,
+      "friendBlacklist": [],
+      "plantBlacklist": [
+        20002,
+        20003,
+        20059,
+        20065,
+        20064,
+        20060,
+        20061
+      ],
+      "stealDelaySeconds": 1,
+      "plantOrderRandom": true,
+      "plantDelaySeconds": 2,
+      "fertilizerBuyOrganicCount": 1,
+      "fertilizerBuyOrganicThresholdHours": 10,
+      "fertilizerBuyNormalCount": 1,
+      "fertilizerBuyNormalThresholdHours": 10,
+      "fertilizerBuyCheckIntervalMinutes": 60,
+      "bagSeedPriority": [],
+      "bagSeedFallbackStrategy": "level"
+    }
+  },
+  "defaultAccountConfig": {
+    "automation": {
+      "farm": true,
+      "farm_push": true,
+      "land_upgrade": false,
+      "friend": true,
+      "friend_help_exp_limit": true,
+      "friend_steal": true,
+      "friend_help": true,
+      "friend_bad": false,
+      "task": true,
+      "fertilizer_gift": false,
+      "fertilizer_buy_organic": false,
+      "fertilizer_buy_normal": false,
+      "sell": false,
+      "fertilizer": "smart",
+      "fertilizer_multi_season": true,
+      "fertilizer_land_types": [
+        "gold",
+        "black",
+        "red",
+        "normal"
+      ],
+      "fertilizer_smart_seconds": 300,
+      "skip_own_weed_bug": true
+    },
+    "plantingStrategy": "max_exp",
+    "preferredSeedId": 0,
+    "intervals": {
+      "farm": 2,
+      "farmMin": 20,
+      "farmMax": 25,
+      "helpMin": 20,
+      "helpMax": 25,
+      "stealMin": 20,
+      "stealMax": 25
+    },
+    "friendQuietHours": {
+      "enabled": false,
+      "start": "01:00",
+      "end": "07:30"
+    },
+    "knownFriendGids": [],
+    "knownFriendGidSyncCooldownSec": 300,
+    "friendsListCacheTtlSec": 60,
+    "friendBlacklist": [],
+    "plantBlacklist": [
+      20002,
+      20003,
+      20059,
+      20065,
+      20064,
+      20060,
+      20061
+    ],
+    "stealDelaySeconds": 1,
+    "plantOrderRandom": true,
+    "plantDelaySeconds": 2,
+    "fertilizerBuyOrganicCount": 1,
+    "fertilizerBuyOrganicThresholdHours": 10,
+    "fertilizerBuyNormalCount": 1,
+    "fertilizerBuyNormalThresholdHours": 10,
+    "fertilizerBuyCheckIntervalMinutes": 60,
+    "bagSeedPriority": [],
+    "bagSeedFallbackStrategy": "level"
+  },
+  "ui": {
+    "theme": "light"
+  },
+  "offlineReminder": {
+    "channel": "webhook",
+    "reloginUrlMode": "none",
+    "endpoint": "",
+    "token": "",
+    "title": "账号下线提醒",
+    "msg": "账号下线",
+    "offlineDeleteSec": 0
+  },
+  "userOfflineReminders": {
+    "admin": {
+      "channel": "webhook",
+      "reloginUrlMode": "none",
+      "endpoint": "",
+      "token": "",
+      "title": "账号下线提醒",
+      "msg": "账号下线",
+      "offlineDeleteSec": 0
+    }
+  },
+  "adminPasswordHash": "",
+  "announcement": {
+    "content": "",
+    "showOnce": true,
+    "updatedAt": 0
+  },
+  "announcementReadRecords": {},
+  "systemConfig": {
+    "serverUrl": "wss://gate-obt.nqf.qq.com/prod/ws",
+    "clientVersion": "1.11.1.7_20260425",
+    "platform": "qq",
+    "os": "iOS"
+  },
+  "globalWxConfig": null
+}

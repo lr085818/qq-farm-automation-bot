@@ -1,12 +1,13 @@
 # QQ 农场多账号挂机 + Web 面板
-## 作者QQ：1503938233--付费版请咨询
-## 目前市面上有人拿我往期版本改版本号到我的最新版去卖，请谨防上当受骗。
+
 - 基于 Node.js 的 QQ 农场自动化工具，支持多账号管理、Web 控制面板、实时日志与数据分析。
-- 更新优化日志详见update.log 感谢支持，喜欢的点一个star⭐吧！
-- 默认账号密码都是admin，端口3007，请部署登录后尽快修改密码！
-- 重构版完整更新日志详见：[更新日志](https://gitee.com/xlzcandy/qq-classic-farm-update-log/blob/master/README.md)
-## 开源版停止维护，所有功能都是正常使用的，只需要更新一下core/src/config/config.js里面的版本号即可，开源版本请自行解决各种部署问题、使用问题等，感谢各位支持！
+- 默认账号密码都是 `admin`，端口 `3007`，请部署登录后尽快修改密码！
+- 完整更新日志：[更新日志](https://gitee.com/xlzcandy/qq-classic-farm-update-log/blob/master/README.md)
+
+> **开源版已停止维护，禁止倒卖！** 所有功能正常可用，游戏版本号需定期手动更新（详见常见问题）。
+
 ---
+
 ## 技术栈
 
 **后端**
@@ -23,146 +24,207 @@
 [<img src="https://cdn.simpleicons.org/pinia/FFD859" height="48" title="Pinia 3" />](https://pinia.vuejs.org/)
 [<img src="https://skillicons.dev/icons?i=unocss" height="48" title="UnoCSS" />](https://unocss.dev/)
 
-**部署**
+---
 
-[<img src="https://skillicons.dev/icons?i=pnpm" height="48" title="pnpm 10" />](https://pnpm.io/)
-[<img src="https://skillicons.dev/icons?i=githubactions" height="48" title="GitHub Actions" />](https://github.com/features/actions)
+## 部署方式
+
+### 方式一：Docker（推荐，适合 Linux 服务器）
+
+**环境要求：** Docker 20+、docker compose
+
+```bash
+# 1. 安装 Docker（如未安装）
+curl -fsSL https://get.docker.com | sh
+systemctl enable docker && systemctl start docker
+
+# 2. 拉取仓库
+git clone https://github.com/XyhTender/qq-farm-automation-bot.git
+cd qq-farm-automation-bot
+
+# 3. 更新游戏版本号（重要！否则账号会被踢下线）
+sed -i "s/clientVersion: '.*'/clientVersion: '1.11.1.7_20260518'/" core/src/config/config.js
+
+# 4. 构建并后台启动（首次约需 5~10 分钟）
+docker compose up -d --build
+
+# 查看启动日志
+docker compose logs -f
+
+# 停止
+docker compose down
+
+# 更新代码后重新构建
+git pull && docker compose up -d --build
+```
+
+> **版本号说明：** `1.11.1.7_20260518` 为当前可用版本，游戏服务端升级后需更新此值。  
+> 也可部署后在面板 **后台 → 游戏版本控制** 中实时修改，无需重启容器。
 
 ---
-## 环境要求
 
-- 源码运行：Node.js 20+，pnpm（推荐通过 `corepack enable` 启用）
-- 二进制发布版：无需安装 Node.js
+### 方式二：源码运行（Windows）
 
-## 安装与启动（源码方式）
-
-### Windows
+**环境要求：** Node.js 20+，pnpm
 
 ```powershell
 # 1. 安装 Node.js 20+（https://nodejs.org/）并启用 pnpm
-node -v
 corepack enable
-pnpm -v
 
-# 2. 安装依赖并构建前端
-cd D:\Projects\qq-farm-bot-ui
+# 2. 克隆仓库
+git clone https://github.com/XyhTender/qq-farm-automation-bot.git
+cd qq-farm-automation-bot
+
+# 3. 安装依赖
+# 注意：部分 Windows 环境下 pnpm 会崩溃，改用 npm
+npm install --prefix core
+npm install --prefix web
+
+# 4. 构建前端
+cd web && npx vite build && cd ..
+
+# 5. 启动
+cd core && node client.js
+
+# （可选）自定义端口
+$env:ADMIN_PORT="3008"
+node client.js
+```
+
+---
+
+### 方式三：源码运行（Linux/Ubuntu/Debian）
+
+```bash
+# 1. 安装 Node.js 20
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+apt install -y nodejs
+corepack enable
+
+# 2. 克隆仓库
+git clone https://github.com/XyhTender/qq-farm-automation-bot.git
+cd qq-farm-automation-bot
+
+# 3. 安装依赖并构建
 pnpm install
 pnpm build:web
 
-# 3. 启动
-pnpm dev:core
+# 4. 更新版本号
+sed -i "s/clientVersion: '.*'/clientVersion: '1.11.1.7_20260518'/" core/src/config/config.js
 
-# （可选）设置其他端口后启动
-$env:ADMIN_PORT="你的新端口"
-pnpm dev:core
+# 5. 启动（建议配合 pm2 保活）
+npm install -g pm2
+pm2 start core/client.js --name qq-farm-bot
+pm2 save && pm2 startup
 ```
-
-### Linux（Ubuntu/Debian）
-建议使用宝塔最为便捷，在网站其他项目选项中按照如图所示去部署即可
-
-<img src="https://free.picui.cn/free/2026/03/27/69c6398dd326c.png"  alt="图片失效"/>
-
-启动后访问面板：
-- 本机：`http://localhost:3007`
-- 局域网：`http://<你的IP>:3007`
 
 ---
 
-## Docker 部署（拉取不了镜像直接下载压缩包解压即可）
-```
-# 拉取仓库
-git clone https://github.com/XyhTender/qq-farm-automation-bot.git
+### 方式四：二进制发布版（无需 Node.js）
 
-# 进入目录
-cd /qq-farm-automation-bot-main
-
-# 构建并后台启动
-docker compose -f docker-compose.yml up -d --build
-
-# 查看日志
-docker compose logs -f
-
-# 停止并移除容器
-docker compose down
-
-# 浏览器访问http://你的IP:3007
-```
-
-## 二进制发布版（无需 Node.js）
-
-### 构建
-
-```bash
-pnpm install
-pnpm package:release
-```
-
-产物输出在 `dist/` 目录：
-- `产物在Releases中也可以下载，无需自己构建`
+从 [Releases](https://github.com/XyhTender/qq-farm-automation-bot/releases) 下载对应平台的可执行文件：
 
 | 平台 | 文件名 |
 |------|--------|
-| Windows x64 | `qq-farm-bot.exe` |
-| Linux x64 | `qq-farm-bot` |
-| macOS Intel | `qq-farm-bot-x64` |
-| macOS Apple Silicon | `qq-farm-bot-arm64` |
-
-### 运行
+| Windows x64 | `qq-farm-bot-win-x64.exe` |
+| Linux x64 | `qq-farm-bot-linux-x64` |
+| macOS Intel | `qq-farm-bot-macos-x64` |
+| macOS Apple Silicon | `qq-farm-bot-macos-arm64` |
 
 ```bash
-# Windows：双击 exe 或在终端执行
-.\qq-farm-bot-win-x64.exe
-
 # Linux / macOS
-chmod +x ./qq-farm-bot && ./qq-farm-bot
+chmod +x ./qq-farm-bot-linux-x64 && ./qq-farm-bot-linux-x64
+
+# Windows：双击或在终端执行
+.\qq-farm-bot-win-x64.exe
 ```
 
-程序会在可执行文件同级目录自动创建 `data/` 并写入 `store.json`、`accounts.json`。
+程序会在可执行文件同级目录自动创建 `data/` 目录并写入配置文件。
 
 ---
 
-## 登录与安全
+## 访问面板
 
-- 面板首次访问需要登录
-- 默认管理账号：`admin/admin`
-- **建议部署后立即修改为强密码**
+启动成功后浏览器访问：
+- 本机：`http://localhost:3007`
+- 远程：`http://<服务器IP>:3007`
+
+**默认账号：** `admin` / `admin`，**请登录后立即修改密码！**
 
 ---
 
 ## 项目结构
 
 ```
-qq-farm-bot-ui/
+qq-farm-automation-bot/
 ├── core/                  # 后端（Node.js 机器人引擎）
 │   ├── src/
-│   │   ├── config/        # 配置管理
+│   │   ├── config/        # 配置管理（含版本号）
 │   │   ├── controllers/   # HTTP API
 │   │   ├── gameConfig/    # 游戏静态数据
 │   │   ├── models/        # 数据模型与持久化
 │   │   ├── proto/         # Protobuf 协议定义
 │   │   ├── runtime/       # 运行时引擎与 Worker 管理
 │   │   └── services/      # 业务逻辑（农场、好友、任务等）
-│   ├── data/              # 运行时数据（accounts.json、store.json）
+│   ├── data/              # 运行时数据（自动生成）
 │   └── client.js          # 主进程入口
 ├── web/                   # 前端（Vue 3 + Vite）
-│   ├── src/
-│   │   ├── api/           # API 客户端
-│   │   ├── components/    # Vue 组件
-│   │   ├── stores/        # Pinia 状态管理
-│   │   └── views/         # 页面视图
-│   └── dist/              # 构建产物
-├── pnpm-workspace.yaml
+│   └── src/
+│       ├── components/    # Vue 组件
+│       ├── stores/        # Pinia 状态管理
+│       └── views/         # 页面视图
+├── docker-compose.yml
 └── package.json
 ```
 
 ---
 
 ## 特别感谢
-- 基于[Penty-d/qq-farm-bot-ui](https://github.com/Penty-d/qq-farm-bot-ui)二改
+
+- 基于 [Penty-d/qq-farm-bot-ui](https://github.com/Penty-d/qq-farm-bot-ui) 二改
 - 核心功能：[linguo2625469/qq-farm-bot](https://github.com/linguo2625469/qq-farm-bot)
 - 部分功能：[QianChenJun/qq-farm-bot](https://github.com/QianChenJun/qq-farm-bot)
 - 扫码登录：[lkeme/QRLib](https://github.com/lkeme/QRLib)
 - 推送通知：[imaegoo/pushoo](https://github.com/imaegoo/pushoo)
+
+---
+
+## 常见问题
+
+### 启动后提示「客户端版本过低，请升级到最新版本」
+
+游戏服务端会定期升级协议版本，需手动更新 `core/src/config/config.js` 中的 `clientVersion`：
+
+```js
+clientVersion: '1.11.1.7_20260518',  // 格式：版本号_日期
+```
+
+**Docker 用户** 可在容器内直接修改后重启：
+```bash
+docker compose exec qq-farm-bot sh -c "sed -i \"s/clientVersion: '.*'/clientVersion: '新版本号'/\" /app/core/src/config/config.js"
+docker compose restart
+```
+
+也可在面板 **后台 → 游戏版本控制** 实时修改，无需重启。
+
+最新版本号需自行抓包获取，或咨询付费版社群（作者QQ：1503938233）。
+
+### Windows 上 pnpm install 崩溃（退出码 -1073740791）
+
+pnpm 在部分 Windows 环境下处理原生模块时会崩溃，改用 npm 安装即可：
+
+```powershell
+npm install --prefix core
+npm install --prefix web
+```
+
+### 如何降低封号风险
+
+- 策略设置中，巡查间隔**最小值与最大值不要相同**，建议最小 3s、最大 10s 以上
+- 偷菜延迟建议 3 秒以上
+- 启用**静默时段**（如凌晨 01:00 ~ 07:00），避免 24 小时不间断运行
+- 不建议开启秒偷、蹲守等高频功能
+
+---
 
 ## 免责声明
 
