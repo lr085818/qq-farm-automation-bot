@@ -98,33 +98,45 @@ async function autoSubmitCodeFromUrl() {
   if (!code)
     return
 
-  // Clean up
+  // Clean up URL / sessionStorage first
   if (autoCode) {
-    const cleanUrl = window.location.pathname
-    window.history.replaceState({}, '', cleanUrl)
+    window.history.replaceState({}, '', window.location.pathname)
   }
   if (pendingCode) {
     sessionStorage.removeItem('pending_add_code')
     sessionStorage.removeItem('pending_add_platform')
   }
 
-  try {
-    const res = await api.post('/api/accounts', {
-      name: '',
-      code: code.trim(),
-      platform,
-      loginType: 'manual',
-    })
-    if (res.data.ok) {
-      toast.success('账号添加成功')
-      await accountStore.fetchAccounts()
+  // 等待连接初始化完成后再提交，最多重试 5 次，每次间隔 1s
+  const MAX_RETRY = 5
+  for (let i = 0; i < MAX_RETRY; i++) {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    try {
+      const res = await api.post('/api/accounts', {
+        name: '',
+        code: code.trim(),
+        platform,
+        loginType: 'manual',
+      })
+      if (res.data.ok) {
+        toast.success('账号添加成功')
+        await accountStore.fetchAccounts()
+        return
+      }
+      else {
+        toast.error(`添加失败: ${res.data.error || '未知错误'}`)
+        return
+      }
     }
-    else {
-      toast.error(`添加失败: ${res.data.error || '未知错误'}`)
+    catch (e: any) {
+      const isNetworkError = !e.response
+      if (isNetworkError && i < MAX_RETRY - 1) {
+        // 网络未就绪，继续重试
+        continue
+      }
+      toast.error(`添加失败: ${e.response?.data?.error || e.message}`)
+      return
     }
-  }
-  catch (e: any) {
-    toast.error(`添加失败: ${e.response?.data?.error || e.message}`)
   }
 }
 
