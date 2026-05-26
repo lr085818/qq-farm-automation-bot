@@ -19,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="h-screen w-screen overflow-hidden" :style="{ background: 'var(--theme-bg)', color: 'var(--theme-text)' }">
+  <div class="app-bg-root h-screen w-screen overflow-hidden" :style="{ color: 'var(--theme-text)' }">
     <RouterView />
     <ToastContainer />
   </div>
@@ -41,22 +41,44 @@ body {
   --theme-gradient: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
 }
 
-/* Override fixed background colors with theme colors */
+/* ── Background image ─────────────────────────────────── */
+.app-bg-root {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.40), rgba(0, 0, 0, 0.40)), url('/bg.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* ── Glassmorphism card overrides ─────────────────────── */
 .bg-white {
-  background-color: var(--theme-bg) !important;
+  background-color: rgba(15, 23, 42, 0.55) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
+  border-color: rgba(255, 255, 255, 0.10) !important;
 }
 
 .dark .bg-gray-800,
 .dark .bg-gray-900 {
-  background-color: var(--theme-bg) !important;
+  background-color: rgba(15, 23, 42, 0.55) !important;
+  backdrop-filter: blur(16px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(160%) !important;
 }
 
 .bg-gray-50 {
-  background-color: color-mix(in srgb, var(--theme-bg) 95%, transparent) !important;
+  background-color: rgba(30, 41, 59, 0.30) !important;
 }
 
 .dark .bg-gray-700 {
-  background-color: color-mix(in srgb, var(--theme-bg) 85%, transparent) !important;
+  background-color: rgba(30, 41, 59, 0.45) !important;
+}
+
+/* Dropdowns already have bg-white/95 or bg-gray-900/95 — keep them more opaque */
+.\!bg-white,
+.bg-white\/95 {
+  background-color: rgba(15, 23, 42, 0.82) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
 }
 
 /* Use CSS variables for theme colors */

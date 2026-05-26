@@ -475,7 +475,7 @@ async function copyToken() {
   <aside
     class="fixed inset-y-0 left-0 z-50 h-full w-64 flex flex-col border-r border-gray-200/50 transition-transform duration-300 lg:static lg:translate-x-0 dark:border-gray-700/50"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-    :style="{ background: 'var(--theme-bg)', color: 'var(--theme-text)' }"
+    :style="{ background: 'rgba(10, 18, 36, 0.72)', backdropFilter: 'blur(28px) saturate(160%)', WebkitBackdropFilter: 'blur(28px) saturate(160%)', color: 'var(--theme-text)' }"
   >
     <!-- Brand -->
     <div class="h-16 flex items-center justify-between border-b border-gray-200/50 px-6 dark:border-gray-700/50">

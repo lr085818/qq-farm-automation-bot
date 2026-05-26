@@ -17,7 +17,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="w-screen flex overflow-hidden bg-gray-50 dark:bg-gray-900" style="height: 100dvh;">
+  <div class="w-screen flex overflow-hidden" style="height: 100dvh;">
     <!-- Mobile Sidebar Overlay -->
     <div
       v-if="sidebarOpen"
@@ -29,7 +29,7 @@ onUnmounted(() => {
 
     <main class="relative h-full min-w-0 flex flex-1 flex-col overflow-hidden">
       <!-- Top Bar (Mobile/Tablet only or for additional actions) -->
-      <header class="h-16 flex shrink-0 items-center justify-between border-b border-gray-100 bg-white px-6 lg:hidden dark:border-gray-700/50 dark:bg-gray-800">
+      <header class="h-16 flex shrink-0 items-center justify-between border-b border-white/10 px-6 lg:hidden" style="background: rgba(15,23,42,0.68); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
         <div class="text-lg font-bold">
           QQ农场智能助手
         </div>
