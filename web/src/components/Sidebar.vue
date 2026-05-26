@@ -11,12 +11,14 @@ import { menuRoutes } from '@/router/menu'
 import { getPlatformClass, getPlatformLabel, useAccountStore } from '@/stores/account'
 import { useAppStore } from '@/stores/app'
 import { useStatusStore } from '@/stores/status'
+import { useToastStore } from '@/stores/toast'
 import { useUserStore } from '@/stores/user'
 
 const accountStore = useAccountStore()
 const statusStore = useStatusStore()
 const appStore = useAppStore()
 const userStore = useUserStore()
+const toast = useToastStore()
 const route = useRoute()
 const router = useRouter()
 const { accounts, currentAccount } = storeToRefs(accountStore)
@@ -82,6 +84,50 @@ function openRemarkModal(acc: any) {
   showAccountDropdown.value = false
 }
 
+async function autoSubmitCodeFromUrl() {
+  // Support code passed via URL query: /?code=xxx&platform=qq
+  const urlParams = new URLSearchParams(window.location.search)
+  const autoCode = urlParams.get('code')
+  const autoPlatform = urlParams.get('platform') || 'qq'
+  // Also drain sessionStorage pending code (set by router before login redirect)
+  const pendingCode = sessionStorage.getItem('pending_add_code')
+  const pendingPlatform = sessionStorage.getItem('pending_add_platform') || 'qq'
+  const code = autoCode || pendingCode
+  const platform = autoCode ? autoPlatform : pendingPlatform
+
+  if (!code)
+    return
+
+  // Clean up
+  if (autoCode) {
+    const cleanUrl = window.location.pathname
+    window.history.replaceState({}, '', cleanUrl)
+  }
+  if (pendingCode) {
+    sessionStorage.removeItem('pending_add_code')
+    sessionStorage.removeItem('pending_add_platform')
+  }
+
+  try {
+    const res = await api.post('/api/accounts', {
+      name: '',
+      code: code.trim(),
+      platform,
+      loginType: 'manual',
+    })
+    if (res.data.ok) {
+      toast.success('账号添加成功')
+      await accountStore.fetchAccounts()
+    }
+    else {
+      toast.error(`添加失败: ${res.data.error || '未知错误'}`)
+    }
+  }
+  catch (e: any) {
+    toast.error(`添加失败: ${e.response?.data?.error || e.message}`)
+  }
+}
+
 onMounted(() => {
   accountStore.fetchAccounts()
   checkConnection()
@@ -89,6 +135,8 @@ onMounted(() => {
   userStore.fetchUserInfo()
   // 获取公告（普通用户）
   fetchAnnouncement()
+  // 检测URL中是否有待提交的 code
+  autoSubmitCodeFromUrl()
 })
 
 onBeforeUnmount(() => {

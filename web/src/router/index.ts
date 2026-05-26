@@ -75,6 +75,11 @@ router.beforeEach(async (to, _from) => {
 
   if (!adminToken.value) {
     validatedToken = ''
+    // Save pending code params so they survive the login redirect
+    if (to.query.code) {
+      sessionStorage.setItem('pending_add_code', String(to.query.code))
+      sessionStorage.setItem('pending_add_platform', String(to.query.platform || 'qq'))
+    }
     return { name: 'login' }
   }
 
@@ -82,6 +87,10 @@ router.beforeEach(async (to, _from) => {
   if (!valid) {
     adminToken.value = ''
     validatedToken = ''
+    if (to.query.code) {
+      sessionStorage.setItem('pending_add_code', String(to.query.code))
+      sessionStorage.setItem('pending_add_platform', String(to.query.platform || 'qq'))
+    }
     return { name: 'login' }
   }
 

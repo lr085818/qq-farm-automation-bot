@@ -131,7 +131,13 @@ async function handleSubmit() {
           success.value = '登录成功！请修改默认密码以确保账户安全'
         }
         setTimeout(() => {
-          window.location.href = '/'
+          const pendingCode = sessionStorage.getItem('pending_add_code')
+          const pendingPlatform = sessionStorage.getItem('pending_add_platform') || 'qq'
+          if (pendingCode) {
+            window.location.href = `/?code=${encodeURIComponent(pendingCode)}&platform=${encodeURIComponent(pendingPlatform)}`
+          } else {
+            window.location.href = '/'
+          }
         }, 500)
       }
       else {
