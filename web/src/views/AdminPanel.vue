@@ -835,11 +835,8 @@ onMounted(() => {
           <button
             v-for="tab in tabs"
             :key="tab.key"
-            class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all"
-            :class="activeTab === tab.key
-              ? 'text-white shadow-sm'
-              : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'"
-            :style="activeTab === tab.key ? { backgroundColor: 'var(--theme-primary)' } : {}"
+            class="farm-3d-tab flex items-center gap-2 px-4 py-2 text-sm"
+            :class="{ 'is-active': activeTab === tab.key }"
             @click="activeTab = tab.key"
           >
             <div :class="tab.icon" />
@@ -889,31 +886,22 @@ onMounted(() => {
 
           <div class="flex gap-2">
             <button
-              class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
-              :class="cardTypeFilter === 'all'
-                ? 'text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'"
-              :style="cardTypeFilter === 'all' ? { backgroundColor: 'var(--theme-primary)' } : {}"
+              class="farm-3d-tab farm-3d-button--mini"
+              :class="{ 'is-active': cardTypeFilter === 'all' }"
               @click="cardTypeFilter = 'all'"
             >
               全部
             </button>
             <button
-              class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
-              :class="cardTypeFilter === 'time'
-                ? 'text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'"
-              :style="cardTypeFilter === 'time' ? { backgroundColor: 'var(--theme-primary)' } : {}"
+              class="farm-3d-tab farm-3d-button--mini"
+              :class="{ 'is-active': cardTypeFilter === 'time' }"
               @click="cardTypeFilter = 'time'"
             >
               时间卡密
             </button>
             <button
-              class="rounded-lg px-3 py-1.5 text-sm font-medium transition-colors"
-              :class="cardTypeFilter === 'quota'
-                ? 'text-white'
-                : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'"
-              :style="cardTypeFilter === 'quota' ? { backgroundColor: 'var(--theme-primary)' } : {}"
+              class="farm-3d-tab farm-3d-button--mini"
+              :class="{ 'is-active': cardTypeFilter === 'quota' }"
               @click="cardTypeFilter = 'quota'"
             >
               配额卡密
@@ -959,7 +947,7 @@ onMounted(() => {
               批量删除
             </BaseButton>
             <button
-              class="ml-auto text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700"
+              class="farm-3d-button farm-3d-button--mini ml-auto"
               @click="selectedCards.clear(); selectAll = false"
             >
               清除选择
@@ -1058,13 +1046,13 @@ onMounted(() => {
                       {{ card.usedAt ? new Date(card.usedAt).toLocaleString() : '-' }}
                     </td>
                     <td class="whitespace-nowrap px-4 py-2 text-right text-sm">
-                      <button class="mr-2 hover:opacity-80" style="color: var(--theme-primary);" @click="copyCode(card.code)">
+                      <button class="farm-3d-button farm-3d-button--mini mr-2" @click="copyCode(card.code)">
                         复制
                       </button>
-                      <button class="mr-2 hover:opacity-80" style="color: var(--theme-primary);" @click="toggleCardStatus(card)">
+                      <button class="farm-3d-button farm-3d-button--mini mr-2" :class="card.enabled ? 'farm-3d-button--amber' : 'farm-3d-button--green'" @click="toggleCardStatus(card)">
                         {{ card.enabled ? '禁用' : '启用' }}
                       </button>
-                      <button class="text-red-600 dark:text-red-400 hover:text-red-900" @click="deleteCard(card)">
+                      <button class="farm-3d-button farm-3d-button--danger farm-3d-button--mini" @click="deleteCard(card)">
                         删除
                       </button>
                     </td>
@@ -1250,21 +1238,21 @@ onMounted(() => {
                     </td>
                     <td class="whitespace-nowrap px-3 py-2 text-right text-sm font-medium">
                       <button
-                        class="mr-3 text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
+                        class="farm-3d-button farm-3d-button--blue farm-3d-button--mini mr-2"
                         @click="openEditModal(user)"
                       >
                         编辑
                       </button>
                       <button
                         v-if="user.card"
-                        class="mr-3 text-yellow-600 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300"
+                        class="farm-3d-button farm-3d-button--amber farm-3d-button--mini mr-2"
                         @click="toggleUserStatus(user)"
                       >
                         {{ user.card.enabled === false ? '解封' : '封禁' }}
                       </button>
                       <button
                         v-if="user.username !== currentUsername"
-                        class="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
+                        class="farm-3d-button farm-3d-button--danger farm-3d-button--mini"
                         @click="deleteUser(user)"
                       >
                         删除
@@ -1528,11 +1516,8 @@ onMounted(() => {
                     <button
                       v-for="option in platformOptions"
                       :key="option.value"
-                      class="rounded-lg px-3 py-1.5 text-sm transition-all"
-                      :class="localSystemConfig.platform === option.value
-                        ? 'text-white shadow-sm'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'"
-                      :style="localSystemConfig.platform === option.value ? { backgroundColor: 'var(--theme-primary)' } : {}"
+                      class="farm-3d-tab farm-3d-button--mini"
+                      :class="{ 'is-active': localSystemConfig.platform === option.value }"
                       @click="localSystemConfig.platform = option.value"
                     >
                       {{ option.label }}
@@ -1545,11 +1530,8 @@ onMounted(() => {
                     <button
                       v-for="option in osOptions"
                       :key="option.value"
-                      class="rounded-lg px-3 py-1.5 text-sm transition-all"
-                      :class="localSystemConfig.os === option.value
-                        ? 'text-white shadow-sm'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'"
-                      :style="localSystemConfig.os === option.value ? { backgroundColor: 'var(--theme-primary)' } : {}"
+                      class="farm-3d-tab farm-3d-button--mini"
+                      :class="{ 'is-active': localSystemConfig.os === option.value }"
                       @click="localSystemConfig.os = option.value"
                     >
                       {{ option.label }}

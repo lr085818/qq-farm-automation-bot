@@ -4,78 +4,42 @@ import api from '@/api'
 
 const THEME_KEY = 'ui_theme'
 
-export type Theme = 'light-blue' | 'light-green' | 'light-pink' | 'dark-blue' | 'dark-purple' | 'dark-teal' | 'dark-orange' | 'dark-red'
+export type Theme = 'dark-orange'
+
+interface ThemeGlass {
+  bg: string
+  strong: string
+  dropdown: string
+  soft: string
+  border: string
+  shadow: string
+  blur: string
+  saturate: string
+  brightness: string
+  text: string
+  mutedText: string
+  subtleText: string
+  overlayStart: string
+  overlayEnd: string
+}
+
+interface ThemePalette {
+  name: string
+  isDark: boolean
+  bg: string
+  text: string
+  primary: string
+  secondary: string
+  gradient: string
+  icon: string
+  glass?: ThemeGlass
+}
 
 export const useAppStore = defineStore('app', () => {
   const sidebarOpen = ref(false)
-  const currentTheme = ref<Theme>((localStorage.getItem(THEME_KEY) as Theme) || 'light-pink')
-  const showThemePanel = ref(false)
+  const currentTheme = ref<Theme>('dark-orange')
 
-  const themes: Record<Theme, {
-    name: string
-    isDark: boolean
-    bg: string
-    text: string
-    primary: string
-    secondary: string
-    gradient: string
-    icon: string
-  }> = {
-    // 原始白色主题
-    'light-blue': {
-      name: '白色',
-      isDark: false,
-      bg: '#f9fafb',
-      text: '#1f2937',
-      primary: '#3b82f6',
-      secondary: '#2563eb',
-      gradient: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-      icon: 'i-carbon-sun',
-    },
-    // 原始黑色主题
-    'dark-blue': {
-      name: '深色',
-      isDark: true,
-      bg: '#111827',
-      text: '#f3f4f6',
-      primary: '#3b82f6',
-      secondary: '#2563eb',
-      gradient: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)',
-      icon: 'i-carbon-moon',
-    },
-    // 樱花粉主题
-    'light-pink': {
-      name: '樱花粉',
-      isDark: false,
-      bg: '#fff0f5',
-      text: '#831843',
-      primary: '#ec4899',
-      secondary: '#be185d',
-      gradient: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)',
-      icon: 'i-carbon-favorite',
-    },
-    // 清新绿主题
-    'light-green': {
-      name: '清新绿',
-      isDark: false,
-      bg: '#f0fdf4',
-      text: '#14532d',
-      primary: '#22c55e',
-      secondary: '#16a34a',
-      gradient: 'linear-gradient(135deg, #4ade80 0%, #22c55e 100%)',
-      icon: 'i-carbon-leaf',
-    },
-    // 紫罗兰主题
-    'dark-purple': {
-      name: '紫罗兰',
-      isDark: true,
-      bg: '#1e1b4b',
-      text: '#e9d5ff',
-      primary: '#a855f7',
-      secondary: '#9333ea',
-      gradient: 'linear-gradient(135deg, #c084fc 0%, #a855f7 100%)',
-      icon: 'i-carbon-crown',
-    },
+  const themes: Record<Theme, ThemePalette> = {
     // 橙色暖阳主题
     'dark-orange': {
       name: '暖阳橙',
@@ -86,29 +50,28 @@ export const useAppStore = defineStore('app', () => {
       secondary: '#d97706',
       gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)',
       icon: 'i-carbon-sun',
+      glass: {
+        bg: 'rgba(41, 34, 24, 0.18)',
+        strong: 'rgba(41, 31, 18, 0.24)',
+        dropdown: 'rgba(30, 22, 10, 0.90)',
+        soft: 'rgba(251, 191, 36, 0.08)',
+        border: 'rgba(251, 191, 36, 0.18)',
+        shadow: '0 24px 60px rgba(245, 158, 11, 0.2), inset 0 1px 0 rgba(255, 248, 200, 0.12)',
+        blur: '30px',
+        saturate: '190%',
+        brightness: '1.14',
+        text: 'rgba(255, 247, 214, 0.96)',
+        mutedText: 'rgba(254, 243, 199, 0.84)',
+        subtleText: 'rgba(253, 230, 138, 0.74)',
+        overlayStart: 'rgba(24, 18, 10, 0.02)',
+        overlayEnd: 'rgba(24, 18, 10, 0.05)',
+      },
     },
-    // 青色主题
-    'dark-teal': {
-      name: '青空夜',
-      isDark: true,
-      bg: '#134e4a',
-      text: '#ccfbf1',
-      primary: '#06b6d4',
-      secondary: '#0891b2',
-      gradient: 'linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%)',
-      icon: 'i-carbon-tree',
-    },
-    // 绯红主题
-    'dark-red': {
-      name: '绯红夜',
-      isDark: true,
-      bg: '#18181b',
-      text: '#fda4af',
-      primary: '#f43f5e',
-      secondary: '#e11d48',
-      gradient: 'linear-gradient(135deg, #fb7185 0%, #f43f5e 100%)',
-      icon: 'i-carbon-close-filled',
-    },
+  }
+
+  const savedTheme = localStorage.getItem(THEME_KEY) as Theme | null
+  if (savedTheme !== 'dark-orange') {
+    localStorage.setItem(THEME_KEY, 'dark-orange')
   }
 
   function toggleSidebar() {
@@ -124,6 +87,10 @@ export const useAppStore = defineStore('app', () => {
   }
 
   async function fetchTheme() {
+    const token = String(localStorage.getItem('admin_token') || '').trim()
+    if (!token)
+      return
+
     // 从服务器获取主题设置（可选）
     try {
       const res = await api.get('/api/settings')
@@ -140,7 +107,7 @@ export const useAppStore = defineStore('app', () => {
   function applyTheme(theme: Theme) {
     // Validate theme
     if (!themes[theme]) {
-      theme = 'light-pink'
+      theme = 'dark-orange'
     }
 
     const t = themes[theme]
@@ -162,22 +129,30 @@ export const useAppStore = defineStore('app', () => {
       else {
         document.documentElement.classList.remove('dark')
       }
-    }
-  }
 
-  function toggleThemePanel() {
-    showThemePanel.value = !showThemePanel.value
+      // Glassmorphism CSS variables — adapt to theme palette
+      if (t.glass) {
+        document.documentElement.style.setProperty('--glass-bg', t.glass.bg)
+        document.documentElement.style.setProperty('--glass-bg-strong', t.glass.strong)
+        document.documentElement.style.setProperty('--glass-bg-dropdown', t.glass.dropdown)
+        document.documentElement.style.setProperty('--glass-bg-soft', t.glass.soft)
+        document.documentElement.style.setProperty('--glass-border', t.glass.border)
+        document.documentElement.style.setProperty('--glass-shadow', t.glass.shadow)
+        document.documentElement.style.setProperty('--glass-blur', t.glass.blur)
+        document.documentElement.style.setProperty('--glass-saturate', t.glass.saturate)
+        document.documentElement.style.setProperty('--glass-brightness', t.glass.brightness)
+        document.documentElement.style.setProperty('--glass-text', t.glass.text)
+        document.documentElement.style.setProperty('--glass-muted-text', t.glass.mutedText)
+        document.documentElement.style.setProperty('--glass-subtle-text', t.glass.subtleText)
+        document.documentElement.style.setProperty('--bg-overlay-start', t.glass.overlayStart)
+        document.documentElement.style.setProperty('--bg-overlay-end', t.glass.overlayEnd)
+      }
+    }
   }
 
   // Legacy toggleDark for backward compatibility
   function toggleDark() {
-    const current = currentTheme.value
-    if (themes[current]?.isDark) {
-      applyTheme('light-green')
-    }
-    else {
-      applyTheme('light-pink')
-    }
+    applyTheme('dark-orange')
   }
 
   // Computed isDark based on currentTheme
@@ -195,10 +170,8 @@ export const useAppStore = defineStore('app', () => {
     sidebarOpen,
     isDark,
     currentTheme,
-    showThemePanel,
     themes,
     applyTheme,
-    toggleThemePanel,
     toggleDark,
     toggleSidebar,
     closeSidebar,

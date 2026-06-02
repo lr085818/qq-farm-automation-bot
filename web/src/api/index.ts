@@ -38,6 +38,11 @@ api.interceptors.response.use((response) => {
         toast.warning('登录已过期，请重新登录')
       }
     }
+    else if (error.response.status === 403 && error.response.data?.errorType === 'must_change_password') {
+      if (!window.location.pathname.includes('/settings'))
+        window.location.href = '/settings'
+      toast.warning(error.response.data?.error || '请先修改默认密码')
+    }
     else if (error.response.status >= 500) {
       const backendError = String(error.response.data?.error || error.response.data?.message || '')
       // 后端运行态可预期错误：不弹全局500，交给页面状态处理

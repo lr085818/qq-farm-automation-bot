@@ -11,11 +11,8 @@ const currentTab = ref<'farm' | 'bag' | 'task'>('farm')
   <div class="h-full flex flex-col p-4">
     <div class="mb-4 flex space-x-2">
       <button
-        class="rounded-lg px-4 py-2 font-medium transition-colors"
-        :class="currentTab === 'farm'
-          ? 'text-white shadow-md'
-          : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'"
-        :style="currentTab === 'farm' ? { backgroundColor: 'var(--theme-primary)' } : {}"
+        class="farm-3d-tab px-4 py-2"
+        :class="{ 'is-active': currentTab === 'farm' }"
         @click="currentTab = 'farm'"
       >
         <div class="flex items-center space-x-2">
@@ -24,11 +21,8 @@ const currentTab = ref<'farm' | 'bag' | 'task'>('farm')
         </div>
       </button>
       <button
-        class="rounded-lg px-4 py-2 font-medium transition-colors"
-        :class="currentTab === 'bag'
-          ? 'text-white shadow-md'
-          : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'"
-        :style="currentTab === 'bag' ? { backgroundColor: 'var(--theme-primary)' } : {}"
+        class="farm-3d-tab px-4 py-2"
+        :class="{ 'is-active': currentTab === 'bag' }"
         @click="currentTab = 'bag'"
       >
         <div class="flex items-center space-x-2">
@@ -37,11 +31,8 @@ const currentTab = ref<'farm' | 'bag' | 'task'>('farm')
         </div>
       </button>
       <button
-        class="rounded-lg px-4 py-2 font-medium transition-colors"
-        :class="currentTab === 'task'
-          ? 'text-white shadow-md'
-          : 'bg-white text-gray-600 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'"
-        :style="currentTab === 'task' ? { backgroundColor: 'var(--theme-primary)' } : {}"
+        class="farm-3d-tab px-4 py-2"
+        :class="{ 'is-active': currentTab === 'task' }"
         @click="currentTab = 'task'"
       >
         <div class="flex items-center space-x-2">

@@ -166,6 +166,7 @@ const DEFAULT_ACCOUNT_CONFIG = {
     knownFriendGidSyncCooldownSec: DEFAULT_KNOWN_FRIEND_GID_SYNC_COOLDOWN_SEC,
     friendsListCacheTtlSec: DEFAULT_FRIENDS_LIST_CACHE_TTL_SEC,
     friendBlacklist: [],
+    noStealFriendGids: [],
     // 蔬菜黑名单（偷菜时不偷的作物 seedId 列表）
     plantBlacklist: [
         20002,
@@ -206,6 +207,7 @@ let accountFallbackConfig = {
     intervals: { ...DEFAULT_ACCOUNT_CONFIG.intervals },
     friendQuietHours: { ...DEFAULT_ACCOUNT_CONFIG.friendQuietHours },
     knownFriendGids: [],
+    noStealFriendGids: [],
     knownFriendGidSyncCooldownSec: DEFAULT_KNOWN_FRIEND_GID_SYNC_COOLDOWN_SEC,
     friendsListCacheTtlSec: DEFAULT_FRIENDS_LIST_CACHE_TTL_SEC,
 };
@@ -304,6 +306,7 @@ function cloneAccountConfig(base = DEFAULT_ACCOUNT_CONFIG) {
     }
 
     const rawBlacklist = Array.isArray(base.friendBlacklist) ? base.friendBlacklist : [];
+    const noStealFriendGids = normalizeKnownFriendGids(base.noStealFriendGids);
 
     const knownFriendGids = normalizeKnownFriendGids(base.knownFriendGids);
     const knownFriendGidSyncCooldownSec = normalizeKnownFriendGidSyncCooldownSec(base.knownFriendGidSyncCooldownSec);
@@ -321,6 +324,7 @@ function cloneAccountConfig(base = DEFAULT_ACCOUNT_CONFIG) {
         knownFriendGidSyncCooldownSec,
         friendsListCacheTtlSec,
         friendBlacklist: rawBlacklist.map(Number).filter(n => Number.isFinite(n) && n > 0),
+        noStealFriendGids,
         plantingStrategy: ALLOWED_PLANTING_STRATEGIES.includes(String(base.plantingStrategy || ''))
             ? String(base.plantingStrategy)
             : DEFAULT_ACCOUNT_CONFIG.plantingStrategy,
@@ -395,6 +399,10 @@ function normalizeAccountConfig(input, fallback = accountFallbackConfig) {
 
     if (Array.isArray(src.friendBlacklist)) {
         cfg.friendBlacklist = src.friendBlacklist.map(Number).filter(n => Number.isFinite(n) && n > 0);
+    }
+
+    if (src.noStealFriendGids !== undefined) {
+        cfg.noStealFriendGids = normalizeKnownFriendGids(src.noStealFriendGids, cfg.noStealFriendGids);
     }
 
     if (src.knownFriendGids !== undefined) {
@@ -684,6 +692,7 @@ function getConfigSnapshot(accountId) {
         knownFriendGidSyncCooldownSec: cfg.knownFriendGidSyncCooldownSec,
         friendsListCacheTtlSec: cfg.friendsListCacheTtlSec,
         friendBlacklist: [...(cfg.friendBlacklist || [])],
+        noStealFriendGids: [...(cfg.noStealFriendGids || [])],
         plantBlacklist: [...(cfg.plantBlacklist || [])],
         stealDelaySeconds: Math.max(0, Math.min(300, Number(cfg.stealDelaySeconds) || 0)),
         plantOrderRandom: !!cfg.plantOrderRandom,
@@ -748,6 +757,10 @@ function applyConfigSnapshot(snapshot, options = {}) {
 
     if (Array.isArray(cfg.friendBlacklist)) {
         next.friendBlacklist = cfg.friendBlacklist.map(Number).filter(n => Number.isFinite(n) && n > 0);
+    }
+
+    if (cfg.noStealFriendGids !== undefined) {
+        next.noStealFriendGids = normalizeKnownFriendGids(cfg.noStealFriendGids, next.noStealFriendGids);
     }
 
     if (cfg.knownFriendGids !== undefined) {
@@ -991,6 +1004,18 @@ function addFriendToBlacklist(accountId, gid) {
     const newList = [...current, gidNum];
     setFriendBlacklist(accountId, newList);
     return true;
+}
+
+function getNoStealFriendGids(accountId) {
+    return [...(getAccountConfigSnapshot(accountId).noStealFriendGids || [])];
+}
+
+function setNoStealFriendGids(accountId, list) {
+    const current = getAccountConfigSnapshot(accountId);
+    const next = normalizeAccountConfig(current, accountFallbackConfig);
+    next.noStealFriendGids = normalizeKnownFriendGids(list, next.noStealFriendGids);
+    setAccountConfigSnapshot(accountId, next);
+    return [...next.noStealFriendGids];
 }
 
 // ============ 偷取延迟 ============
@@ -1311,6 +1336,8 @@ module.exports = {
     getFriendBlacklist,
     setFriendBlacklist,
     addFriendToBlacklist,
+    getNoStealFriendGids,
+    setNoStealFriendGids,
     getStealDelaySeconds,
     getPlantOrderRandom,
     getPlantDelaySeconds,

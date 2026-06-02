@@ -1,25 +1,25 @@
 {
-  "date": "2026-05-25",
+  "date": "2026-06-01",
   "operations": {
-    "harvest": 10,
-    "water": 3,
+    "harvest": 0,
+    "water": 0,
     "weed": 0,
     "bug": 0,
-    "fertilize": 10,
-    "plant": 7,
-    "steal": 71,
-    "helpWater": 21,
-    "helpWeed": 22,
-    "helpBug": 17,
+    "fertilize": 0,
+    "plant": 0,
+    "steal": 1,
+    "helpWater": 0,
+    "helpWeed": 0,
+    "helpBug": 0,
     "taskClaim": 0,
-    "sell": 24,
+    "sell": 0,
     "upgrade": 0,
     "levelUp": 0
   },
   "initialState": {
-    "gold": 153417017,
-    "exp": 7453920,
-    "coupon": 3895
+    "gold": 241303840,
+    "exp": 8888155,
+    "coupon": 6365
   },
-  "savedAt": 1779701881388
+  "savedAt": 1780302444009
 }

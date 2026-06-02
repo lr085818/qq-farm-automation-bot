@@ -895,20 +895,32 @@ async function fetchGameVersion() {
   margin-top: 8px;
   height: 48px;
   font-size: 1rem;
-  font-weight: 600;
-  border-radius: 12px;
+  font-weight: 700;
+  border: 3px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 4px solid #3a6b2e;
+  border-radius: var(--theme-radius-lg, 18px);
   background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
-  box-shadow: 0 4px 15px rgba(124, 179, 66, 0.4);
-  transition: all 0.3s ease;
+  box-shadow:
+    0 4px 0 #3a6b2e,
+    0 6px 16px rgba(124, 179, 66, 0.32);
+  transition:
+    transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.15s ease;
 }
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(124, 179, 66, 0.5);
+  box-shadow:
+    0 6px 0 #3a6b2e,
+    0 8px 20px rgba(124, 179, 66, 0.40);
 }
 
 .submit-btn:active {
-  transform: translateY(0);
+  transform: translateY(3px);
+  border-bottom-width: 3px;
+  box-shadow:
+    0 1px 0 #3a6b2e,
+    0 1px 4px rgba(124, 179, 66, 0.24);
 }
 
 /* 切换区域 */
@@ -978,24 +990,40 @@ async function fetchGameVersion() {
 
 .claim-card-btn {
   width: 100%;
-  padding: 8px 16px;
+  padding: 10px 16px;
   background: linear-gradient(135deg, #7cb342 0%, #558b2f 100%);
-  border: none;
-  border-radius: 8px;
+  border: 3px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 4px solid #3a6b2e;
+  border-radius: 16px;
   color: white;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition:
+    transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.15s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 4px;
+  box-shadow:
+    0 4px 0 #3a6b2e,
+    0 6px 16px rgba(124, 179, 66, 0.28);
 }
 
 .claim-card-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(124, 179, 66, 0.3);
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 #3a6b2e,
+    0 8px 20px rgba(124, 179, 66, 0.36);
+}
+
+.claim-card-btn:active {
+  transform: translateY(3px);
+  border-bottom-width: 3px;
+  box-shadow:
+    0 1px 0 #3a6b2e,
+    0 1px 4px rgba(124, 179, 66, 0.22);
 }
 
 .claim-card-btn:disabled {

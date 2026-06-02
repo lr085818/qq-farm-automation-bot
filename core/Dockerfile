@@ -37,6 +37,7 @@ WORKDIR /app/core
 
 ENV NODE_ENV=production
 ENV TZ=Asia/Shanghai
+ENV ADMIN_HOST=0.0.0.0
 
 RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
@@ -57,6 +58,6 @@ VOLUME ["/app/core/data"]
 EXPOSE 3007
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=10s --retries=3 \
-    CMD wget -q --spider http://localhost:3007/api/status || exit 1
+    CMD wget -q --spider http://localhost:3007/api/game-version || exit 1
 
 CMD ["node", "client.js"]

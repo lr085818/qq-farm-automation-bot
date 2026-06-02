@@ -181,24 +181,21 @@ function getPlantSizeText(land: any) {
   width: 80%;
   margin: 0 auto;
   height: 8px;
-  background: linear-gradient(145deg, #f0f0f0, #e6e6e6);
+  background: rgba(0, 0, 0, 0.35);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 
-    inset 3px 3px 6px rgba(0, 0, 0, 0.1),
-    inset -3px -3px 6px rgba(255, 255, 255, 0.9),
-    2px 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.45);
   position: relative;
 }
 
 .rainbow-progress-bar::before {
   content: '';
   position: absolute;
-  top: 1px;
+  top: 0;
   left: 2px;
   right: 2px;
-  height: 3px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.2));
+  height: 2px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
   border-radius: 10px 10px 0 0;
   pointer-events: none;
 }
@@ -255,26 +252,6 @@ function getPlantSizeText(land: any) {
   }
   100% {
     transform: translateX(100%);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .rainbow-progress-bar {
-    background: linear-gradient(145deg, #2a2a2a, #1e1e1e);
-    box-shadow: 
-      inset 3px 3px 6px rgba(0, 0, 0, 0.3),
-      inset -3px -3px 6px rgba(60, 60, 60, 0.3),
-      2px 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  .rainbow-progress-bar::before {
-    background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
-  }
-
-  .rainbow-progress-fill {
-    box-shadow: 
-      inset 0 2px 4px rgba(255, 255, 255, 0.2),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.2);
   }
 }
 </style>

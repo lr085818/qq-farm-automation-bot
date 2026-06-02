@@ -303,7 +303,6 @@ const announcementShowOnce = ref(true)
 const announcementSaving = ref(false)
 const announcementLoading = ref(false)
 const currentAnnouncement = ref<{ content: string, showOnce: boolean, updatedAt: number, shouldShow?: boolean } | null>(null)
-const showThemeDropdown = ref(false)
 const showTokenDropdown = ref(false)
 const tokenVisible = ref(false)
 const tokenCopied = ref(false)
@@ -475,7 +474,7 @@ async function copyToken() {
   <aside
     class="fixed inset-y-0 left-0 z-50 h-full w-64 flex flex-col border-r border-gray-200/50 transition-transform duration-300 lg:static lg:translate-x-0 dark:border-gray-700/50"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-    :style="{ background: 'rgba(10, 18, 36, 0.72)', backdropFilter: 'blur(28px) saturate(160%)', WebkitBackdropFilter: 'blur(28px) saturate(160%)', color: 'var(--theme-text)' }"
+    :style="{ background: 'var(--glass-bg-strong)', backdropFilter: `blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))`, WebkitBackdropFilter: `blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))`, color: 'var(--theme-text)' }"
   >
     <!-- Brand -->
     <div class="h-16 flex items-center justify-between border-b border-gray-200/50 px-6 dark:border-gray-700/50">
@@ -788,14 +787,18 @@ async function copyToken() {
       <div class="mt-1 flex flex-col gap-0.5 text-xs text-gray-400 font-mono">
         <div class="flex items-center justify-between">
           <span>{{ formattedTime }}</span>
-          <!-- 主题调色盘按钮 -->
-          <button
-            class="flex items-center gap-1 rounded px-2 py-1 text-gray-400 transition-colors hover:bg-gray-200/50 hover:text-gray-600 dark:hover:bg-gray-700/50 dark:hover:text-gray-300"
-            title="主题设置"
-            @click="showThemeDropdown = !showThemeDropdown"
+          <span
+            class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold shadow-sm"
+            :style="{
+              color: 'var(--theme-primary)',
+              borderColor: 'var(--glass-border)',
+              background: 'rgba(251, 191, 36, 0.08)',
+              boxShadow: '0 8px 24px rgba(245, 158, 11, 0.12)',
+            }"
           >
-            <div class="i-carbon-color-palette text-sm" :style="{ color: 'var(--theme-primary)' }" />
-          </button>
+            <span class="i-carbon-sun text-[10px]" />
+            <span>暖阳橙</span>
+          </span>
         </div>
         <div class="flex items-center justify-between opacity-50">
           <div class="flex items-center gap-2">
@@ -812,37 +815,6 @@ async function copyToken() {
           </div>
           <span v-if="serverVersion">Core v{{ serverVersion }}</span>
         </div>
-      </div>
-
-      <!-- 主题选择弹出面板 -->
-      <div
-        v-show="showThemeDropdown"
-        class="absolute bottom-full left-0 right-0 z-50 grid grid-cols-4 mb-14 gap-1.5 rounded-lg bg-white p-2 shadow-lg dark:bg-gray-800"
-      >
-        <button
-          v-for="(t, theme) in appStore.themes"
-          :key="theme"
-          class="group relative flex flex-col items-center justify-center gap-1 rounded-lg p-2 transition-all hover:scale-105"
-          :class="{
-            'ring-2 ring-offset-1': appStore.currentTheme === theme,
-          }"
-          :style="{
-            'background': t.gradient,
-            '--tw-ring-color': t.primary,
-            '--tw-ring-offset-color': 'var(--theme-bg)',
-          }"
-          :title="t.name"
-          @click="appStore.applyTheme(theme as any); showThemeDropdown = false"
-        >
-          <div :class="t.icon" class="text-base text-white" />
-          <span class="text-[10px] text-white font-medium leading-tight">{{ t.name }}</span>
-          <div
-            v-if="appStore.currentTheme === theme"
-            class="absolute right-1 top-1 h-3 w-3 flex items-center justify-center rounded-full bg-white shadow"
-          >
-            <div class="i-carbon-checkmark text-xs" :style="{ color: t.primary }" />
-          </div>
-        </button>
       </div>
     </div>
   </aside>

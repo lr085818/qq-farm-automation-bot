@@ -6,6 +6,7 @@ export interface WxLoginConfig {
   enabled: boolean
   apiBase: string
   apiKey: string
+  apiKeyConfigured?: boolean
   proxyApiUrl: string
   appId: string
   autoAddAccount: boolean
@@ -91,10 +92,14 @@ export const useWxLoginStore = defineStore('wx-login', () => {
   }
 
   // 判断是否需要使用代理模式（api_key 不为空）
-  const useProxyMode = computed(() => !!config.value.apiKey)
+  const useProxyMode = computed(() => !!(config.value.apiKey || config.value.apiKeyConfigured))
 
-  // 获取代理API URL（确保有默认值）
-  const proxyApiUrl = computed(() => config.value.proxyApiUrl || defaultConfig.proxyApiUrl)
+  function getProxyHeaders() {
+    return {
+      'Content-Type': 'application/json',
+      'x-admin-token': localStorage.getItem('admin_token') || '',
+    }
+  }
 
   // 获取二维码
   async function getQRCode(): Promise<boolean> {
@@ -110,11 +115,7 @@ export const useWxLoginStore = defineStore('wx-login', () => {
         // 使用代理模式（vxcode 逻辑）- 请求本地后端代理接口
         const response = await fetch('/api/proxy', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-proxy-api-key': config.value.apiKey,
-            'x-proxy-api-url': proxyApiUrl.value,
-          },
+          headers: getProxyHeaders(),
           body: JSON.stringify({ action: 'getqr' }),
         })
         const result = await response.json()
@@ -180,11 +181,7 @@ export const useWxLoginStore = defineStore('wx-login', () => {
         // 使用代理模式（vxcode 逻辑）- 请求本地后端代理接口
         const response = await fetch('/api/proxy', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-proxy-api-key': config.value.apiKey,
-            'x-proxy-api-url': proxyApiUrl.value,
-          },
+          headers: getProxyHeaders(),
           body: JSON.stringify({ action: 'checkqr', uuid: uuid.value }),
         })
         const result = await response.json()
@@ -272,11 +269,7 @@ export const useWxLoginStore = defineStore('wx-login', () => {
         // 使用代理模式（vxcode 逻辑）- 请求本地后端代理接口
         const response = await fetch('/api/proxy', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-proxy-api-key': config.value.apiKey,
-            'x-proxy-api-url': proxyApiUrl.value,
-          },
+          headers: getProxyHeaders(),
           body: JSON.stringify({ action: 'jslogin', wxid: targetWxid }),
         })
         const result = await response.json()

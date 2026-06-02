@@ -22,6 +22,7 @@ const MAX_LOGIN_ATTEMPTS = 5;
 const LOCKOUT_DURATION = 15 * 60 * 1000;
 const RATE_LIMIT_WINDOW = 60 * 1000;
 const MAX_ATTEMPTS_PER_IP = 10;
+const CARD_CLAIM_TTL = 24 * 60 * 60 * 1000;
 
 let loginAttempts = {};
 let loginLogs = [];
@@ -332,16 +333,37 @@ function initDefaultAdmin() {
     loadUsers();
     const adminExists = users.find(u => u.username === 'admin');
     if (!adminExists) {
-        const defaultPassword = 'admin';
+        const envPassword = String(process.env.ADMIN_PASSWORD || '').trim();
+        const defaultPassword = envPassword || 'admin';
         users.push({
             username: 'admin',
             password: hashPassword(defaultPassword),
             role: 'admin',
+            mustChangePassword: !envPassword,
             createdAt: Date.now()
         });
         saveUsers();
-        console.log('[用户系统] 已创建默认管理员账号，默认密码: admin');
+        if (envPassword) {
+            console.log('[用户系统] 已使用 ADMIN_PASSWORD 创建默认管理员账号');
+        } else {
+            console.log('[用户系统] 已创建默认管理员账号，默认密码: admin，请登录后立即修改');
+        }
+    } else if (verifyPassword('admin', adminExists.password) && !adminExists.mustChangePassword) {
+        adminExists.mustChangePassword = true;
+        saveUsers();
+        console.log('[用户系统] 检测到默认管理员密码 admin，已要求登录后修改密码');
     }
+}
+
+function isActiveCardClaim(card, now = Date.now()) {
+    const claimedAt = Number(card && card.claimedAt) || 0;
+    return claimedAt > 0 && (now - claimedAt) < CARD_CLAIM_TTL;
+}
+
+function canUseClaimedCard(card, username) {
+    if (!isActiveCardClaim(card)) return true;
+    const claimedBy = String(card.claimedBy || '').trim();
+    return !claimedBy || claimedBy === String(username || '').trim();
 }
 
 function validateUser(username, password, ip = 'unknown') {
@@ -399,7 +421,8 @@ function validateUser(username, password, ip = 'unknown') {
         role: user.role,
         cardCode: user.cardCode || null,
         card: user.card || null,
-        accountLimit: user.accountLimit || DEFAULT_ACCOUNT_LIMIT
+        accountLimit: user.accountLimit || DEFAULT_ACCOUNT_LIMIT,
+        mustChangePassword: user.mustChangePassword || false
     };
 }
 
@@ -435,6 +458,10 @@ function registerUser(username, password, cardCode) {
 
     if (card.usedBy) {
         return { ok: false, error: '卡密已被使用' };
+    }
+
+    if (!canUseClaimedCard(card, username)) {
+        return { ok: false, error: '卡密已被其他用户领取' };
     }
 
     const cardType = card.type || 'time';
@@ -492,6 +519,10 @@ function renewUser(username, cardCode) {
 
     if (card.usedBy) {
         return { ok: false, error: '卡密已被使用' };
+    }
+
+    if (!canUseClaimedCard(card, username)) {
+        return { ok: false, error: '卡密已被其他用户领取' };
     }
 
     const now = Date.now();
@@ -926,10 +957,12 @@ function claimCardByUA(ua, username = null) {
         return { ok: false, error: uaCheck.message, remainingMs: uaCheck.remainingMs };
     }
     
+    const now = Date.now();
     const unusedTimeCards = cards.filter(c => 
         c.type === 'time' && 
         !c.usedBy && 
-        c.enabled
+        c.enabled &&
+        !isActiveCardClaim(c, now)
     );
     
     if (unusedTimeCards.length === 0) {
@@ -940,13 +973,16 @@ function claimCardByUA(ua, username = null) {
     const selectedCard = unusedTimeCards[randomIndex];
     
     const uaHash = crypto.createHash('sha256').update(ua).digest('hex');
+    selectedCard.claimedBy = username || null;
+    selectedCard.claimedAt = now;
     cardClaimRecords.push({
         uaHash,
-        claimTime: Date.now(),
+        claimTime: now,
         cardCode: selectedCard.code,
         username: username || null
     });
     
+    saveCards();
     saveCardClaimRecords();
     
     return {

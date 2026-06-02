@@ -493,7 +493,7 @@ async function startBot(config) {
             if (!getAutomation().sell) return;
             harvestSellRunning = true;
             try {
-                await sellAllFruits();
+                await sellAllFruits({ retryWhenEmpty: true, maxPasses: 6, settleDelayMs: 1200 });
             } catch (e) {
                 log('仓库', `收获后自动出售失败: ${e.message}`, { module: 'warehouse', event: '收获后出售', result: 'error' });
             } finally {

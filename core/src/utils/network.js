@@ -5,6 +5,7 @@ const EventEmitter = require('node:events');
  */
 
 const process = require('node:process');
+const { parentPort } = require('node:worker_threads');
 const WebSocket = require('ws');
 const { CONFIG } = require('../config/config');
 const { createScheduler } = require('../services/scheduler');
@@ -33,6 +34,37 @@ let serverSeq = 0;
 const pendingCallbacks = new Map();
 let wsErrorState = { code: 0, at: 0, message: '' };
 const networkScheduler = createScheduler('network');
+let lastRequestSentAt = 0;
+let sendThrottleChain = Promise.resolve();
+
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function acquireSendSlot() {
+    const minInterval = Math.max(0, Number(CONFIG.minRequestIntervalMs) || 0);
+    if (minInterval <= 0) return Promise.resolve();
+
+    const run = sendThrottleChain.catch(() => null).then(async () => {
+        const waitMs = lastRequestSentAt + minInterval - Date.now();
+        if (waitMs > 0) await delay(waitMs);
+        lastRequestSentAt = Date.now();
+    });
+    sendThrottleChain = run;
+    return run;
+}
+
+function postToMaster(payload) {
+    if (process.send) {
+        process.send(payload);
+        return true;
+    }
+    if (parentPort && typeof parentPort.postMessage === 'function') {
+        parentPort.postMessage(payload);
+        return true;
+    }
+    return false;
+}
 
 function rejectAllPendingRequests(reason = '请求被中断') {
     const entries = Array.from(pendingCallbacks.entries());
@@ -65,6 +97,21 @@ function setWsErrorState(code, message) {
 }
 function clearWsErrorState() {
     wsErrorState = { code: 0, at: 0, message: '' };
+}
+
+function stopAfterLoginFailure(message) {
+    const reason = String(message || '账号验证失败');
+    postToMaster({ type: 'login_failed', message: reason });
+    networkEvents.emit('login_failed', { message: reason });
+    savedLoginCallback = null;
+    cleanup('登录失败');
+    if (ws) {
+        try {
+            ws.close();
+        } catch {
+            // ignore close errors
+        }
+    }
 }
 
 // 登录后从背包获取金豆豆数量
@@ -137,7 +184,7 @@ async function sendMsg(serviceName, methodName, bodyBytes, callback) {
 
 /** Promise 版发送 */
 function sendMsgAsync(serviceName, methodName, bodyBytes, timeout = 20000) {
-    return new Promise((resolve, reject) => {
+    return acquireSendSlot().then(() => new Promise((resolve, reject) => {
         // 检查连接状态
         if (!ws || ws.readyState !== WebSocket.OPEN) {
             reject(new Error(`连接未打开: ${methodName}`));
@@ -145,7 +192,8 @@ function sendMsgAsync(serviceName, methodName, bodyBytes, timeout = 20000) {
         }
 
         // 如果待处理请求过多，拒绝新请求避免堆积
-        if (pendingCallbacks.size >= 5) {
+        const maxPendingRequests = Math.max(1, Number(CONFIG.maxPendingRequests) || 10);
+        if (pendingCallbacks.size >= maxPendingRequests) {
             reject(new Error(`请求队列已满: ${methodName} (pending=${pendingCallbacks.size})`));
             return;
         }
@@ -169,7 +217,7 @@ function sendMsgAsync(serviceName, methodName, bodyBytes, timeout = 20000) {
             networkScheduler.clear(timeoutKey);
             reject(new Error(`发送失败: ${methodName}`));
         }
-    });
+    }));
 }
 
 // ============ 消息处理 ============
@@ -419,7 +467,7 @@ async function sendLogin(onLoginSuccess) {
             // 如果是验证失败，直接退出进程
             if (err.message.includes('code=')) {
                 log('系统', '账号验证失败，即将停止运行...');
-                networkScheduler.setTimeoutTask('login_error_exit', 1000, () => process.exit(0));
+                networkScheduler.setTimeoutTask('login_error_stop', 1000, () => stopAfterLoginFailure(err.message));
             }
             return;
         }

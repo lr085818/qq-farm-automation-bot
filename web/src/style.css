@@ -1,4 +1,151 @@
 /* Global Scrollbar Customization */
+:root {
+  --theme-radius-sm: 10px;
+  --theme-radius-md: 14px;
+  --theme-radius-lg: 18px;
+  --theme-radius-xl: 28px;
+  --theme-shadow-sm: 0 3px 0 rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
+  --theme-shadow-md: 0 4px 0 rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.12);
+  --theme-shadow-lg: 0 6px 0 rgba(0, 0, 0, 0.2), 0 8px 32px rgba(0, 0, 0, 0.16);
+  --theme-shadow-3d: 0 4px 0 #3a6b2e, 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.farm-3d-button,
+.farm-3d-tab,
+.farm-3d-icon-button {
+  border: 3px solid rgba(255, 255, 255, 0.22);
+  border-bottom: 4px solid var(--farm-button-edge, rgba(0, 0, 0, 0.28));
+  border-radius: var(--theme-radius-lg, 18px);
+  background: var(--farm-button-bg, linear-gradient(135deg, rgba(255, 248, 230, 0.94), rgba(239, 232, 214, 0.86)));
+  color: var(--farm-button-text, #2f3a26);
+  font-weight: 700;
+  text-shadow: var(--farm-button-text-shadow, 0 1px 0 rgba(255, 255, 255, 0.55));
+  box-shadow:
+    0 4px 0 var(--farm-button-edge, rgba(0, 0, 0, 0.22)),
+    0 6px 16px var(--farm-button-glow, rgba(0, 0, 0, 0.12));
+  transform: translateY(0);
+  transition:
+    transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.15s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.farm-3d-button:not(:disabled):hover,
+.farm-3d-tab:not(:disabled):hover,
+.farm-3d-icon-button:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 0 var(--farm-button-edge, rgba(0, 0, 0, 0.22)),
+    0 8px 20px var(--farm-button-glow-hover, rgba(0, 0, 0, 0.16));
+}
+
+.farm-3d-button:not(:disabled):active,
+.farm-3d-tab:not(:disabled):active,
+.farm-3d-icon-button:not(:disabled):active {
+  transform: translateY(3px);
+  border-bottom-width: 3px;
+  box-shadow:
+    0 1px 0 var(--farm-button-edge, rgba(0, 0, 0, 0.22)),
+    0 1px 4px var(--farm-button-glow-active, rgba(0, 0, 0, 0.10));
+}
+
+.farm-3d-button:disabled,
+.farm-3d-tab:disabled,
+.farm-3d-icon-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.56;
+  transform: none;
+}
+
+.farm-3d-button.is-active,
+.farm-3d-tab.is-active,
+.farm-3d-icon-button.is-active {
+  --farm-button-bg: var(--theme-gradient);
+  --farm-button-text: #fff;
+  --farm-button-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.22);
+  --farm-button-edge: color-mix(in srgb, var(--theme-primary) 58%, #000 42%);
+  --farm-button-glow: color-mix(in srgb, var(--theme-primary) 34%, transparent);
+  --farm-button-glow-hover: color-mix(in srgb, var(--theme-primary) 42%, transparent);
+}
+
+.farm-3d-button--blue {
+  --farm-button-bg: linear-gradient(135deg, #bfdbfe 0%, #60a5fa 100%);
+  --farm-button-text: #153e75;
+  --farm-button-edge: #2563eb;
+  --farm-button-glow: rgba(96, 165, 250, 0.28);
+  --farm-button-glow-hover: rgba(96, 165, 250, 0.36);
+}
+
+.farm-3d-button--cyan {
+  --farm-button-bg: linear-gradient(135deg, #a5f3fc 0%, #22d3ee 100%);
+  --farm-button-text: #155e75;
+  --farm-button-edge: #0891b2;
+  --farm-button-glow: rgba(34, 211, 238, 0.26);
+  --farm-button-glow-hover: rgba(34, 211, 238, 0.34);
+}
+
+.farm-3d-button--green {
+  --farm-button-bg: linear-gradient(135deg, #bbf7d0 0%, #4ade80 100%);
+  --farm-button-text: #14532d;
+  --farm-button-edge: #15803d;
+  --farm-button-glow: rgba(74, 222, 128, 0.28);
+  --farm-button-glow-hover: rgba(74, 222, 128, 0.36);
+}
+
+.farm-3d-button--amber {
+  --farm-button-bg: linear-gradient(135deg, #fde68a 0%, #f59e0b 100%);
+  --farm-button-text: #5f370e;
+  --farm-button-edge: #b45309;
+  --farm-button-glow: rgba(245, 158, 11, 0.28);
+  --farm-button-glow-hover: rgba(245, 158, 11, 0.36);
+}
+
+.farm-3d-button--orange {
+  --farm-button-bg: linear-gradient(135deg, #fed7aa 0%, #fb923c 100%);
+  --farm-button-text: #7c2d12;
+  --farm-button-edge: #c2410c;
+  --farm-button-glow: rgba(251, 146, 60, 0.28);
+  --farm-button-glow-hover: rgba(251, 146, 60, 0.36);
+}
+
+.farm-3d-button--purple {
+  --farm-button-bg: linear-gradient(135deg, #e9d5ff 0%, #a855f7 100%);
+  --farm-button-text: #4c1d95;
+  --farm-button-edge: #7e22ce;
+  --farm-button-glow: rgba(168, 85, 247, 0.28);
+  --farm-button-glow-hover: rgba(168, 85, 247, 0.36);
+}
+
+.farm-3d-button--danger {
+  --farm-button-bg: linear-gradient(135deg, #fecdd3 0%, #fb7185 100%);
+  --farm-button-text: #7f1d1d;
+  --farm-button-edge: #b91c1c;
+  --farm-button-glow: rgba(251, 113, 133, 0.26);
+  --farm-button-glow-hover: rgba(251, 113, 133, 0.34);
+}
+
+.farm-3d-button--mini {
+  border-width: 2px;
+  border-bottom-width: 3px;
+  border-radius: var(--theme-radius-md, 14px);
+  padding: 6px 12px;
+  font-size: 0.75rem;
+}
+
+.farm-3d-icon-button {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+  border-bottom-width: 3px;
+  border-radius: 10px;
+  padding: 0;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

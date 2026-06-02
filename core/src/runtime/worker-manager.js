@@ -277,6 +277,11 @@ function createWorkerManager(options) {
             }
         } else if (msg.type === 'error') {
             log('错误', `账号[${accountId}]进程报错: ${msg.error}`, { accountId: String(accountId), accountName: worker.name });
+        } else if (msg.type === 'login_failed') {
+            const message = msg.message || '账号验证失败';
+            log('系统', `账号 ${worker.name} 登录失败，已停止账号: ${message}`, { accountId: String(accountId), accountName: worker.name });
+            addAccountLog('login_failed', `账号 ${worker.name} 登录失败，请更新 Code`, accountId, worker.name, { message });
+            stopWorker(accountId);
         } else if (msg.type === 'ws_error') {
             const code = Number(msg.code) || 0;
             const message = msg.message || '';

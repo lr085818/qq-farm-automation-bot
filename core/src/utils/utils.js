@@ -15,9 +15,10 @@ function toLong(val) {
     return Long.fromNumber(val);
 }
 
-function toNum(val) {
+function toNum(val, fallback = 0) {
     if (Long.isLong(val)) return val.toNumber();
-    return val || 0;
+    if (val === undefined || val === null || val === '') return fallback;
+    return val || fallback;
 }
 
 // ============ 时间相关 ============

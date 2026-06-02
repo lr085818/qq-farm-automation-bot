@@ -213,7 +213,7 @@ const localStrategySettings = ref({
   stealDelaySeconds: 0,
   plantOrderRandom: false,
   plantDelaySeconds: 0,
-  intervals: { farmMin: 2, farmMax: 5, helpMin: 10, helpMax: 15, stealMin: 10, stealMax: 15 },
+  intervals: { farmMin: 20, farmMax: 25, helpMin: 20, helpMax: 25, stealMin: 20, stealMax: 25 },
   friendQuietHours: { enabled: false, start: '23:00', end: '07:00' },
 })
 
@@ -744,6 +744,66 @@ const currentChannelDocUrl = computed(() => {
   const key = String(localOffline.value.channel || '').trim().toLowerCase()
   return CHANNEL_DOCS[key] || ''
 })
+const currentOfflineChannel = computed(() => String(localOffline.value.channel || '').trim().toLowerCase())
+const isTelegramOfflineChannel = computed(() => currentOfflineChannel.value === 'telegram')
+const isWebhookOfflineChannel = computed(() => currentOfflineChannel.value === 'webhook')
+const offlineEndpointEditable = computed(() => isWebhookOfflineChannel.value || isTelegramOfflineChannel.value)
+const offlineEndpointLabel = computed(() => {
+  if (isTelegramOfflineChannel.value)
+    return 'Bot API 地址'
+  return '接口地址'
+})
+const offlineEndpointPlaceholder = computed(() => {
+  if (isTelegramOfflineChannel.value)
+    return '可选，默认 https://api.telegram.org'
+  if (isWebhookOfflineChannel.value)
+    return 'Webhook 接口地址'
+  return '当前渠道不需要接口地址'
+})
+const offlineTokenLabel = computed(() => {
+  if (isTelegramOfflineChannel.value)
+    return 'Bot Token'
+  return 'Token'
+})
+const offlineTokenPlaceholder = computed(() => {
+  if (isTelegramOfflineChannel.value)
+    return '例如 123456:ABCDEF'
+  return '接收端 token'
+})
+function splitTelegramOfflineToken(value: string) {
+  const raw = String(value || '').trim()
+  const index = raw.indexOf('#')
+  if (index === -1)
+    return { botToken: raw, chatId: '' }
+  return {
+    botToken: raw.slice(0, index).trim(),
+    chatId: raw.slice(index + 1).trim(),
+  }
+}
+
+function joinTelegramOfflineToken(botToken: string, chatId: string) {
+  const normalizedBotToken = String(botToken || '').trim()
+  const normalizedChatId = String(chatId || '').trim()
+  if (!normalizedChatId)
+    return normalizedBotToken
+  return `${normalizedBotToken}#${normalizedChatId}`
+}
+
+const telegramBotToken = computed({
+  get: () => splitTelegramOfflineToken(localOffline.value.token).botToken,
+  set: (value: string) => {
+    const current = splitTelegramOfflineToken(localOffline.value.token)
+    localOffline.value.token = joinTelegramOfflineToken(value, current.chatId)
+  },
+})
+
+const telegramChatId = computed({
+  get: () => splitTelegramOfflineToken(localOffline.value.token).chatId,
+  set: (value: string) => {
+    const current = splitTelegramOfflineToken(localOffline.value.token)
+    localOffline.value.token = joinTelegramOfflineToken(current.botToken, value)
+  },
+})
 
 function openChannelDocs() {
   const url = currentChannelDocUrl.value
@@ -798,6 +858,13 @@ async function handleChangePassword() {
 }
 
 async function handleSaveOffline() {
+  if (isTelegramOfflineChannel.value) {
+    const telegramToken = splitTelegramOfflineToken(localOffline.value.token)
+    if (!telegramToken.botToken || !telegramToken.chatId) {
+      showAlert('Telegram 需要同时填写 Bot Token 和 Chat ID', 'danger')
+      return
+    }
+  }
   offlineSaving.value = true
   try {
     const res = await settingStore.saveOfflineConfig(localOffline.value)
@@ -815,6 +882,13 @@ async function handleSaveOffline() {
 }
 
 async function handleTestOffline() {
+  if (isTelegramOfflineChannel.value) {
+    const telegramToken = splitTelegramOfflineToken(localOffline.value.token)
+    if (!telegramToken.botToken || !telegramToken.chatId) {
+      showAlert('Telegram 需要同时填写 Bot Token 和 Chat ID', 'danger')
+      return
+    }
+  }
   offlineTesting.value = true
   try {
     const { data } = await api.post('/api/settings/offline-reminder/test', localOffline.value)
@@ -849,11 +923,8 @@ async function handleTestOffline() {
           <button
             v-for="tab in tabs"
             :key="tab.key"
-            class="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all"
-            :class="activeTab === tab.key
-              ? 'text-white shadow-sm'
-              : 'text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700'"
-            :style="activeTab === tab.key ? { backgroundColor: 'var(--theme-primary)' } : {}"
+            class="farm-3d-tab flex items-center gap-2 px-4 py-2 text-sm"
+            :class="{ 'is-active': activeTab === tab.key }"
             @click="activeTab = tab.key"
           >
             <div :class="tab.icon" />
@@ -1114,7 +1185,7 @@ async function handleTestOffline() {
                     </p>
                   </div>
                   <button
-                    class="rounded bg-amber-100 px-2 py-1 text-xs text-amber-700 transition hover:bg-amber-200 dark:bg-amber-900/50 dark:text-amber-300 dark:hover:bg-amber-900/70"
+                    class="farm-3d-button farm-3d-button--mini"
                     @click="resetBagSeedPriority"
                   >
                     重置顺序
@@ -1152,14 +1223,14 @@ async function handleTestOffline() {
                     </div>
                     <div class="flex shrink-0 flex-col gap-1">
                       <button
-                        class="rounded p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700"
+                        class="farm-3d-icon-button"
                         :disabled="index === 0"
                         @click="moveBagSeed(seed.seedId, -1)"
                       >
                         <div class="i-carbon-arrow-up text-sm" />
                       </button>
                       <button
-                        class="rounded p-1 text-gray-400 transition hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700"
+                        class="farm-3d-icon-button"
                         :disabled="index === sortedBagSeeds.length - 1"
                         @click="moveBagSeed(seed.seedId, 1)"
                       >
@@ -1518,17 +1589,39 @@ async function handleTestOffline() {
 
                 <BaseInput
                   v-model="localOffline.endpoint"
-                  label="接口地址"
+                  :label="offlineEndpointLabel"
                   type="text"
-                  :disabled="localOffline.channel !== 'webhook'"
+                  :placeholder="offlineEndpointPlaceholder"
+                  :disabled="!offlineEndpointEditable"
                 />
+                <p v-if="isTelegramOfflineChannel" class="text-xs text-gray-500 dark:text-gray-400">
+                  Telegram 可不填 Bot API 地址；如果 Docker 无法直连 Telegram，可填你的 Telegram Bot API 代理地址。
+                </p>
 
                 <BaseInput
-                  v-model="localOffline.token"
-                  label="Token"
+                  v-if="isTelegramOfflineChannel"
+                  v-model="telegramBotToken"
+                  :label="offlineTokenLabel"
                   type="text"
-                  placeholder="接收端 token"
+                  :placeholder="offlineTokenPlaceholder"
                 />
+                <BaseInput
+                  v-if="isTelegramOfflineChannel"
+                  v-model="telegramChatId"
+                  label="Chat ID"
+                  type="text"
+                  placeholder="例如 987654321 或 -1001234567890"
+                />
+                <BaseInput
+                  v-else
+                  v-model="localOffline.token"
+                  :label="offlineTokenLabel"
+                  type="text"
+                  :placeholder="offlineTokenPlaceholder"
+                />
+                <p v-if="isTelegramOfflineChannel" class="text-xs text-gray-500 dark:text-gray-400">
+                  Bot Token 从 BotFather 获取；Chat ID 是收消息的用户、群或频道 ID，可通过 userinfobot 获取。
+                </p>
 
                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
                   <BaseInput

@@ -21,6 +21,7 @@ const {
   friendLands,
   friendLandsLoading,
   blacklist,
+  noStealList,
   interactRecords,
   interactLoading,
   interactError,
@@ -44,6 +45,7 @@ const knownFriendGidCount = computed(() => knownFriendGids.value.length)
 const knownFriendGidSet = computed(() => new Set(knownFriendGids.value.map(Number)))
 const friendGidSet = computed(() => new Set(friends.value.map(f => Number(f.gid))))
 const blacklistGidSet = computed(() => new Set(blacklist.value.map(item => Number(item.gid))))
+const noStealGidSet = computed(() => new Set(noStealList.value.map(item => Number(item.gid))))
 
 const filteredKnownFriendGids = computed(() => {
   const keyword = gidSearchKeyword.value.trim().toLowerCase()
@@ -212,6 +214,7 @@ async function loadData() {
       avatarErrorKeys.value.clear()
       friendStore.fetchFriends(currentAccountId.value)
       friendStore.fetchBlacklist(currentAccountId.value)
+      friendStore.fetchNoStealList(currentAccountId.value)
       friendStore.fetchInteractRecords(currentAccountId.value)
       if (isQqAccount.value) {
         friendStore.fetchKnownFriendSettings(currentAccountId.value)
@@ -305,6 +308,13 @@ async function handleToggleBlacklist(friend: any, e: Event) {
   if (!currentAccountId.value)
     return
   await friendStore.toggleBlacklist(currentAccountId.value, Number(friend.gid))
+}
+
+async function handleToggleNoSteal(friend: any, e: Event) {
+  e.stopPropagation()
+  if (!currentAccountId.value)
+    return
+  await friendStore.toggleNoSteal(currentAccountId.value, Number(friend.gid))
 }
 
 function getFriendStatusText(friend: any) {
@@ -584,11 +594,8 @@ async function handleBatchAddKnownFriendGids() {
       <button
         v-for="tab in TABS"
         :key="tab.key"
-        class="flex items-center gap-2 px-4 py-3 text-sm font-medium transition-colors"
-        :class="activeTab === tab.key
-          ? 'border-b-2'
-          : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
-        :style="{ borderColor: activeTab === tab.key ? 'var(--theme-primary)' : 'transparent', color: activeTab === tab.key ? 'var(--theme-primary)' : undefined }"
+        class="farm-3d-tab mb-2 flex items-center gap-2 px-4 py-2 text-sm"
+        :class="{ 'is-active': activeTab === tab.key }"
         @click="activeTab = tab.key"
       >
         <div :class="tab.icon" />
@@ -641,7 +648,7 @@ async function handleBatchAddKnownFriendGids() {
                   QQ 好友自动同步
                 </h3>
                 <button
-                  class="cursor-pointer rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700 transition dark:bg-amber-900/30 hover:bg-amber-200 dark:text-amber-400 dark:hover:bg-amber-900/50"
+                  class="farm-3d-button farm-3d-button--amber farm-3d-button--mini cursor-pointer"
                   @click="openGidListModal"
                 >
                   {{ knownFriendGidCount }}
@@ -653,7 +660,7 @@ async function handleBatchAddKnownFriendGids() {
             </div>
             <div class="flex shrink-0 gap-2">
               <button
-                class="rounded bg-amber-100 px-3 py-1.5 text-sm text-amber-700 transition dark:bg-amber-900/30 hover:bg-amber-200 dark:text-amber-400 disabled:opacity-50 dark:hover:bg-amber-900/50"
+                class="farm-3d-button farm-3d-button--amber farm-3d-button--mini"
                 :disabled="knownFriendSettingsLoading"
                 @click="currentAccountId && friendStore.fetchKnownFriendSettings(currentAccountId)"
               >
@@ -661,7 +668,7 @@ async function handleBatchAddKnownFriendGids() {
                 刷新
               </button>
               <button
-                class="rounded bg-green-100 px-3 py-1.5 text-sm text-green-700 transition dark:bg-green-900/30 hover:bg-green-200 dark:text-green-400 disabled:opacity-50 dark:hover:bg-green-900/50"
+                class="farm-3d-button farm-3d-button--green farm-3d-button--mini"
                 :disabled="knownFriendSettingsSaving"
                 @click="handleSaveKnownFriendSettings"
               >
@@ -669,7 +676,7 @@ async function handleBatchAddKnownFriendGids() {
                 保存设置
               </button>
               <button
-                class="rounded bg-blue-100 px-3 py-1.5 text-sm text-blue-700 transition dark:bg-blue-900/30 hover:bg-blue-200 dark:text-blue-400 disabled:opacity-50 dark:hover:bg-blue-900/50"
+                class="farm-3d-button farm-3d-button--blue farm-3d-button--mini"
                 @click="showBatchAddGidModal = true"
               >
                 批量新增 GID
@@ -705,7 +712,7 @@ async function handleBatchAddKnownFriendGids() {
           <div class="flex flex-wrap items-center gap-2 rounded-lg bg-white p-3 shadow dark:bg-gray-800">
             <div class="flex-1" />
             <button
-              class="rounded bg-gray-100 px-3 py-1.5 text-sm text-gray-600 transition dark:bg-gray-700 hover:bg-gray-200 dark:text-gray-300 disabled:opacity-50 dark:hover:bg-gray-600"
+              class="farm-3d-button farm-3d-button--mini"
               :disabled="loading"
               @click="handleRefreshFriends"
             >
@@ -740,6 +747,7 @@ async function handleBatchAddKnownFriendGids() {
                     {{ friend.name }} ({{ friend.gid }})
 
                     <span v-if="blacklistGidSet.has(Number(friend.gid))" class="rounded bg-gray-200 px-1.5 py-0.5 text-xs text-gray-500 dark:bg-gray-700 dark:text-gray-400">已屏蔽</span>
+                    <span v-else-if="noStealGidSet.has(Number(friend.gid))" class="rounded bg-blue-100 px-1.5 py-0.5 text-xs text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">不偷取</span>
                   </div>
                   <div class="mt-1 flex flex-wrap items-center gap-2 text-xs text-gray-400">
                     <span
@@ -763,47 +771,52 @@ async function handleBatchAddKnownFriendGids() {
 
               <div class="flex flex-wrap gap-2">
                 <button
-                  class="rounded bg-blue-100 px-3 py-2 text-sm text-blue-700 transition hover:bg-blue-200"
+                  class="farm-3d-button farm-3d-button--blue farm-3d-button--mini"
                   @click="handleOp(friend.gid, 'steal', $event)"
                 >
                   偷取
                 </button>
                 <button
-                  class="rounded bg-cyan-100 px-3 py-2 text-sm text-cyan-700 transition hover:bg-cyan-200"
+                  class="farm-3d-button farm-3d-button--mini"
+                  :class="noStealGidSet.has(Number(friend.gid)) ? 'farm-3d-button--blue' : ''"
+                  @click="handleToggleNoSteal(friend, $event)"
+                >
+                  {{ noStealGidSet.has(Number(friend.gid)) ? '恢复偷取' : '不偷取' }}
+                </button>
+                <button
+                  class="farm-3d-button farm-3d-button--cyan farm-3d-button--mini"
                   @click="handleOp(friend.gid, 'water', $event)"
                 >
                   浇水
                 </button>
                 <button
-                  class="rounded bg-green-100 px-3 py-2 text-sm text-green-700 transition hover:bg-green-200"
+                  class="farm-3d-button farm-3d-button--green farm-3d-button--mini"
                   @click="handleOp(friend.gid, 'weed', $event)"
                 >
                   除草
                 </button>
                 <button
-                  class="rounded bg-orange-100 px-3 py-2 text-sm text-orange-700 transition hover:bg-orange-200"
+                  class="farm-3d-button farm-3d-button--orange farm-3d-button--mini"
                   @click="handleOp(friend.gid, 'bug', $event)"
                 >
                   除虫
                 </button>
                 <button
-                  class="rounded bg-red-100 px-3 py-2 text-sm text-red-700 transition hover:bg-red-200"
+                  class="farm-3d-button farm-3d-button--danger farm-3d-button--mini"
                   @click="handleOp(friend.gid, 'bad', $event)"
                 >
                   捣乱
                 </button>
                 <button
-                  class="rounded px-3 py-2 text-sm transition"
-                  :class="blacklistGidSet.has(Number(friend.gid))
-                    ? 'bg-gray-200 text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
-                    : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-700/50 dark:text-gray-400 dark:hover:bg-gray-700'"
+                  class="farm-3d-button farm-3d-button--mini"
+                  :class="blacklistGidSet.has(Number(friend.gid)) ? 'farm-3d-button--danger' : ''"
                   @click="handleToggleBlacklist(friend, $event)"
                 >
                   {{ blacklistGidSet.has(Number(friend.gid)) ? '移出黑名单' : '加入黑名单' }}
                 </button>
                 <button
                   v-if="isQqAccount && knownFriendGidSet.has(Number(friend.gid))"
-                  class="rounded bg-amber-100 px-3 py-2 text-sm text-amber-700 transition dark:bg-amber-900/30 hover:bg-amber-200 dark:text-amber-400 dark:hover:bg-amber-900/50"
+                  class="farm-3d-button farm-3d-button--amber farm-3d-button--mini"
                   @click="handleRemoveKnownFriendGid(friend, $event)"
                 >
                   移出同步列表
@@ -831,14 +844,14 @@ async function handleBatchAddKnownFriendGids() {
           <!-- 分页控件 -->
           <div v-if="filteredFriends.length > pageSize" class="mt-4 flex flex-wrap items-center justify-center gap-2">
             <button
-              class="border border-gray-200 rounded bg-white px-3 py-1.5 text-sm text-gray-600 transition dark:border-gray-600 dark:bg-gray-800 hover:bg-gray-50 dark:text-gray-300 disabled:opacity-50 dark:hover:bg-gray-700"
+              class="farm-3d-button farm-3d-button--mini"
               :disabled="currentPage === 1"
               @click="goToPage(1)"
             >
               首页
             </button>
             <button
-              class="border border-gray-200 rounded bg-white px-3 py-1.5 text-sm text-gray-600 transition dark:border-gray-600 dark:bg-gray-800 hover:bg-gray-50 dark:text-gray-300 disabled:opacity-50 dark:hover:bg-gray-700"
+              class="farm-3d-button farm-3d-button--mini"
               :disabled="currentPage === 1"
               @click="goToPage(currentPage - 1)"
             >
@@ -848,11 +861,8 @@ async function handleBatchAddKnownFriendGids() {
               <template v-for="p in totalPages" :key="p">
                 <button
                   v-if="p === 1 || p === totalPages || (p >= currentPage - 1 && p <= currentPage + 1)"
-                  class="h-8 w-8 rounded text-sm transition"
-                  :class="p === currentPage
-                    ? 'text-white'
-                    : 'border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'"
-                  :style="p === currentPage ? { backgroundColor: 'var(--theme-primary)' } : {}"
+                  class="farm-3d-icon-button text-sm"
+                  :class="{ 'is-active': p === currentPage }"
                   @click="goToPage(p)"
                 >
                   {{ p }}
@@ -864,14 +874,14 @@ async function handleBatchAddKnownFriendGids() {
               </template>
             </div>
             <button
-              class="border border-gray-200 rounded bg-white px-3 py-1.5 text-sm text-gray-600 transition dark:border-gray-600 dark:bg-gray-800 hover:bg-gray-50 dark:text-gray-300 disabled:opacity-50 dark:hover:bg-gray-700"
+              class="farm-3d-button farm-3d-button--mini"
               :disabled="currentPage === totalPages"
               @click="goToPage(currentPage + 1)"
             >
               下一页
             </button>
             <button
-              class="border border-gray-200 rounded bg-white px-3 py-1.5 text-sm text-gray-600 transition dark:border-gray-600 dark:bg-gray-800 hover:bg-gray-50 dark:text-gray-300 disabled:opacity-50 dark:hover:bg-gray-700"
+              class="farm-3d-button farm-3d-button--mini"
               :disabled="currentPage === totalPages"
               @click="goToPage(totalPages)"
             >
@@ -919,7 +929,7 @@ async function handleBatchAddKnownFriendGids() {
               </div>
             </div>
             <button
-              class="rounded bg-red-100 px-3 py-1.5 text-sm text-red-600 dark:bg-red-900/30 hover:bg-red-200 dark:text-red-400 dark:hover:bg-red-900/50"
+              class="farm-3d-button farm-3d-button--danger farm-3d-button--mini"
               @click="handleRemoveFromBlacklist(item.gid)"
             >
               移出黑名单
@@ -933,17 +943,14 @@ async function handleBatchAddKnownFriendGids() {
           <button
             v-for="item in interactFilters"
             :key="item.key"
-            class="rounded-full px-3 py-1 text-xs transition"
-            :class="interactFilter === item.key
-              ? 'text-white'
-              : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'"
-            :style="interactFilter === item.key ? { backgroundColor: 'var(--theme-primary)' } : {}"
+            class="farm-3d-tab farm-3d-button--mini"
+            :class="{ 'is-active': interactFilter === item.key }"
             @click="interactFilter = item.key"
           >
             {{ item.label }}
           </button>
           <button
-            class="rounded bg-gray-100 px-3 py-1.5 text-xs text-gray-600 transition disabled:cursor-not-allowed dark:bg-gray-700 hover:bg-gray-200 dark:text-gray-300 disabled:opacity-60 dark:hover:bg-gray-600"
+            class="farm-3d-button farm-3d-button--mini"
             :disabled="interactLoading"
             @click="refreshInteractRecords"
           >
@@ -1040,15 +1047,14 @@ async function handleBatchAddKnownFriendGids() {
           />
           <div class="flex justify-end gap-3">
             <button
-              class="border border-gray-300 rounded-lg bg-white px-4 py-2 text-sm text-gray-700 transition dark:border-gray-600 dark:bg-gray-700 hover:bg-gray-50 dark:text-gray-300 dark:hover:bg-gray-600"
+              class="farm-3d-button px-4 py-2 text-sm"
               @click="showBatchAddGidModal = false"
             >
               取消
             </button>
             <button
-              class="rounded-lg px-4 py-2 text-sm text-white transition disabled:opacity-50"
+              class="farm-3d-button is-active px-4 py-2 text-sm"
               :disabled="knownFriendSettingsSaving || !batchGidInput.trim()"
-              :style="{ backgroundColor: 'var(--theme-primary)' }"
               @click="handleBatchAddKnownFriendGids"
             >
               <div v-if="knownFriendSettingsSaving" class="i-svg-spinners-90-ring-with-bg mr-1 inline-block align-text-bottom" />
@@ -1076,7 +1082,7 @@ async function handleBatchAddKnownFriendGids() {
               </p>
             </div>
             <button
-              class="rounded-lg p-2 text-gray-400 transition hover:bg-gray-100 dark:hover:bg-gray-700"
+              class="farm-3d-icon-button"
               @click="showGidListModal = false"
             >
               <div class="i-carbon-close text-xl" />
@@ -1092,7 +1098,7 @@ async function handleBatchAddKnownFriendGids() {
                 class="flex-1 border border-gray-300 rounded-lg bg-white px-3 py-2 text-sm dark:border-gray-600 focus:border-blue-500 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-1 focus:ring-blue-500"
               >
               <button
-                class="shrink-0 rounded-lg bg-red-100 px-3 py-2 text-sm text-red-700 transition dark:bg-red-900/30 hover:bg-red-200 dark:text-red-400 disabled:opacity-50 dark:hover:bg-red-900/50"
+                class="farm-3d-button farm-3d-button--danger shrink-0 px-3 py-2 text-sm"
                 :disabled="knownFriendSettingsSaving || unsyncedGidCount === 0"
                 @click="handleRemoveUnsyncedGids"
               >
@@ -1138,7 +1144,7 @@ async function handleBatchAddKnownFriendGids() {
                   </span>
                 </div>
                 <button
-                  class="rounded p-1 text-gray-400 transition hover:bg-gray-200 hover:text-red-500 dark:hover:bg-gray-700"
+                  class="farm-3d-icon-button farm-3d-button--danger"
                   :disabled="knownFriendSettingsSaving"
                   @click="handleRemoveGidFromList(item.gid)"
                 >

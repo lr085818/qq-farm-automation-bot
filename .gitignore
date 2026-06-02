@@ -1,1 +1,16 @@
 node_modules
+
+# Local secrets and runtime data
+.env
+.env.*
+!.env.example
+core/data/
+
+# Build outputs and generated reports
+web/dist/
+web/stats.html
+dist/
+
+# Logs
+*.log
+logs/

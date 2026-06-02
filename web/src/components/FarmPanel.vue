@@ -57,11 +57,11 @@ function handleOperate(opType: string) {
 }
 
 const operations = [
-  { type: 'harvest', label: '收获', icon: 'i-carbon-wheat', color: 'bg-blue-600 hover:bg-blue-700' },
-  { type: 'clear', label: '除草/虫', icon: 'i-carbon-clean', color: 'bg-teal-600 hover:bg-teal-700' },
-  { type: 'plant', label: '种植', icon: 'i-carbon-sprout', color: 'bg-green-600 hover:bg-green-700' },
-  { type: 'upgrade', label: '升级土地', icon: 'i-carbon-upgrade', color: 'bg-purple-600 hover:bg-purple-700' },
-  { type: 'all', label: '一键全收', icon: 'i-carbon-flash', color: 'bg-orange-600 hover:bg-orange-700' },
+  { type: 'harvest', label: '收获', icon: 'i-carbon-wheat', buttonClass: 'farm-3d-button--amber' },
+  { type: 'clear', label: '除草/虫', icon: 'i-carbon-clean', buttonClass: 'farm-3d-button--cyan' },
+  { type: 'plant', label: '种植', icon: 'i-carbon-sprout', buttonClass: 'farm-3d-button--green' },
+  { type: 'upgrade', label: '升级土地', icon: 'i-carbon-upgrade', buttonClass: 'farm-3d-button--purple' },
+  { type: 'all', label: '一键全收', icon: 'i-carbon-flash', buttonClass: 'farm-3d-button--orange' },
 ]
 
 async function refresh() {
@@ -119,8 +119,8 @@ onUnmounted(() => {
           <button
             v-for="op in operations"
             :key="op.type"
-            class="flex items-center justify-center gap-1.5 rounded px-3 py-2 text-sm text-white transition disabled:cursor-not-allowed disabled:opacity-50"
-            :class="op.color"
+            class="farm-3d-button flex items-center justify-center gap-1.5 px-3 py-2 text-sm"
+            :class="op.buttonClass"
             :disabled="operating"
             @click="handleOperate(op.type)"
           >

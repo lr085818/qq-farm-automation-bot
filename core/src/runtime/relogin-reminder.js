@@ -176,12 +176,17 @@ function createReloginReminderService(options) {
             const baseTitle = String(cfg.title || '').trim();
             const title = accountName ? `${baseTitle} ${accountName}` : baseTitle;
             let content = String(cfg.msg || '').trim();
-            if (!channel || !token || !title || !content) {
+            const tokenRequired = channel !== 'webhook';
+            if (!channel || (tokenRequired && !token) || !title || !content) {
                 log('错误', `下线提醒配置不完整: channel=${channel}, token=${token ? '已设置' : '未设置'}, title=${title}, content=${content}`);
                 return;
             }
             if (channel === 'webhook' && !endpoint) {
                 log('错误', 'Webhook 渠道未设置接口地址');
+                return;
+            }
+            if (channel === 'telegram' && !token.includes('#')) {
+                log('错误', 'Telegram Token 格式应为 bot_token#chat_id');
                 return;
             }
             if (reloginUrlMode === 'qq_link' || reloginUrlMode === 'qr_link') {

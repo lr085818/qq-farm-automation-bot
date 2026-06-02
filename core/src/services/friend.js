@@ -10,6 +10,7 @@ const {
     getFriendQuietHours,
     getFriendBlacklist,
     setFriendBlacklist,
+    getNoStealFriendGids,
     getPlantBlacklist,
     getKnownFriendGids,
     getKnownFriendGidSyncCooldownSec,
@@ -227,10 +228,8 @@ async function syncKnownFriendGidsFromRecentVisitors(force = false) {
                 totalKnownGids: merged.length,
             });
         }
-        return normalizeFriendGids([
-            ...merged,
-            ...getFriendBlacklist(accountId),
-        ]);
+        const blacklist = new Set(getFriendBlacklist(accountId));
+        return normalizeFriendGids(merged).filter(gid => !blacklist.has(gid));
     } catch (e) {
         const retryMs = getKnownFriendGidSyncRetryMs();
         const intervalMs = getKnownFriendGidSyncIntervalMs();
@@ -936,13 +935,16 @@ async function getFriendsList(forceSync = false) {
  * 获取指定好友的农田详情 (进入-获取-离开)
  */
 async function getFriendLandsDetail(friendGid) {
+    let entered = false;
     try {
         const enterReply = await enterFriendFarm(friendGid);
+        entered = true;
         const lands = enterReply.lands || [];
         const state = getUserState();
         const plantBlacklist = getPlantBlacklist(state.accountId);
         const analyzed = analyzeFriendLands(lands, state.gid, '', { plantBlacklist });
         await leaveFriendFarm(friendGid);
+        entered = false;
 
         const landsList = [];
         const nowSec = getServerTimeSec();
@@ -1057,6 +1059,10 @@ async function getFriendLandsDetail(friendGid) {
         };
     } catch {
         return { lands: [], summary: {} };
+    } finally {
+        if (entered) {
+            try { await leaveFriendFarm(friendGid); } catch { /* ignore */ }
+        }
     }
 }
 
@@ -1119,7 +1125,7 @@ async function doFriendOperation(friendGid, opType) {
                 recordOperation('steal', count);
                 // 手动偷取成功后立即尝试出售一次果实
                 try {
-                    await sellAllFruits();
+                    await sellAllFruits({ retryWhenEmpty: true, maxPasses: 5, settleDelayMs: 1000 });
                 } catch (e) {
                     logWarn('仓库', `手动偷取后自动出售失败: ${e.message}`, {
                         module: 'warehouse',
@@ -1233,6 +1239,8 @@ async function visitFriend(friend, totalActions, myGid, accountId) {
 
     const plantBlacklist = getPlantBlacklist(accountId);
     const status = analyzeFriendLands(lands, myGid, name, { plantBlacklist });
+    const noStealFriendGids = new Set(getNoStealFriendGids(accountId));
+    const skipStealForFriend = noStealFriendGids.has(toNum(gid));
 
     // 执行操作
     const actions = [];
@@ -1274,7 +1282,7 @@ async function visitFriend(friend, totalActions, myGid, accountId) {
     }
 
     // 2. 偷菜操作
-    if (isAutomationOn('friend_steal') && status.stealable.length > 0) {
+    if (!skipStealForFriend && isAutomationOn('friend_steal') && status.stealable.length > 0) {
         const precheck = await checkCanOperateRemote(gid, 10008);
         if (precheck.canOperate) {
             const canStealNum = precheck.canStealNum > 0 ? precheck.canStealNum : status.stealable.length;
@@ -1560,6 +1568,7 @@ async function checkFriends(options = {}) {
         }
 
         const blacklist = new Set(getFriendBlacklist(accountId));
+        const noStealFriendGids = new Set(getNoStealFriendGids(accountId));
 
         const stealFriends = [];
         const helpFriends = [];
@@ -1578,7 +1587,7 @@ async function checkFriends(options = {}) {
             const weedNum = p ? toNum(p.weed_num) : 0;
             const insectNum = p ? toNum(p.insect_num) : 0;
 
-            if (stealNum > 0 && effectiveStealEnabled) {
+            if (stealNum > 0 && effectiveStealEnabled && !noStealFriendGids.has(gid)) {
                 stealFriends.push({ gid, name, stealNum });
             }
 
@@ -1621,7 +1630,7 @@ async function checkFriends(options = {}) {
         // 偷菜后自动出售
         if (totalActions.steal > 0) {
             try {
-                await sellAllFruits();
+                await sellAllFruits({ retryWhenEmpty: true, maxPasses: 5, settleDelayMs: 1000 });
             } catch {
                 // ignore
             }

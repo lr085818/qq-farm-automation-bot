@@ -30,6 +30,30 @@ let server = null;
 let provider = null; // DataProvider
 let io = null;
 
+function redactWxLoginConfig(config) {
+    const source = config && typeof config === 'object' ? config : {};
+    return {
+        ...source,
+        apiKey: '',
+        apiKeyConfigured: !!String(source.apiKey || '').trim(),
+    };
+}
+
+function normalizeProxyApiUrl(rawUrl) {
+    const value = String(rawUrl || '').trim();
+    if (!value) return '';
+    let parsed;
+    try {
+        parsed = new URL(value);
+    } catch {
+        throw new Error('代理 API 地址格式无效');
+    }
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+        throw new Error('代理 API 仅允许 http/https 地址');
+    }
+    return parsed.toString();
+}
+
 function emitRealtimeStatus(accountId, status) {
     if (!io) return;
     const id = String(accountId || '').trim();
@@ -68,20 +92,22 @@ function startAdminServer(dataProvider) {
     provider = dataProvider;
 
     app = express();
-    app.set('trust proxy', true);
-    app.use(express.json());
+    app.set('trust proxy', CONFIG.trustProxy === true);
+    app.use(express.json({ limit: '1mb' }));
 
     function getClientIp(req) {
-        const cfIp = req.headers['cf-connecting-ip'];
-        if (cfIp) return cfIp.trim();
-        
-        const xRealIp = req.headers['x-real-ip'];
-        if (xRealIp) return xRealIp.trim();
-        
-        const xForwardedFor = req.headers['x-forwarded-for'];
-        if (xForwardedFor) {
-            const ips = xForwardedFor.split(',').map(ip => ip.trim()).filter(Boolean);
-            if (ips.length > 0) return ips[0];
+        if (CONFIG.trustProxy === true) {
+            const cfIp = req.headers['cf-connecting-ip'];
+            if (cfIp) return cfIp.trim();
+
+            const xRealIp = req.headers['x-real-ip'];
+            if (xRealIp) return xRealIp.trim();
+
+            const xForwardedFor = req.headers['x-forwarded-for'];
+            if (xForwardedFor) {
+                const ips = xForwardedFor.split(',').map(ip => ip.trim()).filter(Boolean);
+                if (ips.length > 0) return ips[0];
+            }
         }
         
         if (req.ip && req.ip !== '::1' && req.ip !== '::ffff:127.0.0.1') {
@@ -152,6 +178,9 @@ function startAdminServer(dataProvider) {
         res.header('Access-Control-Allow-Headers', 'Content-Type, x-account-id, x-admin-token, x-proxy-api-key, x-proxy-api-url, x-proxy-app-id');
         res.header('Access-Control-Allow-Credentials', 'true');
         res.header('Access-Control-Max-Age', '86400');
+        res.header('X-Content-Type-Options', 'nosniff');
+        res.header('X-Frame-Options', 'DENY');
+        res.header('Referrer-Policy', 'no-referrer');
         
         if (req.method === 'OPTIONS') return res.sendStatus(200);
         next();
@@ -159,7 +188,16 @@ function startAdminServer(dataProvider) {
 
     const webDist = path.join(__dirname, '../../../web/dist');
     if (fs.existsSync(webDist)) {
-        app.use(express.static(webDist));
+        // Assets (hashed filenames) can be cached forever; index.html must never be cached
+        app.use(express.static(webDist, {
+            setHeaders(res, filePath) {
+                if (filePath.endsWith('.html')) {
+                    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+                } else {
+                    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+                }
+            },
+        }));
     } else {
         adminLogger.warn('web build not found', { webDist });
         app.get('/', (req, res) => res.send('web build not found. Please build the web project.'));
@@ -461,8 +499,16 @@ function startAdminServer(dataProvider) {
     });
 
     app.use('/api', (req, res, next) => {
-        if (req.path === '/login' || req.path === '/qr/create' || req.path === '/qr/check' || req.path === '/proxy' || req.path === '/card-claim/status' || req.path === '/card-claim/claim' || req.path === '/game-version') return next();
-        return authRequired(req, res, next);
+        if (req.path === '/login' || req.path === '/qr/create' || req.path === '/qr/check' || req.path === '/card-claim/status' || req.path === '/card-claim/claim' || req.path === '/game-version') return next();
+        return authRequired(req, res, (err) => {
+            if (err) return next(err);
+            const mustChangePassword = !!(req.currentUser && req.currentUser.mustChangePassword);
+            const allowedWhenMustChange = req.path === '/logout' || req.path === '/auth/validate' || req.path === '/user/me';
+            if (mustChangePassword && !allowedWhenMustChange) {
+                return res.status(403).json({ ok: false, error: '请先修改默认密码', errorType: 'must_change_password' });
+            }
+            return next();
+        });
     });
 
     // 管理员密码修改已移除，统一使用 /api/user/change-password 接口
@@ -817,6 +863,77 @@ function startAdminServer(dataProvider) {
         } catch (e) {
             handleApiError(res, e);
         }
+    });
+
+    async function buildFriendGidInfoList(accountId, gids) {
+        // 尝试获取好友列表以附加昵称和头像
+        let friendsList = [];
+        try {
+            if (provider && typeof provider.getFriends === 'function') {
+                friendsList = await provider.getFriends(accountId) || [];
+            }
+        } catch (e) {
+            // 忽略获取好友列表失败
+        }
+
+        const friendMap = new Map();
+        for (const f of friendsList) {
+            const gid = Number(f && f.gid);
+            if (gid > 0) {
+                friendMap.set(gid, {
+                    name: f.name || f.remark || '',
+                    avatarUrl: f.avatarUrl || f.avatar_url || '',
+                });
+            }
+        }
+
+        return (Array.isArray(gids) ? gids : []).map(gid => {
+            const info = friendMap.get(Number(gid)) || {};
+            return {
+                gid: Number(gid),
+                name: info.name || '',
+                avatarUrl: info.avatarUrl || '',
+            };
+        });
+    }
+
+    // API: 好友不偷取列表（仅跳过自动偷取，不影响帮助/捣乱）
+    app.get('/api/friend-no-steal', async (req, res) => {
+        const id = getAccId(req);
+        if (!id) return res.status(400).json({ ok: false, error: 'Missing x-account-id' });
+
+        if (!checkAccountAccess(req, id)) {
+            return res.status(403).json({ ok: false, error: '无权访问此账号' });
+        }
+
+        const gids = store.getNoStealFriendGids ? store.getNoStealFriendGids(id) : [];
+        const list = await buildFriendGidInfoList(id, gids);
+        res.json({ ok: true, data: list });
+    });
+
+    app.post('/api/friend-no-steal/toggle', async (req, res) => {
+        const id = getAccId(req);
+        if (!id) return res.status(400).json({ ok: false, error: 'Missing x-account-id' });
+
+        if (!checkAccountAccess(req, id)) {
+            return res.status(403).json({ ok: false, error: '无权访问此账号' });
+        }
+
+        const gid = Number((req.body || {}).gid);
+        if (!gid) return res.status(400).json({ ok: false, error: 'Missing gid' });
+
+        const current = store.getNoStealFriendGids ? store.getNoStealFriendGids(id) : [];
+        const next = current.includes(gid)
+            ? current.filter(g => g !== gid)
+            : [...current, gid];
+        const savedGids = store.setNoStealFriendGids ? store.setNoStealFriendGids(id, next) : next;
+
+        if (provider && typeof provider.broadcastConfig === 'function') {
+            provider.broadcastConfig(id);
+        }
+
+        const saved = await buildFriendGidInfoList(id, savedGids);
+        res.json({ ok: true, data: saved });
     });
 
     // API: 好友黑名单
@@ -1498,6 +1615,9 @@ function startAdminServer(dataProvider) {
             if (channel === 'webhook' && !endpoint) {
                 return res.status(400).json({ ok: false, error: 'Webhook 渠道需要填写接口地址' });
             }
+            if (channel === 'telegram' && !token.includes('#')) {
+                return res.status(400).json({ ok: false, error: 'Telegram Token 格式应为 bot_token#chat_id' });
+            }
 
             const now = new Date();
             const ts = now.toISOString().replace('T', ' ').slice(0, 19);
@@ -1853,10 +1973,10 @@ function startAdminServer(dataProvider) {
         }
     });
 
-    // 获取所有用户（带密码，仅管理员）
+    // 兼容旧接口：不返回密码哈希
     app.get('/api/admin/users-with-password', authRequired, adminRequired, (req, res) => {
         try {
-            const users = userStore.getAllUsersWithPassword();
+            const users = userStore.getAllUsers();
             res.json({ ok: true, data: users });
         } catch (e) {
             res.status(500).json({ ok: false, error: e.message });
@@ -1991,7 +2111,8 @@ function startAdminServer(dataProvider) {
                     username: user.username,
                     role: user.role,
                     card: user.card,
-                    accountLimit: user.accountLimit || userStore.DEFAULT_ACCOUNT_LIMIT || 2
+                    accountLimit: user.accountLimit || userStore.DEFAULT_ACCOUNT_LIMIT || 2,
+                    mustChangePassword: !!user.mustChangePassword
                 }
             });
         } catch (e) {
@@ -2025,7 +2146,7 @@ function startAdminServer(dataProvider) {
 
             // 普通用户获取全局配置，管理员可以获取并修改全局配置
             const globalConfig = store.getGlobalWxConfig();
-            res.json({ ok: true, config: globalConfig });
+            res.json({ ok: true, config: redactWxLoginConfig(globalConfig) });
         } catch (e) {
             res.status(500).json({ ok: false, error: e.message });
         }
@@ -2068,6 +2189,9 @@ function startAdminServer(dataProvider) {
             const target = findAccountByRef(accountList, rawRef);
             if (!target || !target.id) {
                 return res.status(404).json({ ok: false, error: 'Account not found' });
+            }
+            if (!checkAccountAccess(req, String(target.id))) {
+                return res.status(403).json({ ok: false, error: '无权访问此账号' });
             }
 
             const remark = String(body.remark !== undefined ? body.remark : body.name || '').trim();
@@ -2139,7 +2263,9 @@ function startAdminServer(dataProvider) {
             }
 
             // 如果是新增账号，自动关联当前用户
-            if (!isUpdate && currentUser) {
+            if (currentUser && currentUser.role !== 'admin') {
+                payload.username = currentUser.username;
+            } else if (!isUpdate && currentUser) {
                 payload.username = currentUser.username;
             }
 
@@ -2364,36 +2490,42 @@ function startAdminServer(dataProvider) {
         if (!action) {
             return res.status(400).json({ code: -1, msg: '缺少 action 参数' });
         }
+        const safeAction = String(action || '').trim();
+        if (!/^[\w-]{1,64}$/.test(safeAction)) {
+            return res.status(400).json({ code: -1, msg: 'action 参数无效' });
+        }
 
-        // 从请求头或配置中获取 API 配置
-        // 优先使用请求头中的配置（前端传入）
-        const apiUrl = req.headers['x-proxy-api-url'] || process.env.WX_PROXY_API_URL || 'http://127.0.0.1:8059/api';
-        const apiKey = req.headers['x-proxy-api-key'] || process.env.WX_PROXY_API_KEY || '';
-        const appId = req.headers['x-proxy-app-id'] || process.env.WX_PROXY_APP_ID || 'wx5306c5978fdb76e4';
+        const wxConfig = store.getGlobalWxConfig();
+        const apiUrl = normalizeProxyApiUrl(process.env.WX_PROXY_API_URL || wxConfig.proxyApiUrl || 'http://127.0.0.1:8059/api');
+        const apiKey = String(process.env.WX_PROXY_API_KEY || wxConfig.apiKey || '').trim();
+        const appId = String(process.env.WX_PROXY_APP_ID || wxConfig.appId || 'wx5306c5978fdb76e4').trim();
 
         if (!apiKey) {
             return res.status(400).json({ code: -1, msg: '缺少 API Key' });
         }
 
         // 如果是 jslogin 动作，自动添加 appid
-        if (action === 'jslogin') {
+        if (safeAction === 'jslogin') {
             params.appid = appId;
         }
 
         try {
-            const url = `${apiUrl}?api_key=${encodeURIComponent(apiKey)}&action=${action}`;
-            adminLogger.info('proxy request', { action, apiUrl });
+            const url = new URL(apiUrl);
+            url.searchParams.set('api_key', apiKey);
+            url.searchParams.set('action', safeAction);
+            adminLogger.info('proxy request', { action: safeAction, apiUrl });
 
-            const response = await fetch(url, {
+            const response = await fetch(url.toString(), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(params)
+                body: JSON.stringify(params),
+                timeout: 15000,
             });
 
             const data = await response.json();
             res.json(data);
         } catch (error) {
-            adminLogger.error('proxy error', { error: error.message, action });
+            adminLogger.error('proxy error', { error: error.message, action: safeAction });
             res.status(500).json({
                 code: -1,
                 msg: `代理请求失败: ${  error.message}`,
@@ -2503,14 +2635,15 @@ function startAdminServer(dataProvider) {
     };
 
     const port = CONFIG.adminPort || 3007;
-    server = app.listen(port, '0.0.0.0', () => {
-        adminLogger.info('admin panel started', { url: `http://localhost:${port}`, port });
+    const host = CONFIG.adminHost || '127.0.0.1';
+    server = app.listen(port, host, () => {
+        adminLogger.info('admin panel started', { url: `http://${host}:${port}`, port, host });
     });
 
     io = new SocketIOServer(server, {
         path: '/socket.io',
         cors: {
-            origin: '*',
+            origin: CONFIG.ALLOWED_ORIGINS || ['http://localhost:5173', 'http://localhost:3000', 'http://127.0.0.1:5173'],
             methods: ['GET', 'POST'],
             allowedHeaders: ['x-admin-token', 'x-account-id'],
         },

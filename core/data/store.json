@@ -30,12 +30,12 @@
       "preferredSeedId": 0,
       "intervals": {
         "farm": 2,
-        "farmMin": 20,
-        "farmMax": 25,
+        "farmMin": 1,
+        "farmMax": 1,
         "helpMin": 20,
         "helpMax": 25,
-        "stealMin": 20,
-        "stealMax": 25
+        "stealMin": 3,
+        "stealMax": 5
       },
       "friendQuietHours": {
         "enabled": false,
@@ -45,7 +45,13 @@
       "knownFriendGids": [],
       "knownFriendGidSyncCooldownSec": 300,
       "friendsListCacheTtlSec": 60,
-      "friendBlacklist": [],
+      "friendBlacklist": [
+        1215166831,
+        1221103864,
+        1167115788,
+        1221245832
+      ],
+      "noStealFriendGids": [],
       "plantBlacklist": [
         20002,
         20003,
@@ -113,6 +119,7 @@
     "knownFriendGidSyncCooldownSec": 300,
     "friendsListCacheTtlSec": 60,
     "friendBlacklist": [],
+    "noStealFriendGids": [],
     "plantBlacklist": [
       20002,
       20003,
@@ -147,10 +154,10 @@
   },
   "userOfflineReminders": {
     "admin": {
-      "channel": "webhook",
+      "channel": "telegram",
       "reloginUrlMode": "none",
       "endpoint": "",
-      "token": "",
+      "token": "8763319974:AAHT8Zn15ggXc1p6eWays4BQI81qA3C3fj0#1341485096",
       "title": "账号下线提醒",
       "msg": "账号下线",
       "offlineDeleteSec": 0

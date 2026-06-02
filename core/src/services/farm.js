@@ -23,6 +23,7 @@ let externalSchedulerMode = false;
 let fertilizerBuyCheckTimer = null;
 let lastFertilizerBuyCheckAt = 0;
 const farmScheduler = createScheduler('farm');
+const FARM_PUSH_MIN_INTERVAL_MS = 5000;
 
 // ============ 农场 API ============
 
@@ -1044,7 +1045,7 @@ async function autoPlantEmptyLands(deadLandIds, emptyLandIds) {
         }
     }
 
-    if (landsToPlant.length === 0) return;
+    if (landsToPlant.length === 0) return { plantedLands: [] };
 
     const accountStrategy = String(getPlantingStrategy() || '').trim();
 
@@ -1082,7 +1083,7 @@ async function autoPlantEmptyLands(deadLandIds, emptyLandIds) {
         if (plantedLands.length > 0) {
             await runFertilizerByConfig(plantedLands);
         }
-        return;
+        return { plantedLands };
     }
 
     // 其他策略：从商店购买种植
@@ -1090,6 +1091,7 @@ async function autoPlantEmptyLands(deadLandIds, emptyLandIds) {
     if (shopResult.plantedLands && shopResult.plantedLands.length > 0) {
         await runFertilizerByConfig(shopResult.plantedLands);
     }
+    return { plantedLands: shopResult.plantedLands || [] };
 }
 
 async function plantFromShop(landsToPlant, state, overrideStrategy) {
@@ -1104,7 +1106,8 @@ async function plantFromShop(landsToPlant, state, overrideStrategy) {
     if (!bestSeed) return { plantedLands: [] };
 
     const seedName = getPlantNameBySeedId(bestSeed.seedId);
-    const growTime = getPlantGrowTime(1020000 + (bestSeed.seedId - 20000));  // 转换为植物ID
+    const plantCfg = getPlantBySeedId(bestSeed.seedId);
+    const growTime = plantCfg ? getPlantGrowTime(toNum(plantCfg.id)) : 0;
     const growTimeStr = growTime > 0 ? ` 生长${formatGrowTime(growTime)}` : '';
     const plantSize = getPlantSizeBySeedId(bestSeed.seedId);
     const landFootprint = plantSize * plantSize;
@@ -1670,12 +1673,12 @@ function onLandsChangedPush(lands) {
     }
     if (isCheckingFarm) return;
     const now = Date.now();
-    if (now - lastPushTime < 500) return;
+    if (now - lastPushTime < FARM_PUSH_MIN_INTERVAL_MS) return;
     lastPushTime = now;
     log('农场', `收到推送: ${lands.length}块土地变化，检查中...`, {
         module: 'farm', event: '土地推送通知', result: 'trigger_check', count: lands.length
     });
-    farmScheduler.setTimeoutTask('farm_push_check', 100, async () => {
+    farmScheduler.setTimeoutTask('farm_push_check', 1000, async () => {
         if (!isCheckingFarm) await checkFarm();
     });
 }

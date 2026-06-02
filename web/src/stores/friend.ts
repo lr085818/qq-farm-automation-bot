@@ -20,6 +20,7 @@ export const useFriendStore = defineStore('friend', () => {
   const friendLands = ref<Record<string, any[]>>({})
   const friendLandsLoading = ref<Record<string, boolean>>({})
   const blacklist = ref<BlacklistItem[]>([])
+  const noStealList = ref<BlacklistItem[]>([])
   const interactRecords = ref<any[]>([])
   const interactLoading = ref(false)
   const interactError = ref('')
@@ -144,6 +145,31 @@ export const useFriendStore = defineStore('friend', () => {
     })
     if (res.data.ok) {
       blacklist.value = res.data.data || []
+    }
+  }
+
+  async function fetchNoStealList(accountId: string) {
+    if (!accountId)
+      return
+    try {
+      const res = await api.get('/api/friend-no-steal', {
+        headers: { 'x-account-id': accountId },
+      })
+      if (res.data.ok) {
+        noStealList.value = res.data.data || []
+      }
+    }
+    catch { /* ignore */ }
+  }
+
+  async function toggleNoSteal(accountId: string, gid: number) {
+    if (!accountId || !gid)
+      return
+    const res = await api.post('/api/friend-no-steal/toggle', { gid }, {
+      headers: { 'x-account-id': accountId },
+    })
+    if (res.data.ok) {
+      noStealList.value = res.data.data || []
     }
   }
 
@@ -291,6 +317,7 @@ export const useFriendStore = defineStore('friend', () => {
     friendLands,
     friendLandsLoading,
     blacklist,
+    noStealList,
     interactRecords,
     interactLoading,
     interactError,
@@ -302,6 +329,8 @@ export const useFriendStore = defineStore('friend', () => {
     fetchFriends,
     fetchBlacklist,
     toggleBlacklist,
+    fetchNoStealList,
+    toggleNoSteal,
     fetchInteractRecords,
     fetchFriendLands,
     operate,

@@ -12,6 +12,8 @@ const { toLong, toNum, log, logWarn, sleep } = require('../utils/utils');
 const { updateStatusGold } = require('./status');
 
 const SELL_BATCH_SIZE = 15;
+const SELL_RECHECK_PASSES = 4;
+const SELL_RECHECK_DELAY_MS = 800;
 const FERTILIZER_RELATED_IDS = new Set([
     100003, // 化肥礼包
     100004, // 有机化肥礼包
@@ -105,7 +107,18 @@ async function batchUseItems(items) {
 }
 
 function isFruitItemId(id) {
-    return !!getPlantByFruitId(Number(id));
+    const itemId = Number(id) || 0;
+    if (itemId <= 0) return false;
+    if (getPlantByFruitId(itemId)) return true;
+    const info = getItemById(itemId);
+    return !!info && Number(info.type) === 6;
+}
+
+function getFruitDisplayName(id) {
+    const itemId = Number(id) || 0;
+    const info = getItemById(itemId);
+    if (info && info.name) return String(info.name);
+    return getFruitName(itemId);
 }
 
 function getBagItems(bagReply) {
@@ -294,6 +307,66 @@ function getCurrentTotals() {
     };
 }
 
+function collectFruitSellItems(items) {
+    const toSell = [];
+    const names = [];
+    let totalCount = 0;
+    for (const item of (items || [])) {
+        const id = toNum(item && item.id);
+        const count = toNum(item && item.count);
+        if (isFruitItemId(id) && count > 0) {
+            toSell.push(item);
+            names.push(`${getFruitDisplayName(id)}x${count}`);
+            totalCount += count;
+        }
+    }
+    return { toSell, names, totalCount };
+}
+
+async function sellFruitItemsInBatches(toSell, knownGold) {
+    let nextKnownGold = knownGold;
+    let serverGoldTotal = 0;
+    let successKinds = 0;
+
+    for (let i = 0; i < toSell.length; i += SELL_BATCH_SIZE) {
+        const batch = toSell.slice(i, i + SELL_BATCH_SIZE);
+        try {
+            const reply = await sellItems(batch);
+            const inferred = deriveGoldGainFromSellReply(reply, nextKnownGold);
+            const gained = Math.max(0, toNum(inferred.gain));
+            nextKnownGold = inferred.nextKnownGold;
+            if (gained > 0) serverGoldTotal += gained;
+            successKinds += batch.length;
+        } catch (batchErr) {
+            // 某个条目可能参数非法，降级为逐个出售，跳过错误条目
+            logWarn('仓库', `批量出售失败，改为逐个重试: ${batchErr.message}`);
+            for (const it of batch) {
+                try {
+                    const singleReply = await sellItems([it]);
+                    const inferred = deriveGoldGainFromSellReply(singleReply, nextKnownGold);
+                    const gained = Math.max(0, toNum(inferred.gain));
+                    nextKnownGold = inferred.nextKnownGold;
+                    if (gained > 0) serverGoldTotal += gained;
+                    successKinds += 1;
+                } catch (singleErr) {
+                    const sid = toNum(it.id);
+                    const sc = toNum(it.count);
+                    logWarn('仓库', `跳过不可售物品: ID=${sid} x${sc} (${singleErr.message})`, {
+                        module: 'warehouse',
+                        event: '跳过不可售物品',
+                        result: 'skip',
+                        itemId: sid,
+                        count: sc,
+                    });
+                }
+            }
+        }
+        if (i + SELL_BATCH_SIZE < toSell.length) await sleep(300);
+    }
+
+    return { serverGoldTotal, knownGold: nextKnownGold, successKinds };
+}
+
 async function getCurrentTotalsFromBag() {
     const bagReply = await getBag();
     const items = getBagItems(bagReply);
@@ -337,8 +410,8 @@ async function getBagDetail() {
         } else if (id === 1101) {
             name = '经验';
             category = 'exp';
-        } else if (getPlantByFruitId(id)) {
-            if (!name) name = `${getFruitName(id)}果实`;
+        } else if (isFruitItemId(id)) {
+            if (!name) name = `${getFruitDisplayName(id)}果实`;
             category = 'fruit';
         } else if (getPlantBySeedId(id)) {
             const p = getPlantBySeedId(id);
@@ -404,68 +477,62 @@ async function getBagDetail() {
 /**
  * 检查并出售所有果实
  */
-async function sellAllFruits() {
+async function sellAllFruits(options = {}) {
     const sellEnabled = isAutomationOn('sell');
     if (!sellEnabled) {
         return;
     }
     try {
-        const bagReply = await getBag();
-        const items = getBagItems(bagReply);
-
-        const toSell = [];
-        const names = [];
-        for (const item of items) {
-            const id = toNum(item.id);
-            const count = toNum(item.count);
-            if (isFruitItemId(id) && count > 0) {
-                toSell.push(item);
-                names.push(`${getFruitName(id)}x${count}`);
-            }
-        }
-
-        if (toSell.length === 0) {
-            log('仓库', '无果实可出售');
-            return;
-        }
-
         const totalsBefore = getCurrentTotals();
         const goldBefore = totalsBefore.gold;
         let serverGoldTotal = 0;
         let knownGold = goldBefore;
-        for (let i = 0; i < toSell.length; i += SELL_BATCH_SIZE) {
-            const batch = toSell.slice(i, i + SELL_BATCH_SIZE);
-            try {
-                const reply = await sellItems(batch);
-                const inferred = deriveGoldGainFromSellReply(reply, knownGold);
-                const gained = Math.max(0, toNum(inferred.gain));
-                knownGold = inferred.nextKnownGold;
-                if (gained > 0) serverGoldTotal += gained;
-            } catch (batchErr) {
-                // 某个条目可能参数非法，降级为逐个出售，跳过错误条目
-                logWarn('仓库', `批量出售失败，改为逐个重试: ${batchErr.message}`);
-                for (const it of batch) {
-                    try {
-                        const singleReply = await sellItems([it]);
-                        const inferred = deriveGoldGainFromSellReply(singleReply, knownGold);
-                        const gained = Math.max(0, toNum(inferred.gain));
-                        knownGold = inferred.nextKnownGold;
-                        if (gained > 0) serverGoldTotal += gained;
-                    } catch (singleErr) {
-                        const sid = toNum(it.id);
-                        const sc = toNum(it.count);
-                        logWarn('仓库', `跳过不可售物品: ID=${sid} x${sc} (${singleErr.message})`, {
-                            module: 'warehouse',
-                            event: '跳过不可售物品',
-                            result: 'skip',
-                            itemId: sid,
-                            count: sc,
-                        });
-                    }
+        const maxPasses = Math.max(1, toNum(options.maxPasses, SELL_RECHECK_PASSES));
+        const settleDelayMs = Math.max(0, toNum(options.settleDelayMs, SELL_RECHECK_DELAY_MS));
+        const retryWhenEmpty = !!options.retryWhenEmpty;
+        const soldNames = [];
+        let soldKinds = 0;
+        let passCount = 0;
+        let remainingKinds = 0;
+        let remainingCount = 0;
+
+        for (let pass = 1; pass <= maxPasses; pass += 1) {
+            const bagReply = await getBag();
+            const items = getBagItems(bagReply);
+            const { toSell, names, totalCount } = collectFruitSellItems(items);
+
+            remainingKinds = toSell.length;
+            remainingCount = totalCount;
+            if (toSell.length === 0) {
+                if (retryWhenEmpty && soldKinds <= 0 && pass < maxPasses) {
+                    await sleep(settleDelayMs);
+                    continue;
                 }
+                if (soldKinds <= 0) log('仓库', '无果实可出售');
+                break;
             }
-            if (i + SELL_BATCH_SIZE < toSell.length) await sleep(300);
+
+            passCount = pass;
+            soldNames.push(...names);
+            const sold = await sellFruitItemsInBatches(toSell, knownGold);
+            serverGoldTotal += sold.serverGoldTotal;
+            knownGold = sold.knownGold;
+            soldKinds += sold.successKinds;
+
+            if (pass < maxPasses) {
+                await sleep(settleDelayMs);
+            }
         }
+
+        if (soldKinds <= 0) return;
+
+        try {
+            const finalBag = await getBag();
+            const finalFruits = collectFruitSellItems(getBagItems(finalBag));
+            remainingKinds = finalFruits.toSell.length;
+            remainingCount = finalFruits.totalCount;
+        } catch {}
+
         // 等待金币通知更新（最多 2s）
         let goldAfter = goldBefore;
         const startWait = Date.now();
@@ -501,12 +568,16 @@ async function sellAllFruits() {
                 updateStatusGold(state.gold);
             }
         }
-        log('仓库', `出售 ${names.join(', ')}${totalGoldEarned > 0 ? `，获得 ${totalGoldEarned} 金币` : ''}`, {
+        const remainingText = remainingCount > 0 ? `，复查仍剩 ${remainingKinds} 类/${remainingCount} 个果实` : '';
+        log('仓库', `出售 ${soldNames.join(', ')}${totalGoldEarned > 0 ? `，获得 ${totalGoldEarned} 金币` : ''}${remainingText}`, {
             module: 'warehouse',
             event: totalGoldEarned > 0 ? 'sell_success' : 'sell_done',
             result: totalGoldEarned > 0 ? 'ok' : 'unknown_gain',
-            count: toSell.length,
+            count: soldKinds,
             gold: totalGoldEarned,
+            passes: passCount,
+            remainingKinds,
+            remainingCount,
             totalsBefore,
             totalsAfter,
             totalsDeltaGold,
@@ -516,6 +587,17 @@ async function sellAllFruits() {
         // 发送出售事件，用于统计金币收益
         if (totalGoldEarned > 0) {
             networkEvents.emit('sell', totalGoldEarned);
+        }
+
+        if (remainingCount > 0) {
+            logWarn('仓库', `自动出售复查后仍有果实残留: ${remainingKinds} 类/${remainingCount} 个`, {
+                module: 'warehouse',
+                event: 'sell_remaining',
+                result: 'partial',
+                remainingKinds,
+                remainingCount,
+                passes: passCount,
+            });
         }
     } catch (e) {
         logWarn('仓库', `出售失败: ${e.message}`);

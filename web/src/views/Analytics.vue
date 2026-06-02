@@ -311,10 +311,8 @@ function formatGrowTime(seconds: any) {
   <div class="space-y-4">
     <div class="flex gap-2 border-b border-gray-200 dark:border-gray-700">
       <button
-        class="border-b-2 px-4 py-2 text-sm font-medium transition-colors"
-        :class="activeTab === 'crops'
-          ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-          : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+        class="farm-3d-tab mb-2 px-4 py-2 text-sm"
+        :class="{ 'is-active': activeTab === 'crops' }"
         @click="activeTab = 'crops'"
       >
         <div class="flex items-center space-x-2">
@@ -326,10 +324,8 @@ function formatGrowTime(seconds: any) {
         </div>
       </button>
       <button
-        class="border-b-2 px-4 py-2 text-sm font-medium transition-colors"
-        :class="activeTab === 'blacklist'
-          ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-          : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+        class="farm-3d-tab mb-2 px-4 py-2 text-sm"
+        :class="{ 'is-active': activeTab === 'blacklist' }"
         @click="activeTab = 'blacklist'"
       >
         <div class="flex items-center space-x-2">
@@ -341,10 +337,8 @@ function formatGrowTime(seconds: any) {
         </div>
       </button>
       <button
-        class="border-b-2 px-4 py-2 text-sm font-medium transition-colors"
-        :class="activeTab === 'strategy'
-          ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400'
-          : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'"
+        class="farm-3d-tab mb-2 px-4 py-2 text-sm"
+        :class="{ 'is-active': activeTab === 'strategy' }"
         @click="activeTab = 'strategy'"
       >
         <div class="flex items-center space-x-2">
@@ -463,10 +457,8 @@ function formatGrowTime(seconds: any) {
 
               <div class="mt-3">
                 <button
-                  class="w-full rounded px-3 py-2 text-sm transition"
-                  :class="blacklist.includes(item.seedId)
-                    ? 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'"
+                  class="farm-3d-button farm-3d-button--mini w-full"
+                  :class="blacklist.includes(item.seedId) ? 'farm-3d-button--danger' : ''"
                   @click="handleToggleBlacklist(item)"
                 >
                   {{ blacklist.includes(item.seedId) ? '移出偷菜黑名单' : '加入偷菜黑名单' }}
@@ -559,10 +551,8 @@ function formatGrowTime(seconds: any) {
                     </td>
                     <td class="px-4 py-2 text-center">
                       <button
-                        class="rounded px-3 py-1.5 text-xs transition"
-                        :class="blacklist.includes(item.seedId)
-                          ? 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'"
+                        class="farm-3d-button farm-3d-button--mini"
+                        :class="blacklist.includes(item.seedId) ? 'farm-3d-button--danger' : ''"
                         @click="handleToggleBlacklist(item)"
                       >
                         {{ blacklist.includes(item.seedId) ? '移出黑名单' : '加入黑名单' }}
@@ -592,7 +582,7 @@ function formatGrowTime(seconds: any) {
             </div>
             <div class="flex items-center gap-2">
               <button
-                class="flex items-center gap-1 rounded-lg bg-orange-50 px-3 py-2 text-sm text-orange-600 transition dark:bg-orange-900/20 hover:bg-orange-100 dark:text-orange-400 disabled:opacity-50 dark:hover:bg-orange-900/30"
+                class="farm-3d-button farm-3d-button--orange flex items-center gap-1 px-3 py-2 text-sm"
                 :disabled="batchLoading || list.length === 0"
                 @click="handleAddAllToBlacklist"
               >
@@ -602,7 +592,7 @@ function formatGrowTime(seconds: any) {
               </button>
               <button
                 v-if="blacklist.length > 0"
-                class="flex items-center gap-1 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600 transition dark:bg-red-900/20 hover:bg-red-100 dark:text-red-400 disabled:opacity-50 dark:hover:bg-red-900/30"
+                class="farm-3d-button farm-3d-button--danger flex items-center gap-1 px-3 py-2 text-sm"
                 :disabled="batchLoading"
                 @click="handleClearBlacklist"
               >
@@ -643,7 +633,7 @@ function formatGrowTime(seconds: any) {
                 </div>
               </div>
               <button
-                class="rounded bg-red-100 px-3 py-1.5 text-sm text-red-700 transition dark:bg-red-900/30 hover:bg-red-200 dark:text-red-400 dark:hover:bg-red-900/50"
+                class="farm-3d-button farm-3d-button--danger farm-3d-button--mini"
                 @click="plantBlacklistStore.removeFromBlacklist(seedId)"
               >
                 移出黑名单

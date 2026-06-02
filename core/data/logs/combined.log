@@ -507,3 +507,158 @@
 {"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-26T01:18:38.956Z","url":"http://localhost:3007"}
 {"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-26T01:19:03.063Z","username":"admin"}
 {"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-26T01:19:03.065Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-26T03:11:08.658Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-26T03:11:08.683Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-26T03:11:17.641Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-26T03:11:17.642Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-27T05:53:19.253Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-27T05:53:19.279Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-27T05:53:30.970Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-27T05:53:30.972Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-27T06:21:42.597Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-27T06:21:42.620Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-27T07:23:39.011Z"}
+{"app":"qq-farm-bot","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-27T07:23:39.037Z","url":"http://localhost:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-27T07:36:27.008Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-27T07:36:27.009Z","username":"admin"}
+{"app":"qq-farm-bot","error":"invalid_credentials","ip":"127.0.0.1","level":"warn","message":"登录失败 用户名或密码错误，剩余尝试次数: 4","module":"admin","timestamp":"2026-05-27T07:54:03.008Z","username":"admin"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-27T07:54:06.447Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-27T07:54:06.448Z","username":"admin"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-27T08:03:37.383Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-27T08:03:37.383Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-28T05:52:32.806Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-28T05:52:32.835Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-28T05:52:47.394Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-28T05:52:47.395Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-28T07:23:57.222Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-28T07:23:57.247Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-28T07:24:11.873Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-28T07:24:11.875Z","username":"admin"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"正在启动账号: 账号1","module":"runtime","tag":"系统","timestamp":"2026-05-28T07:26:02.923Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-05-28T07:26:03.287Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-05-28T07:26:03.335Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-05-28T07:26:03.335Z"}
+{"app":"qq-farm-bot","level":"info","message":"登录成功: HelloWrt (Lv84)","module":"system","tag":"系统","timestamp":"2026-05-28T07:26:03.728Z"}
+{"app":"qq-farm-bot","level":"info","message":"金豆豆数量: 84199","module":"system","tag":"系统","timestamp":"2026-05-28T07:26:03.789Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"已同步账号昵称: None -> HelloWrt","module":"runtime","tag":"系统","timestamp":"2026-05-28T07:26:03.833Z"}
+{"app":"qq-farm-bot","event":"email_rewards","level":"info","message":"今日暂无可领取邮箱奖励","module":"task","result":"none","tag":"任务","timestamp":"2026-05-28T07:26:03.869Z"}
+{"app":"qq-farm-bot","event":"daily_share","level":"info","message":"上报分享状态失败","module":"task","result":"error","tag":"任务","timestamp":"2026-05-28T07:26:03.936Z"}
+{"app":"qq-farm-bot","event":"month_card_gift","level":"info","message":"今日暂无可领取月卡礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-28T07:26:03.970Z"}
+{"app":"qq-farm-bot","event":"mall_free_gifts","level":"info","message":"本次未成功领取免费礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-28T07:26:04.038Z"}
+{"app":"qq-farm-bot","event":"vip_daily_gift","level":"info","message":"今日暂无可领取会员礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-05-28T07:26:04.072Z"}
+{"app":"qq-farm-bot","event":"加黑名单","friendGid":1215166831,"friendName":"温玖","level":"warn","message":"检测到封禁好友，已自动加入黑名单: 温玖","module":"friend","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","result":"auto_blocked","tag":"好友","timestamp":"2026-05-28T07:26:25.242Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","friendGid":1215166831,"friendName":"温玖","level":"info","message":"已将好友 温玖 加入黑名单","module":"runtime","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","tag":"好友","timestamp":"2026-05-28T07:26:25.247Z"}
+{"app":"qq-farm-bot","event":"加黑名单","friendGid":1221103864,"friendName":"神秘老登","level":"warn","message":"检测到封禁好友，已自动加入黑名单: 神秘老登","module":"friend","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","result":"auto_blocked","tag":"好友","timestamp":"2026-05-28T07:26:25.991Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","friendGid":1221103864,"friendName":"神秘老登","level":"info","message":"已将好友 神秘老登 加入黑名单","module":"runtime","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","tag":"好友","timestamp":"2026-05-28T07:26:25.995Z"}
+{"app":"qq-farm-bot","event":"加黑名单","friendGid":1167115788,"friendName":"冰美式","level":"warn","message":"检测到封禁好友，已自动加入黑名单: 冰美式","module":"friend","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","result":"auto_blocked","tag":"好友","timestamp":"2026-05-28T07:26:26.742Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","friendGid":1167115788,"friendName":"冰美式","level":"info","message":"已将好友 冰美式 加入黑名单","module":"runtime","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","tag":"好友","timestamp":"2026-05-28T07:26:26.747Z"}
+{"app":"qq-farm-bot","event":"加黑名单","friendGid":1221245832,"friendName":"Ma","level":"warn","message":"检测到封禁好友，已自动加入黑名单: Ma","module":"friend","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","result":"auto_blocked","tag":"好友","timestamp":"2026-05-28T07:26:27.521Z"}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","friendGid":1221245832,"friendName":"Ma","level":"info","message":"已将好友 Ma 加入黑名单","module":"runtime","reason":"gamepb.visitpb.VisitService.Enter 错误: code=1002003 对方账号已被封禁，无法拜访","tag":"好友","timestamp":"2026-05-28T07:26:27.525Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-28T07:26:29.190Z"}
+{"app":"qq-farm-bot","count":106,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 106 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-28T07:26:29.237Z"}
+{"actions":["浇水1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[水:1 长:24] → 浇水1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-28T07:27:58.603Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-28T07:28:06.754Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-28T07:28:06.756Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-28T07:28:06.757Z"}
+{"app":"qq-farm-bot","count":106,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 106 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-28T07:28:06.798Z"}
+{"app":"qq-farm-bot","count":106,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 106 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-28T07:28:06.828Z"}
+{"app":"qq-farm-bot","count":106,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 106 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-28T07:28:06.833Z"}
+{"actions":["浇水1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[水:1 长:24] → 浇水1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-28T07:28:47.521Z"}
+{"actions":["偷1(枇杷)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1217724638,"friendName":"顾凉🍂","level":"info","message":"顾凉🍂: 偷1(枇杷)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-28T07:29:02.455Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":1456,"level":"info","message":"出售 枇杷x28，获得 1456 金币","module":"warehouse","passes":1,"remainingCount":0,"remainingKinds":0,"result":"ok","tag":"仓库","timestamp":"2026-05-28T07:29:04.158Z","totalsAfter":{"exp":8118718,"gold":192582674},"totalsBefore":{"exp":8118718,"gold":192581218},"totalsDeltaExp":0,"totalsDeltaGold":1456}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-28T07:29:04.159Z","visited":1}
+{"actions":["浇水1"],"app":"qq-farm-bot","event":"农场循环","level":"info","message":"[水:1 长:24] → 浇水1","module":"farm","opType":"all","tag":"农场","timestamp":"2026-05-28T07:29:19.204Z"}
+{"app":"qq-farm-bot","count":1,"event":"土地推送通知","level":"info","message":"收到推送: 1块土地变化，检查中...","module":"farm","result":"trigger_check","tag":"农场","timestamp":"2026-05-28T07:30:38.520Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-05-28T07:31:11.376Z"}
+{"app":"qq-farm-bot","count":106,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 106 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-28T07:31:11.423Z"}
+{"actions":["偷1(木瓜)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1213480116,"friendName":"Happy💖","level":"info","message":"Happy💖: 偷1(木瓜)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-05-28T07:31:36.246Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-05-28T07:31:36.930Z"}
+{"app":"qq-farm-bot","level":"warn","message":"出售失败: 连接未打开: Bag","module":"warehouse","tag":"仓库","timestamp":"2026-05-28T07:31:37.046Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-05-28T07:31:37.046Z","visited":1}
+{"accountId":"1","accountName":"账号1","app":"qq-farm-bot","level":"info","message":"账号 账号1 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-05-28T07:31:37.932Z"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-28T08:29:23.123Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-28T08:29:23.147Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-28T08:29:32.558Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-28T08:29:32.560Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-05-28T08:49:51.618Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-05-28T08:49:51.643Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-05-28T08:50:14.444Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-05-28T08:50:14.445Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T01:24:47.866Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T01:24:47.891Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T01:24:59.697Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T01:24:59.698Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T05:49:25.798Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T05:49:25.824Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T05:49:40.610Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T05:49:40.610Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T06:08:36.333Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T06:08:36.358Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T06:08:47.410Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T06:08:47.411Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T06:22:49.827Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T06:22:49.853Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"none","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T06:22:56.678Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T06:22:56.679Z","username":"admin"}
+{"app":"qq-farm-bot","level":"warn","message":"出售失败: Cannot read properties of undefined (reading 'encode')","module":"warehouse","tag":"仓库","timestamp":"2026-06-01T06:36:44.734Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-06-01T06:37:20.736Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-06-01T06:37:20.757Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":20,"level":"info","message":"出售 白萝卜x2，获得 20 金币","module":"warehouse","passes":3,"remainingCount":0,"remainingKinds":0,"result":"ok","tag":"仓库","timestamp":"2026-06-01T06:37:22.871Z","totalsAfter":{"exp":0,"gold":0},"totalsBefore":{"exp":0,"gold":0},"totalsDeltaExp":0,"totalsDeltaGold":0}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-06-01T06:44:11.342Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-06-01T06:44:11.363Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":20,"level":"info","message":"出售 白萝卜x2，获得 20 金币","module":"warehouse","passes":3,"remainingCount":0,"remainingKinds":0,"result":"ok","tag":"仓库","timestamp":"2026-06-01T06:44:13.496Z","totalsAfter":{"exp":0,"gold":0},"totalsBefore":{"exp":0,"gold":0},"totalsDeltaExp":0,"totalsDeltaGold":0}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-06-01T08:05:34.882Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-06-01T08:05:34.902Z"}
+{"app":"qq-farm-bot","count":1,"event":"sell_success","gold":20,"level":"info","message":"出售 白萝卜x2，获得 20 金币","module":"warehouse","passes":3,"remainingCount":0,"remainingKinds":0,"result":"ok","tag":"仓库","timestamp":"2026-06-01T08:05:37.029Z","totalsAfter":{"exp":0,"gold":0},"totalsBefore":{"exp":0,"gold":0},"totalsDeltaExp":0,"totalsDeltaGold":0}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T08:23:05.156Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T08:23:05.179Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"exists","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T08:23:12.622Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T08:23:12.623Z","username":"admin"}
+{"app":"qq-farm-bot","cardInfo":"exists","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T08:24:41.836Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T08:24:41.838Z","username":"admin"}
+{"accountId":"1","accountName":"🌈","app":"qq-farm-bot","level":"info","message":"正在启动账号: 🌈","module":"runtime","tag":"系统","timestamp":"2026-06-01T08:25:08.313Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:08.660Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:08.710Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:08.711Z"}
+{"app":"qq-farm-bot","level":"warn","message":"[WS] 错误: Unexpected server response: 400","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:08.981Z"}
+{"app":"qq-farm-bot","level":"info","message":"连接被拒绝，可能需要更新 Code","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:08.982Z"}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-06-01T08:25:34.713Z"}
+{"accountId":"1","accountName":"🌈","app":"qq-farm-bot","level":"info","message":"账号 🌈 进程退出 (code=0, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-06-01T08:25:34.720Z"}
+{"accountId":"1","accountName":"🌈","app":"qq-farm-bot","level":"info","message":"正在启动账号: 🌈","module":"runtime","tag":"系统","timestamp":"2026-06-01T08:25:34.721Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在加载 Protobuf 定义...","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:34.941Z"}
+{"app":"qq-farm-bot","level":"info","message":"Protobuf 定义加载完成","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:34.981Z"}
+{"app":"qq-farm-bot","level":"info","message":"正在连接服务器...","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:34.982Z"}
+{"app":"qq-farm-bot","level":"info","message":"登录成功: HelloWrt (Lv87)","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:35.293Z"}
+{"app":"qq-farm-bot","level":"info","message":"金豆豆数量: 92779","module":"system","tag":"系统","timestamp":"2026-06-01T08:25:35.351Z"}
+{"accountId":"1","accountName":"🌈","app":"qq-farm-bot","level":"info","message":"已同步账号昵称: None -> HelloWrt","module":"runtime","tag":"系统","timestamp":"2026-06-01T08:25:35.609Z"}
+{"app":"qq-farm-bot","event":"email_rewards","level":"info","message":"今日暂无可领取邮箱奖励","module":"task","result":"none","tag":"任务","timestamp":"2026-06-01T08:25:35.860Z"}
+{"app":"qq-farm-bot","event":"daily_share","level":"info","message":"上报分享状态失败","module":"task","result":"error","tag":"任务","timestamp":"2026-06-01T08:25:36.239Z"}
+{"app":"qq-farm-bot","event":"month_card_gift","level":"info","message":"今日暂无可领取月卡礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-06-01T08:25:36.365Z"}
+{"app":"qq-farm-bot","event":"mall_free_gifts","level":"info","message":"本次未成功领取免费礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-06-01T08:25:36.618Z"}
+{"app":"qq-farm-bot","event":"vip_daily_gift","level":"info","message":"今日暂无可领取会员礼包","module":"task","result":"none","tag":"任务","timestamp":"2026-06-01T08:25:36.874Z"}
+{"actions":["偷1(植物1020167)"],"app":"qq-farm-bot","event":"偷好友菜","friendGid":1223383531,"friendName":"矢a","level":"info","message":"矢a: 偷1(植物1020167)","module":"friend","result":"ok","tag":"好友","timestamp":"2026-06-01T08:27:03.999Z"}
+{"app":"qq-farm-bot","event":"获取好友列表","level":"info","message":"开始获取好友列表","module":"friend","tag":"好友","timestamp":"2026-06-01T08:27:06.104Z"}
+{"app":"qq-farm-bot","count":107,"event":"获取好友列表","level":"info","message":"获取好友列表成功，共 107 位好友","module":"friend","result":"ok","tag":"好友","timestamp":"2026-06-01T08:27:06.179Z"}
+{"app":"qq-farm-bot","level":"info","message":"无果实可出售","module":"warehouse","tag":"仓库","timestamp":"2026-06-01T08:27:08.965Z"}
+{"app":"qq-farm-bot","event":"好友巡查循环","level":"info","message":"巡查完成 → 偷1","module":"friend","result":"ok","summary":["偷1"],"tag":"好友","timestamp":"2026-06-01T08:27:08.966Z","visited":1}
+{"app":"qq-farm-bot","event":"购买化肥计时器","level":"info","message":"化肥自动购买检测定时器已停止","module":"farm","result":"stop","tag":"农场","timestamp":"2026-06-01T08:27:24.012Z"}
+{"accountId":"1","accountName":"🌈","app":"qq-farm-bot","level":"info","message":"账号 🌈 进程退出 (code=1, signal=none)","module":"runtime","runtimeMode":"thread","tag":"系统","timestamp":"2026-06-01T08:27:25.022Z"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T09:22:30.942Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T09:22:30.970Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"exists","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T09:22:39.493Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T09:22:39.494Z","username":"admin"}
+{"app":"qq-farm-bot","error":"invalid_credentials","ip":"127.0.0.1","level":"warn","message":"登录失败 用户名或密码错误，剩余尝试次数: 4","module":"admin","timestamp":"2026-06-01T09:27:31.534Z","username":"admin"}
+{"app":"qq-farm-bot","cardInfo":"exists","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T09:27:39.453Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T09:27:39.454Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T09:30:25.861Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T09:30:25.898Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"exists","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T09:30:30.525Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T09:30:30.526Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T09:40:51.423Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T09:40:51.450Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"exists","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T09:40:59.013Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T09:40:59.015Z","username":"admin"}
+{"app":"qq-farm-bot","level":"info","message":"已加载系统配置: serverUrl=wss://gate-obt.nqf.qq.com/prod/ws, clientVersion=1.11.1.7_20260425, platform=qq","module":"runtime","tag":"系统","timestamp":"2026-06-01T09:46:51.238Z"}
+{"app":"qq-farm-bot","host":"127.0.0.1","level":"info","message":"admin panel started","module":"admin","port":3007,"timestamp":"2026-06-01T09:46:51.266Z","url":"http://127.0.0.1:3007"}
+{"app":"qq-farm-bot","cardInfo":"exists","level":"info","message":"登录检查","module":"admin","role":"admin","timestamp":"2026-06-01T09:47:04.036Z","username":"admin"}
+{"app":"qq-farm-bot","ip":"127.0.0.1","level":"info","message":"登录成功","module":"admin","role":"admin","timestamp":"2026-06-01T09:47:04.038Z","username":"admin"}
