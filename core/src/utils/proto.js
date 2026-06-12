@@ -29,7 +29,6 @@ async function loadProto() {
         getResourcePath('proto', 'redpacketpb.proto'),
         getResourcePath('proto', 'qqvippb.proto'),
         getResourcePath('proto', 'sharepb.proto'),
-        getResourcePath('proto', 'illustratedpb.proto'),
         getResourcePath('proto', 'interactpb.proto'),
     ], { keepCase: true });
 
@@ -114,10 +113,6 @@ async function loadProto() {
     types.ReportShareReply = root.lookupType('gamepb.sharepb.ReportShareReply');
     types.ClaimShareRewardRequest = root.lookupType('gamepb.sharepb.ClaimShareRewardRequest');
     types.ClaimShareRewardReply = root.lookupType('gamepb.sharepb.ClaimShareRewardReply');
-    types.GetIllustratedListV2Request = root.lookupType('gamepb.illustratedpb.GetIllustratedListV2Request');
-    types.GetIllustratedListV2Reply = root.lookupType('gamepb.illustratedpb.GetIllustratedListV2Reply');
-    types.ClaimAllRewardsV2Request = root.lookupType('gamepb.illustratedpb.ClaimAllRewardsV2Request');
-    types.ClaimAllRewardsV2Reply = root.lookupType('gamepb.illustratedpb.ClaimAllRewardsV2Reply');
 
     // 好友
     types.GetAllFriendsRequest = root.lookupType('gamepb.friendpb.GetAllRequest');

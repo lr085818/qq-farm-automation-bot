@@ -434,8 +434,9 @@ async function startBot(config) {
     isRunning = true;
 
     const { code, platform } = config;
+    const accountPlatform = platform || 'qq';
 
-    CONFIG.platform = platform || 'qq';
+    CONFIG.platform = accountPlatform;
     // 注意：间隔配置由 applyIntervalsToRuntime 统一处理，不要在这里覆盖
 
     await loadProto();
@@ -444,6 +445,9 @@ async function startBot(config) {
 
     // 加载保存的配置
     applyRuntimeConfig(getConfigSnapshot(), false);
+    CONFIG.platform = accountPlatform;
+    setStatusPlatform(CONFIG.platform);
+    log('系统', `账号运行平台: ${CONFIG.platform}`);
 
     initStatusBar();
     setStatusPlatform(CONFIG.platform);
@@ -624,6 +628,15 @@ async function handleApiCall(msg) {
             case 'getSeeds':
                 result = await getAvailableSeeds();
                 break;
+            case 'getShopInfo':
+                result = await require('../services/farm').getShopInfo(args[0]);
+                break;
+            case 'buyGoods':
+                result = await require('../services/farm').buyGoods(args[0], args[1], args[2]);
+                break;
+            case 'getFertilizerShopGoods':
+                result = await require('../services/mall').getFertilizerShopGoods();
+                break;
             case 'getBag':
                 result = await require('../services/warehouse').getBagDetail();
                 break;
@@ -728,8 +741,8 @@ async function getDailyGiftOverview() {
                 enabled: true,
                 doneToday: !!vip.doneToday,
                 lastAt: Number(vip.lastClaimAt || vip.lastCheckAt || 0),
-                hasGift: Object.prototype.hasOwnProperty.call(vip, 'hasGift') ? !!vip.hasGift : undefined,
-                canClaim: Object.prototype.hasOwnProperty.call(vip, 'canClaim') ? !!vip.canClaim : undefined,
+                hasGift: Object.hasOwn(vip, 'hasGift') ? !!vip.hasGift : undefined,
+                canClaim: Object.hasOwn(vip, 'canClaim') ? !!vip.canClaim : undefined,
                 result: vip.result || '',
             },
             {
@@ -738,8 +751,8 @@ async function getDailyGiftOverview() {
                 enabled: true,
                 doneToday: !!month.doneToday,
                 lastAt: Number(month.lastClaimAt || month.lastCheckAt || 0),
-                hasCard: Object.prototype.hasOwnProperty.call(month, 'hasCard') ? !!month.hasCard : undefined,
-                hasClaimable: Object.prototype.hasOwnProperty.call(month, 'hasClaimable') ? !!month.hasClaimable : undefined,
+                hasCard: Object.hasOwn(month, 'hasCard') ? !!month.hasCard : undefined,
+                hasClaimable: Object.hasOwn(month, 'hasClaimable') ? !!month.hasClaimable : undefined,
                 result: month.result || '',
             },
         ],

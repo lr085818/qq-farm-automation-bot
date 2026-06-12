@@ -31,7 +31,7 @@ onUnmounted(() => {
       <!-- Top Bar (Mobile/Tablet only or for additional actions) -->
       <header class="h-16 flex shrink-0 items-center justify-between border-b border-white/10 px-6 lg:hidden" :style="{ background: 'var(--glass-bg-strong)', backdropFilter: 'blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))', WebkitBackdropFilter: 'blur(var(--glass-blur)) saturate(var(--glass-saturate)) brightness(var(--glass-brightness))' }">
         <div class="text-lg font-bold">
-          QQ农场智能助手
+          QQ农场智能托管平台
         </div>
         <button
           class="flex items-center justify-center rounded-lg p-2 text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"

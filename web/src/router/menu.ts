@@ -3,6 +3,7 @@ export interface MenuItem {
   name: string
   label: string
   icon: string
+  iconColor?: string
   component: () => Promise<any>
   adminOnly?: boolean
 }
@@ -13,6 +14,7 @@ export const menuRoutes: MenuItem[] = [
     name: 'dashboard',
     label: '概览',
     icon: 'i-carbon-chart-pie',
+    iconColor: '#f59e0b',
     component: () => import('@/views/Dashboard.vue'),
   },
   {
@@ -20,6 +22,7 @@ export const menuRoutes: MenuItem[] = [
     name: 'personal',
     label: '个人',
     icon: 'i-carbon-user',
+    iconColor: '#38bdf8',
     component: () => import('@/views/Personal.vue'),
   },
   {
@@ -27,13 +30,23 @@ export const menuRoutes: MenuItem[] = [
     name: 'friends',
     label: '好友',
     icon: 'i-carbon-user-multiple',
+    iconColor: '#22c55e',
     component: () => import('@/views/Friends.vue'),
+  },
+  {
+    path: 'shop',
+    name: 'shop',
+    label: '商城',
+    icon: 'i-carbon-store',
+    iconColor: '#f97316',
+    component: () => import('@/views/Shop.vue'),
   },
   {
     path: 'analytics',
     name: 'analytics',
     label: '分析',
     icon: 'i-carbon-analytics',
+    iconColor: '#a855f7',
     component: () => import('@/views/Analytics.vue'),
   },
   {
@@ -41,6 +54,7 @@ export const menuRoutes: MenuItem[] = [
     name: 'Settings',
     label: '设置',
     icon: 'i-carbon-settings',
+    iconColor: '#0ea5e9',
     component: () => import('@/views/Settings.vue'),
   },
   {
@@ -48,6 +62,7 @@ export const menuRoutes: MenuItem[] = [
     name: 'admin',
     label: '后台',
     icon: 'i-carbon-settings-adjust',
+    iconColor: '#8b5cf6',
     component: () => import('@/views/AdminPanel.vue'),
     adminOnly: true,
   },

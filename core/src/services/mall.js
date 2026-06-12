@@ -16,7 +16,7 @@ const BUY_PER_ROUND = 10;
 const FREE_GIFTS_DAILY_KEY = 'mall_free_gifts';
 
 let lastBuyAt = 0;
-let lastCheckBuyAt = 0;
+const lastCheckBuyAt = 0;
 let buyDoneDateKey = '';
 let buyLastSuccessAt = 0;
 let buyPausedNoGoldDateKey = '';
@@ -106,6 +106,44 @@ function findFertilizerMallGoods(goodsList, type = 'organic') {
     return findOrganicFertilizerMallGoods(goodsList);
 }
 
+async function getFertilizerShopGoods() {
+    const goodsList = await getMallGoodsList(1);
+    const templates = [
+        {
+            type: 'organic',
+            goodsId: ORGANIC_FERTILIZER_MALL_GOODS_ID,
+            itemId: 80011,
+            name: '10小时有机化肥',
+            desc: '购买后填充有机化肥容器，用于加速高品质作物成熟。',
+        },
+        {
+            type: 'normal',
+            goodsId: INORGANIC_FERTILIZER_MALL_GOODS_ID,
+            itemId: 80001,
+            name: '10小时化肥',
+            desc: '购买后填充普通化肥容器，用于加速作物成熟。',
+        },
+    ];
+
+    return templates.map((tpl) => {
+        const liveGoods = findFertilizerMallGoods(goodsList, tpl.type) || {};
+        return {
+            id: toNum(liveGoods.goods_id) || tpl.goodsId,
+            goods_id: toNum(liveGoods.goods_id) || tpl.goodsId,
+            item_id: tpl.itemId,
+            price: parseMallPriceValue(liveGoods.price),
+            unlocked: true,
+            can_buy: true,
+            required_level: 0,
+            purchase_route: 'fertilizer',
+            fertilizer_type: tpl.type,
+            currency: 'ticket',
+            name: tpl.name,
+            desc: tpl.desc,
+        };
+    });
+}
+
 async function autoBuyOrganicFertilizerViaMall() {
     const goodsList = await getMallGoodsList(1);
     const goods = findOrganicFertilizerMallGoods(goodsList);
@@ -159,7 +197,7 @@ async function autoBuyOrganicFertilizerViaMall() {
             event: '购买化肥',
             result: 'ok',
             count: totalBought,
-            type,
+            type: 'organic',
         });
     }
     
@@ -496,6 +534,7 @@ module.exports = {
     checkAndBuyFertilizerByThreshold,
     checkAndBuyFertilizerBoth,
     buyFreeGifts,
+    getFertilizerShopGoods,
     getFertilizerBuyDailyState: () => ({
         key: 'fertilizer_buy',
         doneToday: buyDoneDateKey === getDateKey(),

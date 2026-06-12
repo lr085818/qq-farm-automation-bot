@@ -438,7 +438,7 @@ function registerUser(username, password, cardCode) {
         return { ok: false, error: '用户名只能包含字母、数字和下划线' };
     }
 
-    if (users.find(u => u.username === username)) {
+    if (users.some(u => u.username === username)) {
         return { ok: false, error: '用户名已存在' };
     }
 

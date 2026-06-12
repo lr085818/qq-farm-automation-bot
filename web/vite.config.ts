@@ -1,32 +1,20 @@
 import { readFileSync } from 'node:fs'
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
-import { visualizer } from 'rollup-plugin-visualizer'
 import UnoCSS from 'unocss/vite'
 import { defineConfig } from 'vite'
-import viteCompression from 'vite-plugin-compression'
 
 const corePackageJson = JSON.parse(readFileSync('../core/package.json', 'utf-8'))
+const apiTarget = process.env.VITE_API_TARGET || 'http://127.0.0.1:3009'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     UnoCSS() as any,
-    viteCompression({
-      verbose: true,
-      disable: false,
-      threshold: 10240,
-      algorithm: 'gzip',
-      ext: '.gz',
-    }),
-    visualizer({
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-    }),
   ],
   build: {
+    minify: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -60,16 +48,16 @@ export default defineConfig({
   server: {
     proxy: {
       '/socket.io': {
-        target: 'http://localhost:3007',
+        target: apiTarget,
         changeOrigin: true,
         ws: true,
       },
       '/api': {
-        target: 'http://localhost:3007',
+        target: apiTarget,
         changeOrigin: true,
       },
       '/game-config': {
-        target: 'http://localhost:3007',
+        target: apiTarget,
         changeOrigin: true,
       },
     },

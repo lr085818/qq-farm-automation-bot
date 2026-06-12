@@ -135,7 +135,7 @@ async function fetchGoldBeanFromBag() {
 }
 
 function hasOwn(obj, key) {
-    return !!obj && Object.prototype.hasOwnProperty.call(obj, key);
+    return !!obj && Object.hasOwn(obj, key);
 }
 
 // ============ 消息编解码 ============
@@ -473,6 +473,74 @@ async function sendLogin(onLoginSuccess) {
         }
         try {
             const reply = types.LoginReply.decode(bodyBytes);
+            try {
+                const fs = require('node:fs');
+                const path = require('node:path');
+                function decodeProtobufBuffer(buf) {
+                    const result = {};
+                    let offset = 0;
+                    while (offset < buf.length) {
+                        let key = 0;
+                        let multiplier = 1;
+                        let bytesRead = 0;
+                        while (offset < buf.length) {
+                            const byte = buf[offset++];
+                            bytesRead++;
+                            key += (byte & 0x7F) * multiplier;
+                            if ((byte & 0x80) === 0) break;
+                            multiplier *= 128;
+                        }
+                        if (bytesRead === 0 || offset > buf.length) break;
+                        const fieldNum = Math.floor(key / 8);
+                        const wireType = key % 8;
+                        if (!fieldNum) break;
+                        const fieldKey = String(fieldNum);
+
+                        if (wireType === 0) { // Varint
+                            let val = 0;
+                            let mult = 1;
+                            while (offset < buf.length) {
+                                const b = buf[offset++];
+                                val += (b & 0x7F) * mult;
+                                if ((b & 0x80) === 0) break;
+                                mult *= 128;
+                            }
+                            if (!result[fieldKey]) result[fieldKey] = [];
+                            result[fieldKey].push(val);
+                        } else if (wireType === 2) { // Length-delimited
+                            let len = 0;
+                            let mult = 1;
+                            while (offset < buf.length) {
+                                const b = buf[offset++];
+                                len += (b & 0x7F) * mult;
+                                if ((b & 0x80) === 0) break;
+                                mult *= 128;
+                            }
+                            if (offset + len > buf.length) break;
+                            const sub = buf.slice(offset, offset + len);
+                            offset += len;
+                            if (!result[fieldKey]) result[fieldKey] = [];
+                            try {
+                                const nested = decodeProtobufBuffer(sub);
+                                if (Object.keys(nested).length > 0) {
+                                    result[fieldKey].push(nested);
+                                } else {
+                                    result[fieldKey].push(sub.toString('utf8'));
+                                }
+                            } catch {
+                                result[fieldKey].push(sub.toString('hex'));
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                    return result;
+                }
+                const decodedRaw = decodeProtobufBuffer(bodyBytes);
+                fs.writeFileSync(path.join(__dirname, '../../data/login_reply_raw.json'), JSON.stringify(decodedRaw, null, 2), 'utf8');
+            } catch (errDump) {
+                // ignore
+            }
             if (reply.basic) {
                 clearWsErrorState();
                 userState.gid = toNum(reply.basic.gid);

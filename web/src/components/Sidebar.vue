@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDateFormat, useIntervalFn, useNow } from '@vueuse/core'
+import { useDateFormat, useIntervalFn, useNow, useStorage } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -10,6 +10,7 @@ import RemarkModal from '@/components/RemarkModal.vue'
 import { menuRoutes } from '@/router/menu'
 import { getPlatformClass, getPlatformLabel, useAccountStore } from '@/stores/account'
 import { useAppStore } from '@/stores/app'
+import type { Theme } from '@/stores/app'
 import { useStatusStore } from '@/stores/status'
 import { useToastStore } from '@/stores/toast'
 import { useUserStore } from '@/stores/user'
@@ -24,6 +25,16 @@ const router = useRouter()
 const { accounts, currentAccount } = storeToRefs(accountStore)
 const { status, realtimeConnected } = storeToRefs(statusStore)
 const { sidebarOpen } = storeToRefs(appStore)
+
+const equippedFrame = useStorage('equipped_avatar_frame', '0')
+const frameClass = computed(() => {
+  const fid = Number(equippedFrame.value) || 0
+  if (fid === 2101) return 'border-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)] animate-pulse border-[3px]'
+  if (fid === 2102) return 'border-amber-400 shadow-[0_0_8px_rgba(245,158,11,0.6)] border-[3px]'
+  if (fid === 2103) return 'border-fuchsia-500 shadow-[0_0_10px_rgba(168,85,247,0.7)] border-[3px] animate-[spin_6s_linear_infinite]'
+  if (fid === 2104) return 'border-lime-400 shadow-[0_0_5px_rgba(163,230,53,0.4)] border-[3px]'
+  return ''
+})
 
 const showAccountDropdown = ref(false)
 const showAccountModal = ref(false)
@@ -224,6 +235,16 @@ const displayName = computed(() => {
   return acc.uin
 })
 
+function getAccountAvatar(acc: any) {
+  const direct = String(acc?.avatar || acc?.avatarUrl || '').trim()
+  if (direct)
+    return direct
+  const uin = String(acc?.uin || '').trim()
+  if (uin)
+    return `https://q1.qlogo.cn/g?b=qq&nk=${uin}&s=100`
+  return ''
+}
+
 const connectionStatus = computed(() => {
   if (!systemConnected.value) {
     return {
@@ -266,6 +287,7 @@ const navItems = computed(() => {
       path: item.path ? `/${item.path}` : '/',
       label: item.label,
       icon: item.icon,
+      iconColor: item.iconColor,
     }))
 })
 
@@ -274,7 +296,12 @@ function selectAccount(acc: any) {
   showAccountDropdown.value = false
 }
 
-const version = __APP_VERSION__
+function cycleTheme() {
+  const keys: Theme[] = ['dark-orange', 'glass-teal', 'cyber-purple']
+  const idx = keys.indexOf(appStore.currentTheme)
+  const nextTheme = keys[(idx + 1) % keys.length] || 'dark-orange'
+  appStore.applyTheme(nextTheme, true)
+}
 
 watch(
   () => route.path,
@@ -479,9 +506,9 @@ async function copyToken() {
     <!-- Brand -->
     <div class="h-16 flex items-center justify-between border-b border-gray-200/50 px-6 dark:border-gray-700/50">
       <div class="flex items-center gap-3">
-        <div class="i-carbon-sprout text-2xl" :style="{ color: 'var(--theme-primary)' }" />
-        <span class="bg-clip-text text-lg text-transparent font-bold" :style="{ backgroundImage: 'var(--theme-gradient)' }">
-          QQ农场智能助手
+        <div class="i-carbon-crop-growth text-2xl" :style="{ color: 'var(--theme-primary)' }" />
+        <span class="whitespace-nowrap bg-clip-text text-base text-transparent font-extrabold tracking-tight" :style="{ backgroundImage: 'var(--theme-gradient)' }">
+          QQ农场智能托管平台
         </span>
       </div>
       <!-- Mobile Close Button -->
@@ -502,12 +529,13 @@ async function copyToken() {
           @click="showUserDropdown = !showUserDropdown"
         >
           <div class="flex items-center gap-3 overflow-hidden">
-            <div class="h-8 w-8 flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 ring-2 ring-white dark:bg-gray-600 dark:ring-gray-700">
+            <div class="relative h-8 w-8 flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 ring-2 ring-white dark:bg-gray-600 dark:ring-gray-700">
               <img
-                :src="userStore.avatar || 'https://free.picui.cn/free/2026/03/10/69affe5755149.jpg'"
-                class="h-full w-full object-cover"
-                @error="(e) => (e.target as HTMLImageElement).src = 'https://free.picui.cn/free/2026/03/10/69affe5755149.jpg'"
+                :src="userStore.avatar || '/avatar.jpg?v=2'"
+                class="h-full w-full rounded-full object-cover"
+                @error="(e) => (e.target as HTMLImageElement).src = '/avatar.jpg?v=2'"
               >
+              <div v-if="frameClass" class="pointer-events-none absolute inset-0 rounded-full" :class="frameClass" />
             </div>
             <div class="min-w-0 flex flex-col items-start">
               <span class="w-full truncate text-left text-sm font-medium">
@@ -515,13 +543,10 @@ async function copyToken() {
               </span>
               <div class="mt-0.5 flex items-center gap-1.5">
                 <span
-                  class="rounded px-1 py-0.2 text-[10px] font-medium leading-tight"
+                  class="shrink-0 whitespace-nowrap rounded px-1 py-0.2 text-[10px] font-medium leading-tight"
                   :class="userStore.isAdmin ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'"
                 >
                   {{ userStore.isAdmin ? '管理员' : '用户' }}
-                </span>
-                <span v-if="userStore.userCard" class="truncate text-xs text-gray-400">
-                  {{ getDaysLabel(userStore.userCard.days) }} {{ userStore.accountLimit }}额度
                 </span>
               </div>
             </div>
@@ -596,14 +621,15 @@ async function copyToken() {
           @click="showAccountDropdown = !showAccountDropdown"
         >
           <div class="flex items-center gap-3 overflow-hidden">
-            <div class="h-8 w-8 flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 ring-2 ring-white dark:bg-gray-600 dark:ring-gray-700">
+            <div class="relative h-8 w-8 flex shrink-0 items-center justify-center rounded-full bg-gray-200 ring-2 ring-white dark:bg-gray-600 dark:ring-gray-700">
               <img
-                v-if="currentAccount?.uin"
-                :src="`https://q1.qlogo.cn/g?b=qq&nk=${currentAccount.uin}&s=100`"
-                class="h-full w-full object-cover"
+                v-if="getAccountAvatar(currentAccount)"
+                :src="getAccountAvatar(currentAccount)"
+                class="h-full w-full rounded-full object-cover"
                 @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
               >
               <div v-else class="i-carbon-user text-gray-400" />
+              <div v-if="frameClass" class="pointer-events-none absolute inset-0 rounded-full" :class="frameClass" />
             </div>
             <div class="min-w-0 flex flex-col items-start">
               <span class="w-full truncate text-left text-sm font-medium">
@@ -646,8 +672,8 @@ async function copyToken() {
               >
                 <div class="h-6 w-6 flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-600">
                   <img
-                    v-if="acc.uin"
-                    :src="`https://q1.qlogo.cn/g?b=qq&nk=${acc.uin}&s=100`"
+                    v-if="getAccountAvatar(acc)"
+                    :src="getAccountAvatar(acc)"
                     class="h-full w-full object-cover"
                     @error="(e) => (e.target as HTMLImageElement).style.display = 'none'"
                   >
@@ -723,7 +749,11 @@ async function copyToken() {
           'opacity': '0.8',
         }"
       >
-        <div class="text-xl transition-transform duration-200 group-hover:scale-110" :class="[item.icon]" />
+        <div
+          class="text-xl transition-transform duration-200 group-hover:scale-110"
+          :class="[item.icon]"
+          :style="item.iconColor ? { color: item.iconColor } : undefined"
+        />
         <span>{{ item.label }}</span>
       </router-link>
     </nav>
@@ -787,33 +817,20 @@ async function copyToken() {
       <div class="mt-1 flex flex-col gap-0.5 text-xs text-gray-400 font-mono">
         <div class="flex items-center justify-between">
           <span>{{ formattedTime }}</span>
-          <span
-            class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold shadow-sm"
+          <button
+            type="button"
+            class="inline-flex cursor-pointer items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold shadow-sm transition-all active:scale-95 hover:scale-105"
             :style="{
               color: 'var(--theme-primary)',
               borderColor: 'var(--glass-border)',
-              background: 'rgba(251, 191, 36, 0.08)',
-              boxShadow: '0 8px 24px rgba(245, 158, 11, 0.12)',
+              background: 'var(--glass-bg-soft)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.12)',
             }"
+            @click="cycleTheme"
           >
-            <span class="i-carbon-sun text-[10px]" />
-            <span>暖阳橙</span>
-          </span>
-        </div>
-        <div class="flex items-center justify-between opacity-50">
-          <div class="flex items-center gap-2">
-            <span>Web v{{ version }}</span>
-            <a
-              href="https://github.com/XyhTender/qq-farm-automation-bot"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="开源地址"
-              class="inline-flex items-center text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
-            >
-              <div class="i-carbon-logo-github text-base" />
-            </a>
-          </div>
-          <span v-if="serverVersion">Core v{{ serverVersion }}</span>
+            <span :class="appStore.themes[appStore.currentTheme]?.icon" class="text-[10px]" />
+            <span>{{ appStore.themes[appStore.currentTheme]?.name }}</span>
+          </button>
         </div>
       </div>
     </div>

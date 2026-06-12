@@ -127,6 +127,16 @@ pm2 save && pm2 startup
 
 ---
 
+## 当前功能
+
+- 支持 QQ / 微信账号添加与托管，微信可通过扫码自动获取授权 Code。
+- 微信扫码登录会同步昵称与头像；如果微信登录响应未返回头像，会使用绑定 QQ 的 qlogo 作为头像兜底。
+- 商城页面支持种子商店与道具商城。种子商店以本地正式 150 个作物为展示基准，在线商店数据用于覆盖价格与购买条件，避免缺项或占位作物影响显示。
+- 支持农场自动种植、收获、施肥、出售、好友巡查、偷菜、帮忙、任务领取、统计分析、运行日志与后台配置。
+- 狗狗相关页面、菜单和自动策略已移除，当前版本不再维护狗狗托管逻辑。
+
+---
+
 ## 项目结构
 
 ```
@@ -160,10 +170,19 @@ qq-farm-automation-bot/
 游戏服务端会定期升级协议版本，需手动更新 `core/src/config/config.js` 中的 `clientVersion`：
 
 ```js
-clientVersion: '1.11.1.7_20260518',  // 格式：版本号_日期
+clientVersion: '1.12.0.4_20260609',  // 格式：版本号_日期
 ```
 
 **Docker 用户** 可在面板 **后台 → 游戏版本控制** 实时修改，无需重启。
+
+### Windows 上构建前端失败
+
+当前前端建议使用 Node.js 20。部分较新的 Node 版本可能导致 Vite/Rollup 构建异常退出。Windows 本地可用以下命令指定 Node 20 构建：
+
+```powershell
+cd web
+npx -y node@20 node_modules/vite/bin/vite.js build
+```
 
 ### Windows 上 pnpm install 崩溃
 
@@ -185,22 +204,4 @@ npm install --prefix web
 ## 免责声明
 
 本项目仅供学习与研究用途。使用本工具可能违反游戏服务条款，由此产生的一切后果由使用者自行承担。
-
----
-
-## 技术栈
-
-**后端**
-
-[<img src="https://skillicons.dev/icons?i=nodejs" height="48" title="Node.js 20+" />](https://nodejs.org/)
-[<img src="https://skillicons.dev/icons?i=express" height="48" title="Express 4" />](https://expressjs.com/)
-[<img src="https://skillicons.dev/icons?i=socketio" height="48" title="Socket.io 4" />](https://socket.io/)
-
-**前端**
-
-[<img src="https://skillicons.dev/icons?i=vue" height="48" title="Vue 3" />](https://vuejs.org/)
-[<img src="https://skillicons.dev/icons?i=vite" height="48" title="Vite 7" />](https://vitejs.dev/)
-[<img src="https://skillicons.dev/icons?i=ts" height="48" title="TypeScript 5" />](https://www.typescriptlang.org/)
-[<img src="https://cdn.simpleicons.org/pinia/FFD859" height="48" title="Pinia 3" />](https://pinia.vuejs.org/)
-[<img src="https://skillicons.dev/icons?i=unocss" height="48" title="UnoCSS" />](https://unocss.dev/)
 

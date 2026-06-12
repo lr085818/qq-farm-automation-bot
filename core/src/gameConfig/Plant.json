@@ -7419,5 +7419,74 @@
         "exp_alter": 0,
         "fruit_root": 0,
         "fruit_alter": 0
+    },
+    {
+        "id": 1020167,
+        "kind": 1,
+        "name": "欢乐糖果",
+        "child_name": "",
+        "item_name": "",
+        "land_level_need": 21,
+        "seasons": 1,
+        "grow_phases": "种子:5760;发芽:5760;小叶子:5760;大叶子:5760;初熟:5760;成熟:0;",
+        "fruit": {
+            "id": 40167,
+            "count": 200
+        },
+        "exp": 960,
+        "fix_reward": "",
+        "mutant": "",
+        "price_dict": [],
+        "land_need": "",
+        "plantOffsetPosition": {
+            "x": 0,
+            "y": 0
+        },
+        "stateSpineOffsetPosition": {
+            "x": 0,
+            "y": 0
+        },
+        "stateSpineScale": {
+            "x": 1,
+            "y": 1
+        },
+        "plantScale": {
+            "x": 1,
+            "y": 1
+        },
+        "useSpinePos": false,
+        "fruitScale": {
+            "x": 1,
+            "y": 1
+        },
+        "fruitOffsetPosition": {
+            "x": 0,
+            "y": 0
+        },
+        "seed_id": 20167,
+        "plant_type": 1,
+        "plant_icon": "",
+        "state_type": 1,
+        "seed_name": "欢乐糖果种子",
+        "spine_name": "Crop_167",
+        "card": "",
+        "harvestOffsetPosition": {
+            "x": 0,
+            "y": 0
+        },
+        "harvestRandom": true,
+        "harvestAllSpineRes": "spine/v2/shouge/Crop_sg_final",
+        "harvestAllOffsetPosition": "5:30;50:-30;150:-75;200:-25;150:-30",
+        "all_state_spine": "",
+        "mature_effect": "effect/prefab/effect_plant_maturation",
+        "mature_effect_offset": {
+            "x": 0,
+            "y": 60
+        },
+        "rare_plant_light_pos": "{\"x\":113,\"y\":125,\"rotation\":0,\"scale\":{\"x\":1,\"y\":1}}",
+        "exp_root": 0,
+        "exp_alter": 0,
+        "fruit_root": 0,
+        "fruit_alter": 0
     }
 ]

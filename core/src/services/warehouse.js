@@ -5,7 +5,7 @@
 
 const protobuf = require('protobufjs');
 const { getFruitName, getPlantByFruitId, getPlantBySeedId, getItemById, getItemImageById, getSeedImageBySeedId } = require('../config/gameConfig');
-const { isAutomationOn } = require('../models/store');
+const { isAutomationOn, getConfigSnapshot } = require('../models/store');
 const { sendMsgAsync, networkEvents, getUserState } = require('../utils/network');
 const { types } = require('../utils/proto');
 const { toLong, toNum, log, logWarn, sleep } = require('../utils/utils');
@@ -311,10 +311,19 @@ function collectFruitSellItems(items) {
     const toSell = [];
     const names = [];
     let totalCount = 0;
+
+    // Get locked item list from config snapshot
+    const config = getConfigSnapshot() || {};
+    const lockedItemIds = Array.isArray(config.lockedItemIds) ? config.lockedItemIds.map(Number) : [];
+
     for (const item of (items || [])) {
         const id = toNum(item && item.id);
         const count = toNum(item && item.count);
         if (isFruitItemId(id) && count > 0) {
+            // Check if item is locked
+            if (lockedItemIds.includes(id)) {
+                continue;
+            }
             toSell.push(item);
             names.push(`${getFruitDisplayName(id)}x${count}`);
             totalCount += count;

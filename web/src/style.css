@@ -146,6 +146,15 @@
   padding: 0;
 }
 
+
+.sidebar-nav-link.active {
+  background:
+    color-mix(in srgb, var(--theme-primary) 12%, transparent);
+  border-bottom-width: 3px;
+  border-radius: 10px;
+  padding: 0;
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -194,4 +203,10 @@ body {
   box-shadow:
     0 0 10px #10b981,
     0 0 5px #10b981 !important;
+}
+
+/* Custom font-mono override */
+.font-mono,
+[font-mono] {
+  font-family: 'Maple Mono NF CN', 'Maple Mono NF', 'Maple Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
 }

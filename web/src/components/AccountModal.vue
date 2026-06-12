@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { useIntervalFn } from '@vueuse/core'
 import { computed, reactive, ref, watch } from 'vue'
 import api from '@/api'
 import BaseButton from '@/components/ui/BaseButton.vue'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseTextarea from '@/components/ui/BaseTextarea.vue'
-import { useWxLoginStore } from '@/stores/wx-login'
+import { useToastStore } from '@/stores/toast'
 
 const props = defineProps<{
   show: boolean
@@ -14,66 +13,124 @@ const props = defineProps<{
 
 const emit = defineEmits(['close', 'saved'])
 
-const wxLoginStore = useWxLoginStore()
+const toast = useToastStore()
 
 // 标签页：wx-微信扫码, manual-手动填码
 const activeTab = ref<'wx' | 'manual'>('manual')
 const loading = ref(false)
 const errorMessage = ref('')
 
-// 微信扫码相关
-const wxAccountName = ref('')
-
 // 表单数据
 const form = reactive({
   name: '',
   code: '',
   platform: 'qq' as 'qq' | 'wx',
+  avatar: '',
 })
 
-// 微信扫码轮询
-const { pause: stopWxCheck, resume: startWxCheck } = useIntervalFn(async () => {
-  if (wxLoginStore.status !== 'qr_ready' && wxLoginStore.status !== 'confirming') {
-    return
-  }
-  const result = await wxLoginStore.checkLogin()
-  if (result.success && result.wxid) {
-    stopWxCheck()
-    // 获取Code并添加账号
-    const codeResult = await wxLoginStore.getFarmCode()
-    if (codeResult.success && codeResult.code) {
-      const name = wxAccountName.value.trim() || result.nickname || `微信账号${Date.now()}`
-      // 检查是否启用自动添加账号
-      if (wxLoginStore.config.autoAddAccount) {
-        await addAccount({
-          id: props.editData?.id,
-          name: props.editData ? (props.editData.name || name) : name,
-          code: codeResult.code,
-          platform: 'wx',
-          loginType: 'wx_qr',
-          wxid: result.wxid,
-        })
-      }
-      else {
-        // 不自动添加，只显示 code 让用户手动复制
-        form.code = codeResult.code
-        form.platform = 'wx'
-        activeTab.value = 'manual'
-      }
-    }
-  }
-}, 2000, { immediate: false })
+// yx520微信扫码相关
+const yxQrCode = ref('')
+const yxStatusMessage = ref('准备就绪，正在获取二维码...')
+const yxErrorMessage = ref('')
+const yxIsLoading = ref(false)
+const yxUuid = ref('')
+const yxNickname = ref('')
+const yxAvatar = ref('')
+let yxPollTimer: any = null
 
-// 获取微信二维码
-async function loadWxQRCode() {
-  if (activeTab.value !== 'wx')
-    return
-  wxLoginStore.resetState()
-  const success = await wxLoginStore.getQRCode()
-  if (success) {
-    startWxCheck()
+async function getYxQRCode() {
+  if (yxPollTimer) clearInterval(yxPollTimer)
+  yxIsLoading.value = true
+  yxErrorMessage.value = ''
+  yxStatusMessage.value = '正在获取微信登录二维码...'
+  yxQrCode.value = ''
+
+  try {
+    const res = await api.get('/api/wx-code-proxy?action=get_qr')
+    const data = res.data
+    if (data.code === 200 && data.data && data.data.qr_data) {
+      yxQrCode.value = data.data.qr_data
+      yxUuid.value = data.data.uuid
+      yxStatusMessage.value = '请使用微信扫描二维码 (正在自动监听扫码状态)'
+      yxIsLoading.value = false
+
+      // 开始轮询扫码状态
+      yxPollTimer = setInterval(() => checkYxLoginStatus(data.data.uuid), 2000)
+    } else {
+      yxErrorMessage.value = data.msg || '获取二维码失败'
+      yxStatusMessage.value = '获取失败，请重试'
+      yxIsLoading.value = false
+    }
+  } catch (e: any) {
+    yxErrorMessage.value = '网络错误，获取二维码失败'
+    yxStatusMessage.value = '请求失败'
+    yxIsLoading.value = false
   }
 }
+
+async function checkYxLoginStatus(uuid: string) {
+  try {
+    const res = await api.get(`/api/wx-code-proxy?action=check_qr&uuid=${uuid}`)
+    const data = res.data
+    if (data.code === 200) {
+      clearInterval(yxPollTimer)
+      yxPollTimer = null
+      yxNickname.value = data.data?.nickname || ''
+      yxAvatar.value = data.data?.avatar || ''
+      yxStatusMessage.value = '授权成功！正在获取授权码...'
+      
+      // 拉取最终的 Code
+      await fetchYxFinalCode(data.data.wxid)
+    } else if (data.code === 202) {
+      yxStatusMessage.value = `状态: ${data.msg || '等待扫码'}`
+    }
+  } catch (e) {
+    // 忽略轮询波动，静默重试
+  }
+}
+
+async function fetchYxFinalCode(wxid: string) {
+  try {
+    const res = await api.get(`/api/wx-code-proxy?action=login&wxid=${wxid}`)
+    const data = res.data
+    if (data.code === 200 && data.data && data.data.wx_code) {
+      const wxCode = data.data.wx_code
+      
+      // 自动填入并切换到手动填码 Tab
+      form.code = wxCode
+      form.platform = 'wx'
+      if (!form.name && yxNickname.value)
+        form.name = yxNickname.value
+      form.avatar = yxAvatar.value
+      activeTab.value = 'manual'
+      toast.success('微信授权码已自动填入！')
+    } else {
+      yxErrorMessage.value = data.msg || '获取授权码失败，请重试'
+      yxStatusMessage.value = '授权码拉取失败'
+    }
+  } catch (e: any) {
+    yxErrorMessage.value = '拉取授权码失败'
+    yxStatusMessage.value = '请求异常'
+  }
+}
+
+function stopYxPoll() {
+  if (yxPollTimer) {
+    clearInterval(yxPollTimer)
+    yxPollTimer = null
+  }
+}
+
+// 微信二维码图片
+const yxQrImageSrc = computed(() => {
+  if (!yxQrCode.value)
+    return ''
+  if (yxQrCode.value.startsWith('data:image/'))
+    return yxQrCode.value
+  if (/^https?:\/\/api\.qrserver\.com\//.test(yxQrCode.value))
+    return yxQrCode.value
+  return `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(yxQrCode.value)}`
+})
 
 // 添加账号
 async function addAccount(data: any) {
@@ -128,6 +185,7 @@ async function submitManual() {
         code,
         platform: form.platform,
         loginType: 'manual',
+        avatar: form.avatar,
       }
     }
   }
@@ -137,26 +195,15 @@ async function submitManual() {
       code,
       platform: form.platform,
       loginType: 'manual',
+      avatar: form.avatar,
     }
   }
 
   await addAccount(payload)
 }
 
-// 微信二维码图片
-const wxQrImageSrc = computed(() => {
-  if (!wxLoginStore.qrCode)
-    return ''
-  if (wxLoginStore.qrCode.startsWith('data:'))
-    return wxLoginStore.qrCode
-  if (wxLoginStore.qrCode.startsWith('http'))
-    return wxLoginStore.qrCode
-  return `data:image/png;base64,${wxLoginStore.qrCode}`
-})
-
 function close() {
-  stopWxCheck()
-  wxLoginStore.resetState()
+  stopYxPoll()
   emit('close')
 }
 
@@ -168,25 +215,28 @@ watch(() => props.show, (newVal) => {
       form.name = props.editData.name || ''
       form.code = props.editData.code || ''
       form.platform = props.editData.platform || 'qq'
-      wxAccountName.value = props.editData.name || ''
+      form.avatar = props.editData.avatar || ''
     }
     else {
       activeTab.value = 'manual'
       form.name = ''
       form.code = ''
       form.platform = 'qq'
-      wxAccountName.value = ''
+      form.avatar = ''
+      yxNickname.value = ''
+      yxAvatar.value = ''
     }
   }
   else {
-    stopWxCheck()
-    wxLoginStore.resetState()
+    stopYxPoll()
   }
 })
 
 watch(activeTab, (tab) => {
   if (tab === 'wx') {
-    loadWxQRCode()
+    getYxQRCode()
+  } else {
+    stopYxPoll()
   }
 })
 </script>
@@ -224,7 +274,6 @@ watch(activeTab, (tab) => {
             手动填码
           </button>
           <button
-            v-if="wxLoginStore.config.enabled"
             class="flex-1 py-2 text-center text-sm font-medium transition-colors"
             :class="activeTab === 'wx' ? 'border-b-2' : 'opacity-60'"
             :style="{
@@ -239,44 +288,38 @@ watch(activeTab, (tab) => {
 
         <!-- 微信扫码 Tab -->
         <div v-if="activeTab === 'wx'" class="space-y-4">
-          <BaseInput
-            v-model="wxAccountName"
-            label="账号备注（可选）"
-            placeholder="留空使用微信昵称"
-          />
-
           <div class="flex flex-col items-center justify-center py-4 space-y-4">
             <div
-              v-if="wxQrImageSrc"
+              v-if="yxQrImageSrc"
               class="border rounded-lg p-2"
               :style="{ borderColor: 'color-mix(in srgb, var(--theme-text) 20%, transparent)', background: '#fff' }"
             >
-              <img :src="wxQrImageSrc" class="h-48 w-48">
+              <img :src="yxQrImageSrc" class="h-48 w-48">
             </div>
             <div
               v-else
               class="h-48 w-48 flex items-center justify-center rounded-lg"
               :style="{ background: 'color-mix(in srgb, var(--theme-bg) 90%, var(--theme-text))' }"
             >
-              <div v-if="wxLoginStore.isLoading" i-svg-spinners-90-ring-with-bg class="text-3xl" :style="{ color: 'var(--theme-primary)' }" />
-              <span v-else class="text-sm" :style="{ color: 'var(--theme-text)' }">点击获取二维码</span>
+              <div v-if="yxIsLoading" i-svg-spinners-90-ring-with-bg class="text-3xl" :style="{ color: 'var(--theme-primary)' }" />
+              <span v-else class="text-sm" :style="{ color: 'var(--theme-text)' }">等待获取二维码</span>
             </div>
 
             <p class="text-center text-sm" :style="{ color: 'var(--theme-text)' }">
-              {{ wxLoginStore.statusMessage }}
+              {{ yxStatusMessage }}
             </p>
 
-            <p v-if="wxLoginStore.errorMessage" class="text-center text-sm text-red-600">
-              {{ wxLoginStore.errorMessage }}
+            <p v-if="yxErrorMessage" class="text-center text-sm text-red-600">
+              {{ yxErrorMessage }}
             </p>
 
-            <BaseButton variant="secondary" size="sm" :loading="wxLoginStore.isLoading" @click="loadWxQRCode">
+            <BaseButton variant="secondary" size="sm" :loading="yxIsLoading" @click="getYxQRCode">
               刷新二维码
             </BaseButton>
           </div>
 
-          <div class="text-center text-xs opacity-60" :style="{ color: 'var(--theme-text)' }">
-            使用微信扫描二维码登录，登录成功后将自动添加账号
+          <div class="text-center text-xs opacity-60 px-4 leading-relaxed" :style="{ color: 'var(--theme-text)' }">
+            使用微信扫描二维码授权，扫码成功后系统将自动解析填入授权码。
           </div>
         </div>
 
@@ -297,15 +340,7 @@ watch(activeTab, (tab) => {
 
           <div v-if="form.platform === 'wx'" class="flex items-center gap-1 text-xs" :style="{ color: 'var(--theme-text)', opacity: 0.7 }">
             <div class="i-carbon-qr-code text-sm" />
-            <span>微信区用户可</span>
-            <a
-              href="https://www.yx520.ltd/code/"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="font-medium underline underline-offset-2"
-              :style="{ color: 'var(--theme-primary)' }"
-            >扫码获取 Code</a>
-            <span>，获取后粘贴到上方输入框</span>
+            <span>微信区用户可切换至「微信扫码」标签页，通过手机扫码直接自动填入授权码。</span>
           </div>
 
           <div v-if="!editData" class="flex gap-4">

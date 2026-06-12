@@ -79,7 +79,6 @@ const events = [
   { label: '分享奖励', value: 'daily_share' },
   { label: '会员礼包', value: 'vip_daily_gift' },
   { label: '月卡礼包', value: 'month_card_gift' },
-  { label: '图鉴奖励', value: 'illustrated_rewards' },
   { label: '邮箱领取', value: 'email_rewards' },
   { label: '出售成功', value: 'sell_success' },
   { label: '土地升级', value: 'upgrade_land' },
@@ -488,8 +487,8 @@ useIntervalFn(updateCountdowns, 1000)
           </div>
           <div class="h-1.5 w-full overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700">
             <div
-              class="h-full rounded-full bg-blue-500 transition-all duration-500"
-              :style="{ width: `${getExpPercent(status?.levelProgress)}%` }"
+              class="h-full rounded-full transition-all duration-500"
+              :style="{ width: `${getExpPercent(status?.levelProgress)}%`, background: 'var(--theme-gradient)' }"
             />
           </div>
           <div class="mt-2 flex justify-between text-xs text-gray-400">
@@ -536,7 +535,7 @@ useIntervalFn(updateCountdowns, 1000)
           </div>
           <div class="text-right">
             <div class="flex items-center justify-end gap-1.5 text-xs text-gray-500">
-              <div class="i-carbon-circle text-amber-500" />
+              <div class="i-carbon-circle-filled text-amber-500" />
               金豆豆
             </div>
             <div class="text-2xl text-amber-500 font-bold dark:text-amber-400">

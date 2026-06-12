@@ -4,18 +4,47 @@ import { RouterView } from 'vue-router'
 import ToastContainer from '@/components/ToastContainer.vue'
 import { useAppStore } from '@/stores/app'
 
+import { onMounted } from 'vue'
+
 const appStore = useAppStore()
 
 // 立即应用保存的主题（在组件挂载前）
 const savedTheme = localStorage.getItem('ui_theme') as Theme
-if (savedTheme && appStore.themes[savedTheme]) {
+const hasUserSelectedTheme = localStorage.getItem('ui_theme_user_selected') === '1'
+if (hasUserSelectedTheme && savedTheme && appStore.themes[savedTheme]) {
   appStore.applyTheme(savedTheme)
 }
+
+onMounted(() => {
+  const themeFallbackBg: Record<Theme, string> = {
+    'dark-orange': '2',
+    'glass-teal': '1',
+    'cyber-purple': '3',
+  }
+  const fallbackBg = themeFallbackBg[appStore.currentTheme] || '2'
+  const hasUserSelectedBg = localStorage.getItem('equipped_farm_bg_user_selected') === '1'
+  const selectedBg = localStorage.getItem('equipped_farm_bg') || fallbackBg
+  const bgMap: Record<string, string> = {
+    '1': 'radial-gradient(circle at 50% 0%, #1e3a3a 0%, #0f172a 70%)',
+    '2': 'linear-gradient(rgba(24, 18, 10, 0.02), rgba(24, 18, 10, 0.05)), url("/bg.webp"), linear-gradient(to bottom, #292524, #1c1917)',
+    '3': 'radial-gradient(circle at 50% 0%, #2e1065 0%, #030712 70%)'
+  }
+  const gradient = hasUserSelectedBg
+    ? (bgMap[selectedBg] ?? bgMap[fallbackBg] ?? bgMap['2'] ?? '')
+    : (appStore.themes[appStore.currentTheme]?.bgImage ?? bgMap[fallbackBg] ?? bgMap['2'] ?? '')
+  document.documentElement.style.setProperty('--theme-bg-image', gradient)
+})
 </script>
 
 <template>
-  <div class="app-bg-root h-screen w-screen overflow-hidden" :style="{ color: 'var(--theme-text)' }">
-    <RouterView />
+  <div class="app-bg-root h-screen w-screen overflow-hidden relative" :style="{ color: 'var(--theme-text)' }">
+    <!-- Ambient background glows -->
+    <div class="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] rounded-full bg-[var(--theme-primary)] opacity-[0.06] blur-[150px] pointer-events-none animate-pulse-slow z-0" />
+    <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-[var(--theme-primary)] opacity-[0.03] blur-[120px] pointer-events-none animate-pulse-slow-reverse z-0" />
+
+    <div class="relative z-10 h-full w-full">
+      <RouterView />
+    </div>
     <ToastContainer />
   </div>
 </template>
@@ -24,7 +53,7 @@ if (savedTheme && appStore.themes[savedTheme]) {
 /* Global styles */
 body {
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Maple Mono NF CN', 'Maple Mono NF', 'Maple Mono', monospace, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 /* Color theme variables */
@@ -54,7 +83,7 @@ body {
 /* ── Background image ─────────────────────────────────── */
 .app-bg-root {
   background-color: var(--theme-bg);
-  background-image: linear-gradient(var(--bg-overlay-start), var(--bg-overlay-end)), url('/bg.webp');
+  background-image: var(--theme-bg-image, linear-gradient(var(--bg-overlay-start), var(--bg-overlay-end)), url('/bg.webp'));
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -89,6 +118,13 @@ body {
 
 .dark .bg-gray-700 {
   background-color: rgba(30, 41, 59, 0.18) !important;
+}
+
+/* Dark mode button overrides */
+.dark {
+  --theme-button-sec-bg: linear-gradient(135deg, rgba(51, 65, 85, 0.4) 0%, rgba(30, 41, 59, 0.5) 100%) !important;
+  --theme-button-sec-text: var(--glass-text) !important;
+  --theme-button-sec-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4) !important;
 }
 
 /* Dropdowns — bg-white/95 and dark:bg-gray-900/95 both get solid dropdown background */
@@ -191,5 +227,36 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--theme-secondary);
   opacity: 0.8;
+}
+
+/* ── Ambient Glow Animations ────────────────────────── */
+@keyframes pulse-slow {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.05;
+  }
+  50% {
+    transform: scale(1.1) translate(2%, 4%);
+    opacity: 0.08;
+  }
+}
+
+@keyframes pulse-slow-reverse {
+  0%, 100% {
+    transform: scale(1.1) translate(0, 0);
+    opacity: 0.03;
+  }
+  50% {
+    transform: scale(1) translate(-2%, -4%);
+    opacity: 0.05;
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 20s ease-in-out infinite;
+}
+
+.animate-pulse-slow-reverse {
+  animation: pulse-slow-reverse 25s ease-in-out infinite;
 }
 </style>

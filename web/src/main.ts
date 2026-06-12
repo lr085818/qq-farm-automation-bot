@@ -16,7 +16,10 @@ app.use(router)
 
 // Apply theme immediately before app mounts
 const THEME_KEY = 'ui_theme'
-const savedTheme = localStorage.getItem(THEME_KEY) || 'dark-orange'
+const USER_THEME_KEY = 'ui_theme_user_selected'
+const savedTheme = localStorage.getItem(USER_THEME_KEY) === '1'
+  ? (localStorage.getItem(THEME_KEY) || 'dark-orange')
+  : 'dark-orange'
 const themes: Record<string, { isDark: boolean, bg: string, text: string, primary: string, secondary: string, gradient: string }> = {
   'dark-orange': { isDark: true, bg: '#292524', text: '#fef3c7', primary: '#f59e0b', secondary: '#d97706', gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)' },
 }

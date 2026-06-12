@@ -4,6 +4,20 @@
 
 const { getAllPlants, getFruitPrice, getSeedPrice, getItemImageById } = require('../config/gameConfig');
 
+const AUTHOR_ANALYTICS_MAX_SEED_ID = 20259;
+const AUTHOR_ANALYTICS_FORCE_INCLUDE_SEED_IDS = new Set([20167]);
+
+function shouldIncludeInAuthorAnalytics(plant, seenSeedIds) {
+    const seedId = Number(plant && plant.seed_id) || 0;
+    if (seedId <= 0 || seenSeedIds.has(seedId)) return false;
+
+    const name = String(plant && plant.name || '').trim();
+    if (!name || /^作物\d+$/.test(name)) return false;
+
+    if (AUTHOR_ANALYTICS_FORCE_INCLUDE_SEED_IDS.has(seedId)) return true;
+    return seedId <= AUTHOR_ANALYTICS_MAX_SEED_ID;
+}
+
 function parseGrowTime(growPhases) {
     if (!growPhases) return 0;
     const phases = growPhases.split(';').filter(p => p.length > 0);
@@ -36,11 +50,15 @@ function formatTime(seconds) {
 
 function getPlantRankings(sortBy = 'exp') {
     const plants = getAllPlants();
+    const seenSeedIds = new Set();
     
-    // 筛选普通作物
+    // 向作者当前分析页口径收敛：排除占位作物、重复 seedId 和高编号扩展作物，
+    // 同时保留当前已上线的新作物“欢乐糖果”。
     const normalPlants = plants.filter(p => {
-        // 放宽条件，只要有种子ID且有生长阶段数据
-        return p.seed_id > 0 && p.grow_phases;
+        if (!p.grow_phases) return false;
+        if (!shouldIncludeInAuthorAnalytics(p, seenSeedIds)) return false;
+        seenSeedIds.add(Number(p.seed_id) || 0);
+        return true;
     });
 
     const results = [];

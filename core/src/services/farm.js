@@ -21,7 +21,7 @@ let isFirstFarmCheck = true;
 let farmLoopRunning = false;
 let externalSchedulerMode = false;
 let fertilizerBuyCheckTimer = null;
-let lastFertilizerBuyCheckAt = 0;
+const lastFertilizerBuyCheckAt = 0;
 const farmScheduler = createScheduler('farm');
 const FARM_PUSH_MIN_INTERVAL_MS = 5000;
 
@@ -36,12 +36,12 @@ function setOperationLimitsCallback(callback) {
 /**
  * 通用植物操作请求
  */
-async function sendPlantRequest(RequestType, ReplyType, method, landIds, hostGid) {
+async function sendPlantRequest(RequestType, ReplyType, method, landIds, hostGid, bypassThrottle = false) {
     const body = RequestType.encode(RequestType.create({
         land_ids: landIds,
         host_gid: toLong(hostGid),
     })).finish();
-    const { body: replyBody } = await sendMsgAsync('gamepb.plantpb.PlantService', method, body);
+    const { body: replyBody } = await sendMsgAsync('gamepb.plantpb.PlantService', method, body, 20000, bypassThrottle);
     return ReplyType.decode(replyBody);
 }
 
@@ -67,19 +67,19 @@ async function harvest(landIds) {
     return types.HarvestReply.decode(replyBody);
 }
 
-async function waterLand(landIds) {
+async function waterLand(landIds, bypassThrottle = false) {
     const state = getUserState();
-    return sendPlantRequest(types.WaterLandRequest, types.WaterLandReply, 'WaterLand', landIds, state.gid);
+    return sendPlantRequest(types.WaterLandRequest, types.WaterLandReply, 'WaterLand', landIds, state.gid, bypassThrottle);
 }
 
-async function weedOut(landIds) {
+async function weedOut(landIds, bypassThrottle = false) {
     const state = getUserState();
-    return sendPlantRequest(types.WeedOutRequest, types.WeedOutReply, 'WeedOut', landIds, state.gid);
+    return sendPlantRequest(types.WeedOutRequest, types.WeedOutReply, 'WeedOut', landIds, state.gid, bypassThrottle);
 }
 
-async function insecticide(landIds) {
+async function insecticide(landIds, bypassThrottle = false) {
     const state = getUserState();
-    return sendPlantRequest(types.InsecticideRequest, types.InsecticideReply, 'Insecticide', landIds, state.gid);
+    return sendPlantRequest(types.InsecticideRequest, types.InsecticideReply, 'Insecticide', landIds, state.gid, bypassThrottle);
 }
 
 // 普通肥料 ID
@@ -144,11 +144,14 @@ async function fertilizeOrganicLoop(landIds) {
 
 function getOrganicFertilizerTargetsFromLands(lands) {
     const list = Array.isArray(lands) ? lands : [];
+    const landsMap = buildLandMap(list);
     const targets = [];
     for (const land of list) {
         if (!land || !land.unlocked) continue;
         const landId = toNum(land.id);
         if (!landId) continue;
+
+        if (isOccupiedSlaveLand(land, landsMap)) continue;
 
         const plant = land.plant;
         if (!plant || !plant.phases || plant.phases.length === 0) continue;
@@ -157,7 +160,7 @@ function getOrganicFertilizerTargetsFromLands(lands) {
         if (currentPhase.phase === PlantPhase.DEAD) continue;
 
         // 服务端有该字段时，<=0 说明该地当前不能再施有机肥
-        if (Object.prototype.hasOwnProperty.call(plant, 'left_inorc_fert_times')) {
+        if (Object.hasOwn(plant, 'left_inorc_fert_times')) {
             const leftTimes = toNum(plant.left_inorc_fert_times);
             if (leftTimes <= 0) continue;
         }
@@ -169,6 +172,7 @@ function getOrganicFertilizerTargetsFromLands(lands) {
 
 function getFastMatureLands(lands, thresholdSec = 300) {
     const list = Array.isArray(lands) ? lands : [];
+    const landsMap = buildLandMap(list);
     const targets = [];
     const nowSec = getServerTimeSec();
     const threshold = Math.max(0, toNum(thresholdSec) || 300);
@@ -177,6 +181,8 @@ function getFastMatureLands(lands, thresholdSec = 300) {
         if (!land || !land.unlocked) continue;
         const landId = toNum(land.id);
         if (!landId) continue;
+
+        if (isOccupiedSlaveLand(land, landsMap)) continue;
 
         const plant = land.plant;
         if (!plant || !plant.phases || plant.phases.length === 0) continue;
@@ -194,7 +200,7 @@ function getFastMatureLands(lands, thresholdSec = 300) {
         const timeToMature = matureBeginTime - nowSec;
 
         if (timeToMature <= threshold && timeToMature >= 0) {
-            if (Object.prototype.hasOwnProperty.call(plant, 'left_inorc_fert_times')) {
+            if (Object.hasOwn(plant, 'left_inorc_fert_times')) {
                 const leftTimes = toNum(plant.left_inorc_fert_times);
                 if (leftTimes <= 0) continue;
             }
@@ -860,8 +866,8 @@ async function getAvailableSeeds() {
         }));
     }
     return list.sort((a, b) => {
-        const av = (a.requiredLevel === null || a.requiredLevel === undefined) ? 9999 : a.requiredLevel;
-        const bv = (b.requiredLevel === null || b.requiredLevel === undefined) ? 9999 : b.requiredLevel;
+        const av = a.requiredLevel ?? 9999;
+        const bv = b.requiredLevel ?? 9999;
         return av - bv;
     });
 }
@@ -1432,6 +1438,78 @@ async function checkFarm() {
 }
 
 /**
+ * 自动刷变异逻辑
+ */
+async function processAutoMutation(lands) {
+    const { getConfigSnapshot } = require('../models/store');
+    const config = getConfigSnapshot() || {};
+    if (!config.autoMutateEnabled) return false;
+    const mutateSeedId = Number(config.mutateSeedId) || 0;
+    
+    let hadAction = false;
+    for (const land of lands) {
+        if (!land.unlocked) continue;
+        const plant = land.plant;
+        if (!plant || !plant.phases || plant.phases.length === 0) continue;
+        
+        const plantId = Number(plant.id);
+        const isCandidate = (mutateSeedId > 0 && plantId === mutateSeedId) ||
+                            (mutateSeedId === 0 && plant.mutant_config_ids && plant.mutant_config_ids.length > 0);
+        
+        if (!isCandidate) continue;
+        
+        // 检查是否已变异 (phases 中有 mutants 记录)
+        const isMutated = plant.phases.some(p => p.mutants && p.mutants.length > 0);
+        if (isMutated) {
+            continue;
+        }
+        
+        const currentPhase = getCurrentPhase(plant.phases);
+        if (!currentPhase) continue;
+        const phaseVal = currentPhase.phase;
+        
+        if (phaseVal === PlantPhase.MATURE) {
+            // 成熟且未发生变异 -> 铲除它
+            log('自动变异', `土地#${land.id} 的作物已成熟且未发生变异，执行铲除。`, {
+                module: 'farm', event: '自动变异铲除', landId: land.id, plantId
+            });
+            try {
+                await removePlant([land.id]);
+                hadAction = true;
+            } catch (e) {
+                logWarn('自动变异', `铲除未变异作物失败: ${e.message}`);
+            }
+        } else if (phaseVal < PlantPhase.MATURE) {
+            // 生长中且未发生变异 -> 使用肥料催熟
+            const leftTimes = Number(plant.left_inorc_fert_times) || 0;
+            if (leftTimes > 0) {
+                log('自动变异', `土地#${land.id} 作物未发生变异，执行施普通肥催熟（剩余施肥数:${leftTimes}）`);
+                try {
+                    const success = await fertilize([land.id], NORMAL_FERTILIZER_ID);
+                    if (success > 0) {
+                        hadAction = true;
+                    }
+                } catch (e) {
+                    logWarn('自动变异', `施普通肥催熟失败: ${e.message}`);
+                }
+            } else {
+                // 如果普通施肥满，尝试有机肥催熟
+                log('自动变异', `土地#${land.id} 作物未发生变异且普通肥已满，执行施有机肥催熟`);
+                try {
+                    const success = await fertilize([land.id], ORGANIC_FERTILIZER_ID);
+                    if (success > 0) {
+                        hadAction = true;
+                    }
+                } catch (e) {
+                    logWarn('自动变异', `施有机肥催熟失败: ${e.message}`);
+                }
+            }
+        }
+    }
+    return hadAction;
+}
+
+/**
  * 手动/自动执行农场操作
  * @param {string} opType - 'all', 'harvest', 'clear', 'plant', 'upgrade'
  */
@@ -1445,6 +1523,15 @@ async function runFarmOperation(opType) {
     }
 
     const lands = landsReply.lands;
+
+    // 自动变异刷种子逻辑 (仅在自动循环 opType === 'all' 时触发)
+    if (opType === 'all') {
+        const mutatedAction = await processAutoMutation(lands);
+        if (mutatedAction) {
+            await sleep(1000);
+            return runFarmOperation(opType); // 递归重新执行以更新状态
+        }
+    }
 
     const status = analyzeLands(lands);
 
@@ -1462,36 +1549,46 @@ async function runFarmOperation(opType) {
 
     const actions = [];
 
-    // 执行除草/虫/水 - 串行执行以降低并发压力
+    // 执行除草/虫/水 - 并行批量执行以规避限流并提升速度
     if (opType === 'all' || opType === 'clear') {
         // 检查是否跳过自己农场的草虫（仅自动模式生效，手动clear不受影响）
         const skipOwnWeedBug = opType === 'all' && isAutomationOn('skip_own_weed_bug');
+        const clearPromises = [];
+
         if (status.needWeed.length > 0 && !skipOwnWeedBug) {
-            try {
-                await weedOut(status.needWeed);
-                actions.push(`除草${status.needWeed.length}`);
-                recordOperation('weed', status.needWeed.length);
-            } catch (e) {
-                logWarn('除草', e.message);
-            }
+            clearPromises.push(
+                weedOut(status.needWeed, true)
+                    .then(() => {
+                        actions.push(`除草${status.needWeed.length}`);
+                        recordOperation('weed', status.needWeed.length);
+                    })
+                    .catch(e => logWarn('除草', e.message))
+            );
         }
         if (status.needBug.length > 0 && !skipOwnWeedBug) {
-            try {
-                await insecticide(status.needBug);
-                actions.push(`除虫${status.needBug.length}`);
-                recordOperation('bug', status.needBug.length);
-            } catch (e) {
-                logWarn('除虫', e.message);
-            }
+            clearPromises.push(
+                insecticide(status.needBug, true)
+                    .then(() => {
+                        actions.push(`除虫${status.needBug.length}`);
+                        recordOperation('bug', status.needBug.length);
+                    })
+                    .catch(e => logWarn('除虫', e.message))
+            );
         }
         if (status.needWater.length > 0) {
-            try {
-                await waterLand(status.needWater);
-                actions.push(`浇水${status.needWater.length}`);
-                recordOperation('water', status.needWater.length);
-            } catch (e) {
-                logWarn('浇水', e.message);
-            }
+            clearPromises.push(
+                waterLand(status.needWater, true)
+                    .then(() => {
+                        actions.push(`浇水${status.needWater.length}`);
+                        recordOperation('water', status.needWater.length);
+                    })
+                    .catch(e => logWarn('浇水', e.message))
+            );
+        }
+
+        if (clearPromises.length > 0) {
+            await Promise.all(clearPromises);
+            await sleep(500); // 批量发送后短暂休眠以等待服务器处理完毕
         }
     }
 
@@ -1776,4 +1873,6 @@ module.exports = {
     buildSlaveToMasterMap,
     getDisplayLandContext,
     isOccupiedSlaveLand,
+    getShopInfo,
+    buyGoods,
 };

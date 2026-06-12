@@ -55,30 +55,7 @@ async function claimDailyReward(type, pointIds) {
     return types.ClaimDailyRewardReply.decode(replyBody);
 }
 
-async function claimAllIllustratedRewards() {
-    if (!types.ClaimAllRewardsV2Request || !types.ClaimAllRewardsV2Reply) {
-        return { items: [], bonus_items: [] };
-    }
-    const body = types.ClaimAllRewardsV2Request.encode(types.ClaimAllRewardsV2Request.create({
-        only_claimable: true,
-    })).finish();
-    const { body: replyBody } = await sendMsgAsync('gamepb.illustratedpb.IllustratedService', 'ClaimAllRewardsV2', body);
-    return types.ClaimAllRewardsV2Reply.decode(replyBody);
-}
 
-async function getTicketBalanceFromBag() {
-    try {
-        const { getBag, getBagItems } = require('./warehouse');
-        const rep = await getBag();
-        const items = getBagItems(rep);
-        for (const it of (items || [])) {
-            if (toNum(it && it.id) === 1002) return Math.max(0, toNum(it && it.count));
-        }
-        return 0;
-    } catch {
-        return 0;
-    }
-}
 
 // ============ 任务分析 ============
 
@@ -175,33 +152,7 @@ async function checkAndClaimActives(actives) {
     return { scanned, claimed, errors };
 }
 
-async function checkAndClaimIllustratedRewards() {
-    try {
-        const beforeTicket = await getTicketBalanceFromBag();
-        const reply = await claimAllIllustratedRewards();
-        const items = [
-            ...(Array.isArray(reply && reply.items) ? reply.items : []),
-            ...(Array.isArray(reply && reply.bonus_items) ? reply.bonus_items : []),
-        ];
-        const afterTicket = await getTicketBalanceFromBag();
-        const gainTicket = Math.max(0, afterTicket - beforeTicket);
-        if (gainTicket < 200) return false;
 
-        log('任务', `领取成功: 点券${gainTicket}`, {
-            module: 'task',
-            event: '图鉴奖励',
-            result: 'ok',
-            scope: 'illustrated',
-            count: items.length,
-        });
-        taskClaimDoneDateKey = getDateKey();
-        taskClaimLastAt = Date.now();
-        recordOperation('taskClaim', 1);
-        return true;
-    } catch {
-        return false;
-    }
-}
 
 // ============ 自动领取 ============
 
@@ -241,7 +192,6 @@ async function checkAndClaimTasks() {
             }
         }
         await checkAndClaimActives(taskInfo.actives || []);
-        await checkAndClaimIllustratedRewards();
     } catch (e) {
         logWarn('任务', `检查任务失败: ${e.message}`, {
             module: 'task', event: '扫描任务', result: 'error'
@@ -293,7 +243,6 @@ function onTaskInfoNotify(taskInfo) {
     taskScheduler.setTimeoutTask('task_claim_debounce', 1000, async () => {
         if (hasClaimable) await claimTasksFromList(claimable);
         await checkAndClaimActives(actives);
-        await checkAndClaimIllustratedRewards();
     });
 }
 

@@ -28,7 +28,7 @@ message EnterRequest {
 message EnterReply {
     gamepb.userpb.BasicInfo basic = 1;              // 好友基本信息
     repeated gamepb.plantpb.LandInfo lands = 2;     // 好友的所有土地
-    // field 3: brief_dog_info (不需要)
+    bytes brief_dog_info = 3;                       // 狗狗信息
     // field 4: nudge_info (不需要)
 }
 

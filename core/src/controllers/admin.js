@@ -20,6 +20,7 @@ const { findAccountByRef, normalizeAccountRef, resolveAccountId } = require('../
 const { createModuleLogger } = require('../services/logger');
 const { MiniProgramLoginSession } = require('../services/qrlogin');
 const { getSchedulerRegistrySnapshot } = require('../services/scheduler');
+const { toNum } = require('../utils/utils');
 const userStore = require('../models/user-store');
 
 const hashPassword = (pwd) => crypto.createHash('sha256').update(String(pwd || '')).digest('hex');
@@ -499,7 +500,7 @@ function startAdminServer(dataProvider) {
     });
 
     app.use('/api', (req, res, next) => {
-        if (req.path === '/login' || req.path === '/qr/create' || req.path === '/qr/check' || req.path === '/card-claim/status' || req.path === '/card-claim/claim' || req.path === '/game-version') return next();
+        if (req.path === '/login' || req.path === '/qr/create' || req.path === '/qr/check' || req.path === '/card-claim/status' || req.path === '/card-claim/claim' || req.path === '/game-version' || req.path === '/wx-code-proxy') return next();
         return authRequired(req, res, (err) => {
             if (err) return next(err);
             const mustChangePassword = !!(req.currentUser && req.currentUser.mustChangePassword);
@@ -520,6 +521,152 @@ function startAdminServer(dataProvider) {
     app.get('/api/game-version', (req, res) => {
         const runtimeConfig = getRuntimeConfig();
         res.json({ ok: true, clientVersion: runtimeConfig.clientVersion });
+    });
+
+    function normalizeImageUrl(value) {
+        const text = String(value || '').trim();
+        if (!text) return '';
+        if (text.startsWith('//')) return `https:${text}`;
+        if (/^https?:\/\/.+\.(?:jpg|jpeg|png|webp|gif)(?:[?#].*)?$/i.test(text)) return text;
+        if (/^https?:\/\/(?:thirdwx\.qlogo\.cn|wx\.qlogo\.cn|mmbiz\.qpic\.cn|qlogo\.cn|qpic\.cn)\//i.test(text)) return text;
+        return '';
+    }
+
+    function findAvatarDeep(source, depth = 0, seen = new Set()) {
+        if (!source || depth > 8) return '';
+        if (typeof source === 'string') return normalizeImageUrl(source);
+        if (typeof source !== 'object') return '';
+        if (seen.has(source)) return '';
+        seen.add(source);
+
+        const preferredKeys = [
+            'headImgUrl', 'HeadImgUrl', 'smallHeadImgUrl', 'SmallHeadImgUrl',
+            'headimgurl', 'head_img_url', 'avatar', 'avatarUrl', 'avatar_url',
+            'icon', 'iconUrl', 'icon_url', 'photo', 'photoUrl', 'photo_url',
+        ];
+        for (const key of preferredKeys) {
+            if (Object.prototype.hasOwnProperty.call(source, key)) {
+                const found = findAvatarDeep(source[key], depth + 1, seen);
+                if (found) return found;
+            }
+        }
+
+        for (const [key, value] of Object.entries(source)) {
+            if (/avatar|head.*img|img.*head|icon|photo|qlogo/i.test(key)) {
+                const found = findAvatarDeep(value, depth + 1, seen);
+                if (found) return found;
+            }
+        }
+
+        for (const value of Object.values(source)) {
+            const found = findAvatarDeep(value, depth + 1, seen);
+            if (found) return found;
+        }
+        return '';
+    }
+
+    function writeWxLoginDebug(data, avatar) {
+        try {
+            const sanitize = (value, depth = 0) => {
+                if (depth > 5) return '[max-depth]';
+                if (Array.isArray(value)) return value.slice(0, 20).map(item => sanitize(item, depth + 1));
+                if (value && typeof value === 'object') {
+                    const out = {};
+                    for (const [key, item] of Object.entries(value)) {
+                        out[key] = /data62|ticket|token|cookie|code/i.test(key) && item ? '[redacted]' : sanitize(item, depth + 1);
+                    }
+                    return out;
+                }
+                return value;
+            };
+            const debugPath = path.join(__dirname, '../../data/wx-login-last.json');
+            fs.writeFileSync(debugPath, JSON.stringify({ savedAt: Date.now(), avatar, response: sanitize(data) }, null, 2), 'utf8');
+        } catch {
+            // best-effort debug dump only
+        }
+    }
+
+    app.get('/api/wx-code-proxy', async (req, res) => {
+        const { action, uuid, wxid } = req.query;
+        const wxLoginBase = 'http://103.39.65.231:8059';
+
+        try {
+            if (action === 'get_qr') {
+                const response = await fetch(`${wxLoginBase}/api/Login/LoginGetQRCar`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ DeviceID: '', DeviceName: '', Proxy: {} }),
+                    timeout: 10000
+                });
+                const data = await response.json();
+                if (data.Code === 1 && data.Data) {
+                    return res.json({
+                        code: 200,
+                        msg: data.Message || '成功',
+                        data: {
+                            uuid: data.Data.Uuid || '',
+                            qr_data: data.Data.QrBase64 || data.Data.QrUrl || `http://weixin.qq.com/x/${data.Data.Uuid || ''}`,
+                            qr_url: data.Data.QrUrl || '',
+                            expired_time: data.Data.ExpiredTime || '',
+                            device_id: data.DeviceId || '',
+                            data62: data.Data62 || ''
+                        }
+                    });
+                }
+                return res.json({ code: -1, msg: data.Message || '获取二维码失败', data });
+            }
+
+            if (action === 'check_qr') {
+                if (!uuid) return res.status(400).json({ code: -1, msg: '缺少 uuid' });
+                const response = await fetch(`${wxLoginBase}/api/Login/LoginCheckQR?uuid=${encodeURIComponent(uuid)}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    timeout: 10000
+                });
+                const data = await response.json();
+                const account = data && data.Data && data.Data.acctSectResp;
+                if (account && account.userName) {
+                    const bindUin = toNum(account.bindUin);
+                    const avatar = findAvatarDeep(account)
+                        || findAvatarDeep(data)
+                        || (bindUin > 0 ? `https://q1.qlogo.cn/g?b=qq&nk=${bindUin}&s=100` : '');
+                    writeWxLoginDebug(data, avatar);
+                    return res.json({
+                        code: 200,
+                        msg: data.Message || '登录成功',
+                        data: {
+                            wxid: account.userName,
+                            nickname: account.nickName || '',
+                            avatar,
+                            bindUin,
+                            data62: data.Data62 || data.Data?.Data62 || ''
+                        }
+                    });
+                }
+                const waitMessage = data.Message && data.Message !== '成功' ? data.Message : '等待扫码';
+                return res.json({ code: 202, msg: waitMessage, data });
+            }
+
+            if (action === 'login') {
+                if (!wxid) return res.status(400).json({ code: -1, msg: '缺少 wxid' });
+                const response = await fetch(`${wxLoginBase}/api/Wxapp/JSLogin`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ Appid: 'wx5306c5978fdb76e4', Wxid: wxid }),
+                    timeout: 10000
+                });
+                const data = await response.json();
+                const wxCode = data && data.Data && data.Data.code;
+                if ((data.Code === 0 || data.Code === 1) && wxCode) {
+                    return res.json({ code: 200, msg: data.Message || '成功', data: { wx_code: wxCode } });
+                }
+                return res.json({ code: -1, msg: data.Message || '获取授权码失败', data });
+            }
+
+            return res.status(400).json({ ok: false, error: 'Invalid action' });
+        } catch (e) {
+            return res.status(500).json({ code: -1, msg: e.message || '微信登录代理请求失败' });
+        }
     });
 
     app.get('/api/auth/validate', (req, res) => {
@@ -778,6 +925,229 @@ function startAdminServer(dataProvider) {
             handleApiError(res, e);
         }
     });
+
+    async function handleShopGoodsRequest(req, res) {
+        const id = getAccId(req);
+        if (!id) return res.status(400).json({ ok: false });
+        if (!checkAccountAccess(req, id)) {
+            return res.status(403).json({ ok: false, error: '无权访问此账号' });
+        }
+        try {
+            const shopId = Number(req.query.shop_id) || 1;
+            const statusData = provider.getStatus(id);
+            const userLevel = toNum(statusData && statusData.status && statusData.status.level);
+            let data;
+            try {
+                if (shopId === 1 && typeof provider.getFertilizerShopGoods === 'function') {
+                    const goods_list = await provider.getFertilizerShopGoods(id);
+                    data = { shop_id: shopId, goods_list };
+                } else {
+                    data = await provider.getShopInfo(id, shopId);
+                }
+            } catch (e) {
+                if (!isSoftRuntimeError(e)) throw e;
+                data = buildLocalShopInfo(shopId, userLevel);
+            }
+            if ((!data || !Array.isArray(data.goods_list) || data.goods_list.length === 0) && shopId === 1) {
+                data = buildLocalShopInfo(shopId, userLevel);
+            }
+            if (shopId === 2) {
+                data = normalizeSeedShopInfo(data, userLevel);
+            }
+            
+            const { getItemById, getPlantBySeedId, getItemImageById, getSeedImageBySeedId } = require('../config/gameConfig');
+            
+            const enrichedGoodsList = (data.goods_list || []).map(goods => {
+                const goodsObj = goods.toJSON ? goods.toJSON() : goods;
+                const itemId = toNum(goodsObj.item_id);
+                const goodsId = toNum(goodsObj.id || goodsObj.goods_id, itemId);
+                const price = toNum(goodsObj.price);
+                const conds = Array.isArray(goodsObj.conds)
+                    ? goodsObj.conds.map(cond => {
+                        const condObj = cond && cond.toJSON ? cond.toJSON() : (cond || {});
+                        return {
+                            ...condObj,
+                            param: toNum(condObj.param),
+                        };
+                    })
+                    : [];
+                const levelCond = conds.find(cond => String(cond.type || '').toLowerCase() === 'level' || toNum(cond.param) > 0);
+                const requiredLevel = toNum(goodsObj.required_level, levelCond ? toNum(levelCond.param) : 0);
+                const levelUnlocked = requiredLevel <= 0 || userLevel >= requiredLevel;
+                const serverUnlocked = goodsObj.unlocked !== false;
+                const unlocked = serverUnlocked && levelUnlocked;
+                
+                let name = `商品 ${goodsId}`;
+                let desc = '';
+                let image = '';
+                
+                const plant = getPlantBySeedId(itemId);
+                const item = getItemById(itemId);
+                
+                if (item) {
+                    name = item.name || name;
+                    desc = item.desc || item.effectDesc || '';
+                }
+                
+                if (plant) {
+                    name = plant.name || name;
+                    desc = `成熟时间: ${plant.grow_time ? (plant.grow_time / 3600).toFixed(1) : '未知'}小时，经验收益: ${plant.exp || 0}`;
+                }
+                if (typeof goodsObj.name === 'string' && goodsObj.name.trim()) {
+                    name = goodsObj.name.trim();
+                }
+                if (typeof goodsObj.desc === 'string' && goodsObj.desc.trim()) {
+                    desc = goodsObj.desc.trim();
+                }
+                
+                if (shopId === 2) {
+                    image = getSeedImageBySeedId(itemId) || '';
+                } else {
+                    image = getItemImageById(itemId) || '';
+                }
+                return {
+                    ...goodsObj,
+                    id: goodsId,
+                    item_id: itemId,
+                    price,
+                    unlocked,
+                    can_buy: unlocked,
+                    required_level: requiredLevel,
+                    user_level: userLevel,
+                    conds,
+                    name,
+                    desc,
+                    image,
+                    purchase_route: goodsObj.purchase_route || (shopId === 1 && goodsObj.fertilizer_type ? 'fertilizer' : 'shop'),
+                    fertilizer_type: goodsObj.fertilizer_type || '',
+                    currency: goodsObj.currency || (shopId === 1 && goodsObj.fertilizer_type ? 'ticket' : 'gold'),
+                };
+            });
+            
+            res.json({ ok: true, data: { ...data, goods_list: enrichedGoodsList } });
+        } catch (e) {
+            handleApiError(res, e);
+        }
+    }
+
+    function normalizeSeedShopInfo(data, userLevel = 0) {
+        const local = buildLocalShopInfo(2, userLevel);
+        const serverGoods = Array.isArray(data && data.goods_list) ? data.goods_list : [];
+        const serverByItemId = new Map();
+        for (const goods of serverGoods) {
+            const goodsObj = goods && goods.toJSON ? goods.toJSON() : (goods || {});
+            const itemId = toNum(goodsObj.item_id, toNum(goodsObj.id || goodsObj.goods_id));
+            if (itemId > 0 && !serverByItemId.has(itemId)) {
+                serverByItemId.set(itemId, goodsObj);
+            }
+        }
+
+        const goods_list = local.goods_list.map((localGoods) => {
+            const itemId = toNum(localGoods.item_id);
+            const serverGoodsItem = serverByItemId.get(itemId);
+            if (!serverGoodsItem) return localGoods;
+            return {
+                ...localGoods,
+                ...serverGoodsItem,
+                id: toNum(serverGoodsItem.id || serverGoodsItem.goods_id, localGoods.id),
+                item_id: itemId,
+                conds: Array.isArray(serverGoodsItem.conds) && serverGoodsItem.conds.length > 0 ? serverGoodsItem.conds : localGoods.conds,
+                local_fallback: false,
+            };
+        });
+
+        return {
+            ...(data || {}),
+            shop_id: 2,
+            goods_list,
+            normalized_from_server_count: serverGoods.length,
+            normalized_to_count: goods_list.length,
+        };
+    }
+
+    function buildLocalShopInfo(shopId, userLevel = 0) {
+        if (Number(shopId) === 1) return buildLocalItemShopInfo();
+        if (Number(shopId) !== 2) return { shop_id: shopId, goods_list: [], local_fallback: true };
+        const { getAllSeeds } = require('../config/gameConfig');
+        const currentLevel = Number(userLevel) || 0;
+        const goods_list = getAllSeeds().filter(seed => {
+            const seedId = Number(seed.seedId) || 0;
+            const seedName = String(seed.name || '').trim();
+            const requiredLevel = Number(seed.requiredLevel) || 1;
+            return seedId > 0
+                && seedId < 20300
+                && requiredLevel <= 150
+                && !/^作物\d+$/.test(seedName);
+        }).map(seed => {
+            const requiredLevel = Number(seed.requiredLevel) || 1;
+            const unlocked = currentLevel >= requiredLevel;
+            return {
+                id: Number(seed.seedId) || 0,
+                item_id: Number(seed.seedId) || 0,
+                price: (Number(seed.price) || 0) * 2,
+                unlocked,
+                can_buy: unlocked,
+                required_level: requiredLevel,
+                user_level: currentLevel,
+                conds: [{ type: 'level', param: requiredLevel }],
+                local_fallback: true,
+            };
+        }).filter(goods => goods.item_id > 0);
+        return { shop_id: shopId, goods_list, local_fallback: true };
+    }
+
+    function buildLocalItemShopInfo() {
+        const goods_list = [
+            {
+                id: 1002,
+                goods_id: 1002,
+                item_id: 80011,
+                price: 42,
+                name: '10小时有机化肥',
+                desc: '购买后填充有机化肥容器，用于加速高品质作物成熟。',
+                fertilizer_type: 'organic',
+            },
+            {
+                id: 1003,
+                goods_id: 1003,
+                item_id: 80001,
+                price: 34,
+                name: '10小时化肥',
+                desc: '购买后填充普通化肥容器，用于加速作物成熟。',
+                fertilizer_type: 'normal',
+            },
+        ].map(goods => ({
+            ...goods,
+            unlocked: true,
+            can_buy: true,
+            required_level: 0,
+            purchase_route: goods.purchase_route || 'fertilizer',
+            currency: goods.currency || 'ticket',
+            local_fallback: true,
+        }));
+        return { shop_id: 1, goods_list, local_fallback: true };
+    }
+
+    // API: 商店商品列表
+    app.get('/api/shop/goods', handleShopGoodsRequest);
+    app.get('/api/shop/list', handleShopGoodsRequest);
+
+    // API: 商店购买商品
+    app.post('/api/shop/buy', async (req, res) => {
+        const id = getAccId(req);
+        if (!id) return res.status(400).json({ ok: false });
+        if (!checkAccountAccess(req, id)) {
+            return res.status(403).json({ ok: false, error: '无权访问此账号' });
+        }
+        try {
+            const { goodsId, count, price } = req.body;
+            const data = await provider.buyGoods(id, goodsId, count, price);
+            res.json({ ok: true, data });
+        } catch (e) {
+            handleApiError(res, e);
+        }
+    });
+
 
     // API: 好友列表
     app.get('/api/friends', async (req, res) => {
@@ -1676,12 +2046,14 @@ function startAdminServer(dataProvider) {
             const fertilizerBuyCheckIntervalMinutes = id && (typeof store.getFertilizerBuyCheckIntervalMinutes === 'function') ? store.getFertilizerBuyCheckIntervalMinutes(id) : 30;
             const bagSeedPriority = id && (typeof store.getBagSeedPriority === 'function') ? store.getBagSeedPriority(id) : [];
             const bagSeedFallbackStrategy = id && (typeof store.getBagSeedFallbackStrategy === 'function') ? store.getBagSeedFallbackStrategy(id) : 'level';
+            const autoMutateEnabled = id && (typeof store.getAutoMutateEnabled === 'function') ? store.getAutoMutateEnabled(id) : false;
+            const mutateSeedId = id && (typeof store.getMutateSeedId === 'function') ? store.getMutateSeedId(id) : 0;
             const ui = store.getUI();
             // 获取用户隔离的下线提醒配置
             const offlineReminder = store.getOfflineReminder && currentUser
                 ? store.getOfflineReminder(currentUser.username)
                 : { channel: 'webhook', reloginUrlMode: 'none', endpoint: '', token: '', title: '账号下线提醒', msg: '账号下线', offlineDeleteSec: 0 };
-            res.json({ ok: true, data: { intervals, strategy, preferredSeed, friendQuietHours, automation, stealDelaySeconds, plantOrderRandom, plantDelaySeconds, fertilizerBuyOrganicCount, fertilizerBuyOrganicThresholdHours, fertilizerBuyNormalCount, fertilizerBuyNormalThresholdHours, fertilizerBuyCheckIntervalMinutes, bagSeedPriority, bagSeedFallbackStrategy, ui, offlineReminder } });
+            res.json({ ok: true, data: { intervals, strategy, preferredSeed, friendQuietHours, automation, stealDelaySeconds, plantOrderRandom, plantDelaySeconds, fertilizerBuyOrganicCount, fertilizerBuyOrganicThresholdHours, fertilizerBuyNormalCount, fertilizerBuyNormalThresholdHours, fertilizerBuyCheckIntervalMinutes, bagSeedPriority, bagSeedFallbackStrategy, autoMutateEnabled, mutateSeedId, ui, offlineReminder } });
         } catch (e) {
             res.status(500).json({ ok: false, error: e.message });
         }
@@ -2271,7 +2643,7 @@ function startAdminServer(dataProvider) {
 
             const data = addOrUpdateAccount(payload);
             if (provider.addAccountLog) {
-                const accountId = isUpdate ? String(payload.id) : String((data.accounts[data.accounts.length - 1] || {}).id || '');
+                const accountId = isUpdate ? String(payload.id) : String((data.accounts.at(-1) || {}).id || '');
                 const accountName = payload.name || '';
                 provider.addAccountLog(
                     isUpdate ? 'update' : 'add',
@@ -2282,7 +2654,7 @@ function startAdminServer(dataProvider) {
             }
             // 如果是新增，自动启动
             if (!isUpdate) {
-                const newAcc = data.accounts[data.accounts.length - 1];
+                const newAcc = data.accounts.at(-1);
                 if (newAcc) provider.startAccount(newAcc.id);
             } else if (wasRunning && !onlyRemarkChanged) {
                 // 如果是更新，且之前在运行，且不是仅修改备注，则重启

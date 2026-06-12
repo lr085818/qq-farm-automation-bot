@@ -64,11 +64,16 @@ export interface SettingsState {
   stealDelaySeconds: number
   plantOrderRandom: boolean
   plantDelaySeconds: number
+  fertilizeDelaySeconds: number
+  cleanBugDelaySeconds: number
+  friendBadWhitelist: number[]
   fertilizerBuyOrganicCount: number
   fertilizerBuyOrganicThresholdHours: number
   fertilizerBuyNormalCount: number
   fertilizerBuyNormalThresholdHours: number
   fertilizerBuyCheckIntervalMinutes: number
+  autoMutateEnabled: boolean
+  mutateSeedId: number
 }
 
 export const useSettingStore = defineStore('setting', () => {
@@ -93,11 +98,16 @@ export const useSettingStore = defineStore('setting', () => {
     stealDelaySeconds: 0,
     plantOrderRandom: false,
     plantDelaySeconds: 0,
+    fertilizeDelaySeconds: 0,
+    cleanBugDelaySeconds: 0,
+    friendBadWhitelist: [],
     fertilizerBuyOrganicCount: 10,
     fertilizerBuyOrganicThresholdHours: 10,
     fertilizerBuyNormalCount: 10,
     fertilizerBuyNormalThresholdHours: 10,
     fertilizerBuyCheckIntervalMinutes: 30,
+    autoMutateEnabled: false,
+    mutateSeedId: 0,
   })
   const loading = ref(false)
 
@@ -129,6 +139,9 @@ export const useSettingStore = defineStore('setting', () => {
         settings.value.stealDelaySeconds = d.stealDelaySeconds ?? 0
         settings.value.plantOrderRandom = d.plantOrderRandom ?? false
         settings.value.plantDelaySeconds = d.plantDelaySeconds ?? 0
+        settings.value.fertilizeDelaySeconds = d.fertilizeDelaySeconds ?? 0
+        settings.value.cleanBugDelaySeconds = d.cleanBugDelaySeconds ?? 0
+        settings.value.friendBadWhitelist = d.friendBadWhitelist ?? []
         settings.value.fertilizerBuyOrganicCount = d.fertilizerBuyOrganicCount ?? 10
         settings.value.fertilizerBuyOrganicThresholdHours = d.fertilizerBuyOrganicThresholdHours ?? 10
         settings.value.fertilizerBuyNormalCount = d.fertilizerBuyNormalCount ?? 10
@@ -136,6 +149,8 @@ export const useSettingStore = defineStore('setting', () => {
         settings.value.fertilizerBuyCheckIntervalMinutes = d.fertilizerBuyCheckIntervalMinutes ?? 30
         settings.value.bagSeedPriority = d.bagSeedPriority ?? []
         settings.value.bagSeedFallbackStrategy = d.bagSeedFallbackStrategy ?? 'level'
+        settings.value.autoMutateEnabled = d.autoMutateEnabled ?? false
+        settings.value.mutateSeedId = d.mutateSeedId ?? 0
       }
     }
     finally {
@@ -163,6 +178,8 @@ export const useSettingStore = defineStore('setting', () => {
         fertilizerBuyNormalCount: newSettings.fertilizerBuyNormalCount ?? 10,
         fertilizerBuyNormalThresholdHours: newSettings.fertilizerBuyNormalThresholdHours ?? 10,
         fertilizerBuyCheckIntervalMinutes: newSettings.fertilizerBuyCheckIntervalMinutes ?? 30,
+        autoMutateEnabled: newSettings.autoMutateEnabled ?? false,
+        mutateSeedId: newSettings.mutateSeedId ?? 0,
       }
 
       await api.post('/api/settings/save', settingsPayload, {

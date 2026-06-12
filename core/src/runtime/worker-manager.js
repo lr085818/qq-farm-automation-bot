@@ -128,6 +128,15 @@ function createWorkerManager(options) {
                 current.requests.clear();
             }
 
+            if (current && !current.stopping && current.process === child) {
+                triggerOfflineReminder({
+                    accountId: String(account.id),
+                    accountName: displayName,
+                    reason: `process_exit: code=${code}, signal=${signal || 'none'}`,
+                    offlineMs: 0,
+                });
+            }
+
             if (current && current.process === child) {
                 delete workers[account.id];
             }
@@ -280,6 +289,12 @@ function createWorkerManager(options) {
         } else if (msg.type === 'login_failed') {
             const message = msg.message || '账号验证失败';
             log('系统', `账号 ${worker.name} 登录失败，已停止账号: ${message}`, { accountId: String(accountId), accountName: worker.name });
+            triggerOfflineReminder({
+                accountId,
+                accountName: worker.name,
+                reason: `login_failed:${message}`,
+                offlineMs: 0,
+            });
             addAccountLog('login_failed', `账号 ${worker.name} 登录失败，请更新 Code`, accountId, worker.name, { message });
             stopWorker(accountId);
         } else if (msg.type === 'ws_error') {
@@ -287,12 +302,20 @@ function createWorkerManager(options) {
             const message = msg.message || '';
             worker.wsError = { code, message, at: Date.now() };
             if (code === 400) {
+                log('系统', `账号 ${worker.name} 登录失效，已自动停止账号`, { accountId: String(accountId), accountName: worker.name });
+                triggerOfflineReminder({
+                    accountId,
+                    accountName: worker.name,
+                    reason: 'login_expired',
+                    offlineMs: 0,
+                });
                 addAccountLog(
                     'ws_400',
                     `账号 ${worker.name} 登录失效，请更新 Code`,
                     accountId,
                     worker.name,
                 );
+                stopWorker(accountId);
             }
         } else if (msg.type === 'account_kicked') {
             const reason = msg.reason || '未知';

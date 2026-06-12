@@ -8,6 +8,7 @@ export interface Account {
   name: string
   nick?: string
   uin?: number
+  avatar?: string
   platform?: string
   running?: boolean
   // Add other fields as discovered

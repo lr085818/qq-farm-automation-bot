@@ -164,9 +164,9 @@ const buttonStyle = computed(() => {
 
 .base-button--secondary,
 .base-button--outline {
-  --button-bg: linear-gradient(135deg, rgba(255, 248, 230, 0.94), rgba(239, 232, 214, 0.86));
-  --button-text: #2f3a26;
-  --button-text-shadow: 0 1px 0 rgba(255, 255, 255, 0.58);
+  --button-bg: var(--theme-button-sec-bg, linear-gradient(135deg, rgba(255, 248, 230, 0.94), rgba(239, 232, 214, 0.86)));
+  --button-text: var(--theme-button-sec-text, #2f3a26);
+  --button-text-shadow: var(--theme-button-sec-text-shadow, 0 1px 0 rgba(255, 255, 255, 0.58));
   --button-border: rgba(255, 255, 255, 0.20);
   --button-border-bottom: rgba(0, 0, 0, 0.24);
   --button-shadow-hard: rgba(0, 0, 0, 0.20);

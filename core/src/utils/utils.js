@@ -18,6 +18,25 @@ function toLong(val) {
 function toNum(val, fallback = 0) {
     if (Long.isLong(val)) return val.toNumber();
     if (val === undefined || val === null || val === '') return fallback;
+    if (typeof val === 'number') return Number.isFinite(val) ? val : fallback;
+    if (typeof val === 'bigint') return Number(val);
+    if (typeof val === 'string') {
+        const n = Number(val);
+        return Number.isFinite(n) ? n : fallback;
+    }
+    if (typeof val === 'object') {
+        if (Object.hasOwn(val, 'low')) {
+            try {
+                return Long.fromValue({
+                    low: Number(val.low) || 0,
+                    high: Number(val.high) || 0,
+                    unsigned: !!val.unsigned,
+                }).toNumber();
+            } catch {}
+        }
+        if (Object.hasOwn(val, 'value')) return toNum(val.value, fallback);
+        return fallback;
+    }
     return val || fallback;
 }
 

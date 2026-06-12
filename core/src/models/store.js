@@ -183,6 +183,12 @@ const DEFAULT_ACCOUNT_CONFIG = {
     plantOrderRandom: true,
     // 自己农田种植时每块地间隔秒数（0=使用默认50ms）
     plantDelaySeconds: 2,
+    // 施肥时每块地间隔秒数（0=使用默认50ms）
+    fertilizeDelaySeconds: 1,
+    // 除虫时每块地间隔秒数（0=使用默认50ms）
+    cleanBugDelaySeconds: 1,
+    // 指定放虫/放草好友的 GID 列表（空表示所有好友）
+    friendBadWhitelist: [],
     // 有机化肥购买数量
     fertilizerBuyOrganicCount: 1,
     // 有机化肥自动购买触发阈值（小时）
@@ -197,6 +203,12 @@ const DEFAULT_ACCOUNT_CONFIG = {
     bagSeedPriority: [],
     // 背包种子用完后的回退策略
     bagSeedFallbackStrategy: 'level',
+    // 锁定的种子/果实 ID 列表，防止误售
+    lockedItemIds: [],
+    // 是否启用自动刷变异
+    autoMutateEnabled: false,
+    // 自动刷变异目标种子 ID (0 代表不限种子)
+    mutateSeedId: 0,
 };
 const ALLOWED_AUTOMATION_KEYS = new Set(Object.keys(DEFAULT_ACCOUNT_CONFIG.automation));
 
@@ -333,6 +345,9 @@ function cloneAccountConfig(base = DEFAULT_ACCOUNT_CONFIG) {
         stealDelaySeconds: Math.max(0, Math.min(300, Number(base.stealDelaySeconds) || 0)),
         plantOrderRandom: !!(base.plantOrderRandom),
         plantDelaySeconds: Math.max(0, Math.min(60, Number(base.plantDelaySeconds) || 0)),
+        fertilizeDelaySeconds: Math.max(0, Math.min(60, Number(base.fertilizeDelaySeconds) || 0)),
+        cleanBugDelaySeconds: Math.max(0, Math.min(60, Number(base.cleanBugDelaySeconds) || 0)),
+        friendBadWhitelist: normalizeKnownFriendGids(base.friendBadWhitelist, []),
         fertilizerBuyOrganicCount: Math.max(0, Math.min(10000, Number(base.fertilizerBuyOrganicCount) || 0)),
         fertilizerBuyOrganicThresholdHours: Math.max(0, Math.min(990, Number(base.fertilizerBuyOrganicThresholdHours) || 0)),
         fertilizerBuyNormalCount: Math.max(0, Math.min(10000, Number(base.fertilizerBuyNormalCount) || 0)),
@@ -340,6 +355,9 @@ function cloneAccountConfig(base = DEFAULT_ACCOUNT_CONFIG) {
         fertilizerBuyCheckIntervalMinutes: Math.max(1, Math.min(1440, Number(base.fertilizerBuyCheckIntervalMinutes) || 30)),
         bagSeedPriority: normalizeBagSeedPriority(base.bagSeedPriority),
         bagSeedFallbackStrategy: normalizeBagSeedFallbackStrategy(base.bagSeedFallbackStrategy),
+        lockedItemIds: Array.isArray(base.lockedItemIds) ? base.lockedItemIds.map(Number) : [],
+        autoMutateEnabled: !!base.autoMutateEnabled,
+        mutateSeedId: Number(base.mutateSeedId) || 0,
     };
 }
 
@@ -443,6 +461,21 @@ function normalizeAccountConfig(input, fallback = accountFallbackConfig) {
         cfg.plantDelaySeconds = Math.max(0, Math.min(60, Number(src.plantDelaySeconds) || 0));
     }
 
+    // 施肥延迟
+    if (src.fertilizeDelaySeconds !== undefined && src.fertilizeDelaySeconds !== null) {
+        cfg.fertilizeDelaySeconds = Math.max(0, Math.min(60, Number(src.fertilizeDelaySeconds) || 0));
+    }
+
+    // 除虫延迟
+    if (src.cleanBugDelaySeconds !== undefined && src.cleanBugDelaySeconds !== null) {
+        cfg.cleanBugDelaySeconds = Math.max(0, Math.min(60, Number(src.cleanBugDelaySeconds) || 0));
+    }
+
+    // 指定放虫/放草好友
+    if (src.friendBadWhitelist !== undefined && src.friendBadWhitelist !== null) {
+        cfg.friendBadWhitelist = normalizeKnownFriendGids(src.friendBadWhitelist, cfg.friendBadWhitelist || []);
+    }
+
     // 有机化肥购买数量
     if (src.fertilizerBuyOrganicCount !== undefined && src.fertilizerBuyOrganicCount !== null) {
         cfg.fertilizerBuyOrganicCount = Math.max(0, Math.min(10000, Number(src.fertilizerBuyOrganicCount) || 0));
@@ -476,6 +509,19 @@ function normalizeAccountConfig(input, fallback = accountFallbackConfig) {
     // 背包种子回退策略
     if (src.bagSeedFallbackStrategy !== undefined && src.bagSeedFallbackStrategy !== null) {
         cfg.bagSeedFallbackStrategy = normalizeBagSeedFallbackStrategy(src.bagSeedFallbackStrategy);
+    }
+
+    // 锁定的果实/种子
+    if (Array.isArray(src.lockedItemIds)) {
+        cfg.lockedItemIds = src.lockedItemIds.map(Number).filter(n => Number.isFinite(n) && n > 0);
+    }
+
+    // 自动变异
+    if (src.autoMutateEnabled !== undefined) {
+        cfg.autoMutateEnabled = !!src.autoMutateEnabled;
+    }
+    if (src.mutateSeedId !== undefined) {
+        cfg.mutateSeedId = Number(src.mutateSeedId) || 0;
     }
 
     return cfg;
@@ -1033,6 +1079,29 @@ function getPlantDelaySeconds(accountId) {
     return Math.max(0, Math.min(60, Number(getAccountConfigSnapshot(accountId).plantDelaySeconds) || 0));
 }
 
+// ============ 施肥延迟 ============
+function getFertilizeDelaySeconds(accountId) {
+    return Math.max(0, Math.min(60, Number(getAccountConfigSnapshot(accountId).fertilizeDelaySeconds) || 0));
+}
+
+// ============ 除虫延迟 ============
+function getCleanBugDelaySeconds(accountId) {
+    return Math.max(0, Math.min(60, Number(getAccountConfigSnapshot(accountId).cleanBugDelaySeconds) || 0));
+}
+
+// ============ 指定放虫放草好友 GID 列表 ============
+function getFriendBadWhitelist(accountId) {
+    return [...(getAccountConfigSnapshot(accountId).friendBadWhitelist || [])];
+}
+
+function setFriendBadWhitelist(accountId, list) {
+    const current = getAccountConfigSnapshot(accountId);
+    const next = normalizeAccountConfig(current, accountFallbackConfig);
+    next.friendBadWhitelist = normalizeKnownFriendGids(list, next.friendBadWhitelist || []);
+    setAccountConfigSnapshot(accountId, next);
+    return [...next.friendBadWhitelist];
+}
+
 // ============ 有机化肥购买数量 ============
 function getFertilizerBuyOrganicCount(accountId) {
     return Math.max(0, Math.min(10000, Number(getAccountConfigSnapshot(accountId).fertilizerBuyOrganicCount) || 0));
@@ -1069,6 +1138,43 @@ function setPlantBlacklist(accountId, list) {
     next.plantBlacklist = Array.isArray(list) ? list.map(Number).filter(n => Number.isFinite(n) && n > 0) : [];
     setAccountConfigSnapshot(accountId, next);
     return [...next.plantBlacklist];
+}
+
+// ============ 锁定的果实/种子 ============
+function getLockedItemIds(accountId) {
+    return [...(getAccountConfigSnapshot(accountId).lockedItemIds || [])];
+}
+
+function setLockedItemIds(accountId, list) {
+    const current = getAccountConfigSnapshot(accountId);
+    const next = normalizeAccountConfig(current, accountFallbackConfig);
+    next.lockedItemIds = Array.isArray(list) ? list.map(Number).filter(n => Number.isFinite(n) && n > 0) : [];
+    setAccountConfigSnapshot(accountId, next);
+    return [...next.lockedItemIds];
+}
+
+function getAutoMutateEnabled(accountId) {
+    return !!getAccountConfigSnapshot(accountId).autoMutateEnabled;
+}
+
+function setAutoMutateEnabled(accountId, enabled) {
+    const current = getAccountConfigSnapshot(accountId);
+    const next = normalizeAccountConfig(current, accountFallbackConfig);
+    next.autoMutateEnabled = !!enabled;
+    setAccountConfigSnapshot(accountId, next);
+    return next.autoMutateEnabled;
+}
+
+function getMutateSeedId(accountId) {
+    return Number(getAccountConfigSnapshot(accountId).mutateSeedId) || 0;
+}
+
+function setMutateSeedId(accountId, seedId) {
+    const current = getAccountConfigSnapshot(accountId);
+    const next = normalizeAccountConfig(current, accountFallbackConfig);
+    next.mutateSeedId = Number(seedId) || 0;
+    setAccountConfigSnapshot(accountId, next);
+    return next.mutateSeedId;
 }
 
 function getUI() {
@@ -1341,6 +1447,10 @@ module.exports = {
     getStealDelaySeconds,
     getPlantOrderRandom,
     getPlantDelaySeconds,
+    getFertilizeDelaySeconds,
+    getCleanBugDelaySeconds,
+    getFriendBadWhitelist,
+    setFriendBadWhitelist,
     getFertilizerBuyOrganicCount,
     getFertilizerBuyOrganicThresholdHours,
     getFertilizerBuyNormalCount,
@@ -1363,6 +1473,14 @@ module.exports = {
     // 蔬菜黑名单
     getPlantBlacklist,
     setPlantBlacklist,
+    // 锁定的果实/种子
+    getLockedItemIds,
+    setLockedItemIds,
+    // 自动变异
+    getAutoMutateEnabled,
+    setAutoMutateEnabled,
+    getMutateSeedId,
+    setMutateSeedId,
     // 默认配置
     getDefaultAccountConfig,
     // 公告管理

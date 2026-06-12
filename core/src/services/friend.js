@@ -16,6 +16,9 @@ const {
     getKnownFriendGidSyncCooldownSec,
     getFriendsListCacheTtlSec,
     applyConfigSnapshot,
+    getStealDelaySeconds,
+    getCleanBugDelaySeconds,
+    getFriendBadWhitelist,
 } = require('../models/store');
 const { sendMsgAsync, getUserState, networkEvents } = require('../utils/network');
 const { types } = require('../utils/proto');
@@ -493,6 +496,12 @@ async function acceptFriends(gids) {
     })).finish();
     const { body: replyBody } = await sendMsgAsync('gamepb.friendpb.FriendService', 'AcceptFriends', body);
     return types.AcceptFriendsReply.decode(replyBody);
+}
+
+async function getApplications() {
+    const body = types.GetApplicationsRequest.encode(types.GetApplicationsRequest.create({})).finish();
+    const { body: replyBody } = await sendMsgAsync('gamepb.friendpb.FriendService', 'GetApplications', body);
+    return types.GetApplicationsReply.decode(replyBody);
 }
 
 async function enterFriendFarm(friendGid) {
@@ -1419,6 +1428,10 @@ async function visitFriendForSteal(friend, totalActions, myGid, accountId) {
             let ok = 0;
             const stolenPlants = [];
 
+            const delaySec = getStealDelaySeconds ? getStealDelaySeconds(accountId) : 0;
+            if (delaySec > 0) {
+                await sleep(delaySec * 1000);
+            }
             // 尝试批量偷取
             try {
                 await stealHarvest(gid, targetLands);
@@ -1497,7 +1510,13 @@ async function visitFriendForHelp(friend, totalActions, myGid, accountId, ignore
 
     const helpOps = [
         { id: 10005, expIds: [10005, 10003], list: status.needWeed, fn: helpWeed, key: 'weed', name: '草', record: 'helpWeed' },
-        { id: 10006, expIds: [10006, 10002], list: status.needBug, fn: helpInsecticide, key: 'bug', name: '虫', record: 'helpBug' },
+        { id: 10006, expIds: [10006, 10002], list: status.needBug, fn: async (friendGid, landIds, stopWhenExpLimit) => {
+            const delaySec = getCleanBugDelaySeconds ? getCleanBugDelaySeconds(accountId) : 0;
+            if (delaySec > 0) {
+                await sleep(delaySec * 1000);
+            }
+            return helpInsecticide(friendGid, landIds, stopWhenExpLimit);
+        }, key: 'bug', name: '虫', record: 'helpBug' },
         { id: 10007, expIds: [10007, 10001], list: status.needWater, fn: helpWater, key: 'water', name: '水', record: 'helpWater' }
     ];
 
@@ -1672,12 +1691,15 @@ async function checkFriends(options = {}) {
             
             const badFriends = [];
             const badVisitedGids = new Set();
+            const badWhitelist = getFriendBadWhitelist ? getFriendBadWhitelist(accountId) : [];
+            const badWhitelistSet = new Set(badWhitelist.map(Number));
             
             for (const f of friends) {
                 const gid = toNum(f.gid);
                 if (gid === state.gid) continue;
                 if (badVisitedGids.has(gid)) continue;
                 if (blacklist.has(gid)) continue;
+                if (badWhitelistSet.size > 0 && !badWhitelistSet.has(gid)) continue;
 
                 const name = f.remark || f.name || `GID:${gid}`;
                 const p = f.plant;
